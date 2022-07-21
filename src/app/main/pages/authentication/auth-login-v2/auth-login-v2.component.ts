@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { AuthenticationService } from 'app/auth/service';
 import { CoreConfigService } from '@core/services/config.service';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-auth-login-v2',
   templateUrl: './auth-login-v2.component.html',
@@ -36,7 +36,8 @@ export class AuthLoginV2Component implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _authenticationService: AuthenticationService
+    private _authenticationService: AuthenticationService,
+    private _http: HttpClient,
   ) {
     // redirect to home if already logged in
     if (this._authenticationService.currentUserValue) {
@@ -78,25 +79,35 @@ export class AuthLoginV2Component implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    console.log('this.loginForm : ',this.loginForm)
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (!this.f.username.value || !this.f.password.value) {
+      this.error = "Please enter full field";
       return;
     }
-
-    // Login
-    this.loading = true;
+    else {
+    // this.loading = true;
     this._authenticationService
-      .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
+      .login(this.f.username.value, this.f.password.value)
       .subscribe(
         data => {
-          this._router.navigate([this.returnUrl]);
+          if(data.isSuccessed)
+          {
+            this._router.navigate([this.returnUrl]);
+          }
+          else {
+            this.error = data.message;
+            this.loading = false;
+          }
+          console.log("data : ",data);
         },
         error => {
+          console.log("error : ",error);
           this.error = error;
           this.loading = false;
         }
       );
+    }
   }
 
   // Lifecycle Hooks
@@ -107,8 +118,10 @@ export class AuthLoginV2Component implements OnInit {
    */
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
-      email: ['admin@demo.com', [Validators.required, Validators.email]],
-      password: ['admin', Validators.required]
+      username: ['', [Validators.required]],
+      password: ['', Validators.required]
+      // email: [''],
+      // password: ['']
     });
 
     // get return url from route parameters or default to '/'

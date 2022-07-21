@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
@@ -12,12 +13,14 @@ import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
   host: { class: 'ecommerce-application' }
 })
 export class EcommerceDetailsComponent implements OnInit {
+  productId: string | null |  undefined;
   // public
   public contentHeader: object;
   public product;
   public wishlist;
   public cartList;
   public relatedProducts;
+  public selectedProduct;
 
   // Swiper
   public swiperResponsive: SwiperConfigInterface = {
@@ -52,7 +55,7 @@ export class EcommerceDetailsComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(private _ecommerceService: EcommerceService, private readonly route: ActivatedRoute) {}
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -62,14 +65,14 @@ export class EcommerceDetailsComponent implements OnInit {
    *
    * @param product
    */
-  toggleWishlist(product) {
-    if (product.isInWishlist === true) {
-      this._ecommerceService.removeFromWishlist(product.id).then(res => {
-        product.isInWishlist = false;
+  toggleWishlist(selectedProduct) {
+    if (selectedProduct.isInWishlist === true) {
+      this._ecommerceService.removeFromWishlist(selectedProduct.id).then(res => {
+        selectedProduct.isInWishlist = false;
       });
     } else {
-      this._ecommerceService.addToWishlist(product.id).then(res => {
-        product.isInWishlist = true;
+      this._ecommerceService.addToWishlist(selectedProduct.id).then(res => {
+        selectedProduct.isInWishlist = true;
       });
     }
   }
@@ -79,9 +82,9 @@ export class EcommerceDetailsComponent implements OnInit {
    *
    * @param product
    */
-  addToCart(product) {
-    this._ecommerceService.addToCart(product.id).then(res => {
-      product.isInCart = true;
+  addToCart(selectedProduct) {
+    this._ecommerceService.addToCart(selectedProduct.id).then(res => {
+      selectedProduct.isInCart = true;
     });
   }
 
@@ -94,7 +97,7 @@ export class EcommerceDetailsComponent implements OnInit {
   ngOnInit(): void {
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
-      this.product = res[0];
+      this.selectedProduct = res[0];
     });
 
     // Subscribe to Wishlist change
@@ -107,9 +110,17 @@ export class EcommerceDetailsComponent implements OnInit {
     this._ecommerceService.getRelatedProducts().then(response => {
       this.relatedProducts = response;
     });
-
-    this.product.isInWishlist = this.wishlist.findIndex(p => p.productId === this.product.id) > -1;
-    this.product.isInCart = this.cartList.findIndex(p => p.productId === this.product.id) > -1;
+    this.route.paramMap.subscribe((params)=>{
+      this.productId = params.get('id');
+      if(this.productId){
+        this._ecommerceService.getSelectedProduct(this.productId)
+          .subscribe((respone)=>{
+            this.selectedProduct = respone.resultObj;          
+          })
+      }
+    });
+    this.selectedProduct.isInWishlist = this.wishlist.findIndex(p => p.productId === this.selectedProduct.id) > -1;
+    this.selectedProduct.isInCart = this.cartList.findIndex(p => p.productId === this.selectedProduct.id) > -1;
 
     // content header
     this.contentHeader = {

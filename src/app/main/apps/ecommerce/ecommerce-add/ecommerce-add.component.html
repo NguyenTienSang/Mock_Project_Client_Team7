@@ -1,0 +1,84 @@
+<div class="content-wrapper">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <form class="validate-form">
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="account-birth-date">Name Product</label>
+              <input
+                
+                type="text"
+                class="form-control flatpickr"
+                placeholder="Enter Product..."
+                id="name-product"
+                name="Name Product"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="account-birth-date">Brand</label>
+              <input               
+                type="text"
+                class="form-control flatpickr"
+                placeholder="Enter brand..."
+                id="brand"
+                name="Brand"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input
+                type="text"               
+                class="form-control"
+                name="price"
+                id="price"
+                placeholder="Enter Price"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="rating">Rating</label>
+              <input
+                type="number"               
+                class="form-control"
+                id="rating"
+                placeholder="Rating"
+                name="rating"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="accountTextarea">Description</label>
+              <textarea
+                class="form-control"
+                id="Description"
+                name="Description"
+                rows="4"
+                placeholder="Description here..."
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="accountTextarea">Image</label>
+              <input
+                type="file"               
+                class="form-control"
+                id="rating"
+                placeholder="Choose Image"
+                name="rating"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect>Save changes</button>
+            <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
+          </div>
+        </div>
+      </form>
+</div>

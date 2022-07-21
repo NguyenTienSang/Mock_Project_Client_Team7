@@ -414,7 +414,15 @@ export const menu: CoreMenu[] = [
           //   type: 'item',
           //   icon: 'circle',
           //   url: 'apps/e-commerce/checkout'
-          // }
+          // },
+          {
+            id: 'Manager',
+            title: 'Manager',
+            translate: 'MENU.APPS.ECOMMERCE.MANAGER',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/e-commerce/manager'
+          },
         ]
       },
       {
@@ -432,21 +440,29 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'apps/user/user-list'
           },
+          // {
+          //   id: 'view',
+          //   title: 'View',
+          //   translate: 'MENU.APPS.USER.VIEW',
+          //   type: 'item',
+          //   icon: 'circle',
+          //   url: 'apps/user/user-view'
+          // },
+          // {
+          //   id: 'edit',
+          //   title: 'Edit',
+          //   translate: 'MENU.APPS.USER.EDIT',
+          //   type: 'item',
+          //   icon: 'circle',
+          //   url: 'apps/user/user-edit'
+          // }
           {
-            id: 'view',
-            title: 'View',
-            translate: 'MENU.APPS.USER.VIEW',
+            id: 'delete',
+            title: 'Delete',
+            translate: 'MENU.APPS.USER.DELETE',
             type: 'item',
             icon: 'circle',
-            url: 'apps/user/user-view'
-          },
-          {
-            id: 'edit',
-            title: 'Edit',
-            translate: 'MENU.APPS.USER.EDIT',
-            type: 'item',
-            icon: 'circle',
-            url: 'apps/user/user-edit'
+            url: 'apps/user/user-delete'
           }
         ]
       }

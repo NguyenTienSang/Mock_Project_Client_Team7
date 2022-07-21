@@ -26,7 +26,8 @@ export const locale = {
             SHOP: 'Shop',
             DETAIL: 'Chi tiết đơn hàng',
             WISHLIST: 'Yêu thích',
-            CHECKOUT: 'Giỏ hàng'
+            CHECKOUT: 'Giỏ hàng',
+            MANAGER: 'Quản lí'
           },
           USER: {
             COLLAPSIBLE: 'Người dùng',

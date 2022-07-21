@@ -23,9 +23,18 @@
     <!-- Register-->
     <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-        <h2 class="card-title font-weight-bold mb-1">Adventure starts here 🚀</h2>
-        <p class="card-text mb-2">Make your app management easy and fun!</p>
-        <form class="auth-register-form mt-2" (ngSubmit)="(authForm.form.valid)" #authForm="ngForm">
+        <h2 class="card-title font-weight-bold mb-1">Welcome to Register! 👋</h2>
+        <p class="card-text mb-2">Please register to your account and start the adventure</p>
+        <!-- <p class="card-text mb-2">Make your app management easy and fun!</p> -->
+
+
+        <ngb-alert type={{typealert}} [dismissible]="false">
+          <div class="alert-body">
+            <p>{{ message }}</p>
+          </div>
+        </ngb-alert>
+
+        <form class="auth-register-form mt-2" (ngSubmit)="onSubmit()" #authForm="ngForm">
           <div class="form-group">
             <label class="form-label" for="register-username">Username</label>
             <input
@@ -43,52 +52,57 @@
               required
             />
             <span *ngIf="authForm.submitted && userNameRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="userNameRef.errors.required">This field is required!</small>
+              <small class="form-text text-danger" *ngIf="userNameRef.errors.required">Username is required!</small>
             </span>
           </div>
           <div class="form-group">
             <label class="form-label" for="register-email">Email</label>
             <input
-              class="form-control"
-              id="register-email"
-              type="text"
-              name="register-email"
-              placeholder="john@example.com"
-              aria-describedby="register-email"
-              tabindex="2"
-              [class.error]="authForm.submitted && emailRef.invalid"
-              [(ngModel)]="emailVar"
-              #emailRef="ngModel"
-              required
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                  class="form-control"
+                  id="register-email"
+                  type="text"
+                  name="register-email"
+                  placeholder="john@example.com"
+                  aria-describedby="register-email"
+                  tabindex="2"
+                  [class.error]="authForm.submitted && emailRef.invalid"
+                  [(ngModel)]="emailVar"
+                  #emailRef="ngModel"
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
             />
             <span *ngIf="authForm.submitted && emailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="emailRef.errors.required">This field is required!</small>
+              <small class="form-text text-danger" *ngIf="emailRef.errors.required">Email is required!</small>
             </span>
 
             <span *ngIf="emailRef.errors && (emailRef.touched || emailRef.dirty)" class="invalid-form">
               <small class="form-text text-danger" [hidden]="!emailRef.errors?.pattern"> Invalid email </small>
             </span>
+
           </div>
           <div class="form-group">
-            <label class="form-label" for="register-password">Password</label>
+            <div class="d-flex justify-content-between">
+              <label for="login-password">Password</label
+              ><a routerLink="/pages/authentication/forgot-password-v2"><small>Forgot Password?</small></a>
+            </div>
             <div class="input-group input-group-merge form-password-toggle">
               <input
-                class="form-control form-control-merge"
-                id="register-password"
-                [type]="passwordTextType ? 'text' : 'password'"
-                name="register-password"
-                placeholder="············"
-                aria-describedby="register-password"
-                tabindex="3"
-                [(ngModel)]="passwordVar"
-                #passwordRef="ngModel"
-                [class.error]="authForm.submitted && passwordRef.invalid"
-                required
+              class="form-control form-control-merge"
+              id="register-password"
+              [type]="passwordTextType ? 'text' : 'password'"
+              name="register-password"
+              placeholder="············"
+              aria-describedby="register-password"
+              tabindex="3"
+              [(ngModel)]="passwordVar"
+              #passwordRef="ngModel"
+              [class.error]="authForm.submitted && passwordRef.invalid"
+              required
               />
               <div class="input-group-append">
                 <span class="input-group-text cursor-pointer"
-                  ><i
+                  >
+                  <i
                     class="feather font-small-4"
                     [ngClass]="{
                       'icon-eye-off': passwordTextType,
@@ -96,21 +110,22 @@
                     }"
                     (click)="togglePasswordTextType()"
                   ></i
-                ></span>
+                >
+              </span>
               </div>
             </div>
             <span *ngIf="authForm.submitted && passwordRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="passwordRef.errors.required">This field is required!</small>
+              <small class="form-text text-danger" *ngIf="passwordRef.errors.required">Password is required!</small>
             </span>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="custom-control custom-checkbox">
               <input class="custom-control-input" id="register-privacy-policy" type="checkbox" tabindex="4" />
               <label class="custom-control-label" for="register-privacy-policy"
                 >I agree to<a href="javascript:void(0);">&nbsp;privacy policy & terms</a></label
               >
             </div>
-          </div>
+          </div> -->
           <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Sign up</button>
         </form>
         <p class="text-center mt-2">

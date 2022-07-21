@@ -2,7 +2,7 @@ export class EcommerceFakeData {
   public static products = [
     {
       id: 1,
-      name: 'VicTsing Wireless Mouse,',
+      name: 'VicTsing Wireless Mouse',
       slug: 'vic-tsing-wireless-mouse-1',
       description:
         'After thousands of samples of palm data, we designed this ergonomic mouse. The laptop mouse has a streamlined arc and thumb rest to help reduce the stress caused by prolonged use of the laptop mouse.',

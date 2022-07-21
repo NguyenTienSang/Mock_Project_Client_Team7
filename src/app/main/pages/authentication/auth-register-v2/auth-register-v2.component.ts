@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
+import { AuthenticationService } from 'app/auth/service';
 import { CoreConfigService } from '@core/services/config.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -14,10 +16,18 @@ import { CoreConfigService } from '@core/services/config.service';
 export class AuthRegisterV2Component implements OnInit {
   // Public
   public userNameVar;
+  public registerForm: FormGroup;
   public emailVar;
   public passwordVar;
+  public returnUrl: string;
+  public error = '';
+  public message = '';
+  public typealert = '';
   public coreConfig: any;
   public passwordTextType: boolean;
+  public submitted = false;
+  public loading = false;
+
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -27,8 +37,21 @@ export class AuthRegisterV2Component implements OnInit {
    *
    * @param {CoreConfigService} _coreConfigService
    */
-  constructor(private _coreConfigService: CoreConfigService) {
-    this._unsubscribeAll = new Subject();
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private _formBuilder: FormBuilder,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _authenticationService: AuthenticationService,
+    private _http: HttpClient,
+    ) {
+
+
+  // redirect to home if already logged in
+  if (this._authenticationService.currentUserValue) {
+    this._router.navigate(['/']);
+  }
+  this._unsubscribeAll = new Subject();
 
     // Configure the layout
     this._coreConfigService.config = {
@@ -48,11 +71,48 @@ export class AuthRegisterV2Component implements OnInit {
     };
   }
 
+// convenience getter for easy access to form fields
+get f() {
+  return this.registerForm.controls;
+}
+
+
   /**
    * Toggle password
    */
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    // if (this.registerForm.invalid) {
+    //   return;
+    // }
+
+    // console.log('this.userNameVar : ',this.userNameVar);
+    this.loading = true;
+    this._authenticationService
+      .register(this.userNameVar,this.emailVar,this.passwordVar)
+      .subscribe(
+        data => {
+          if(data.isSuccessed == true)
+          {
+            this.typealert = "success";
+          }
+          else {
+            this.typealert = "danger";
+          }
+          console.log(data.message);
+          this.message = data.message;
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        }
+      );
   }
 
   // Lifecycle Hooks
@@ -62,9 +122,25 @@ export class AuthRegisterV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    // this.registerForm = this._formBuilder.group({
+    //   // email: ['admin@demo.com', [Validators.required, Validators.email]],
+    //   // password: ['admin', Validators.required]
+    //   username: [''],
+    //   email: [''],
+    //   password: ['']
+    // });
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+
+
+
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
+
+
+
     });
   }
 

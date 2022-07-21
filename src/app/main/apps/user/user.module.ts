@@ -25,12 +25,20 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 import { UserViewComponent } from 'app/main/apps/user/user-view/user-view.component';
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
+import { UserDeletedComponent } from './user-deleted/user-deleted.component';
 
 // routing
 const routes: Routes = [
   {
     path: 'user-list',
     component: UserListComponent,
+    resolve: {
+      uls: UserListService
+    }
+  },
+  {
+    path: 'user-delete',
+    component: UserDeletedComponent,
     resolve: {
       uls: UserListService
     }
@@ -62,7 +70,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UserListComponent, UserViewComponent, UserEditComponent, NewUserSidebarComponent],
+  declarations: [UserListComponent, UserViewComponent, UserEditComponent, NewUserSidebarComponent, UserDeletedComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

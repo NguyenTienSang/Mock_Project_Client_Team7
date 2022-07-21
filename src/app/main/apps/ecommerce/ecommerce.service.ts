@@ -1,7 +1,8 @@
+// import { environment } from './../../../../environments/environment.hmr';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -23,6 +24,8 @@ export class EcommerceService implements Resolve<any> {
 
   // Private
   private idHandel;
+  private productId;
+
 
   private sortRef = key => (a, b) => {
     const fieldA = a[key];
@@ -61,7 +64,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getWishlist(), this.getCartList(), this.getSelectedProduct()]).then(() => {
+      Promise.all([this.getProducts(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -72,14 +75,25 @@ export class EcommerceService implements Resolve<any> {
    */
   getProducts(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-products').subscribe((response: any) => {
+      this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
         this.productList = response;
+        console.log('response : ',response);
+        
         this.sortProduct('featured'); // Default shorting
         resolve(this.productList);
       }, reject);
     });
   }
 
+// getProducts(): Promise<any[]> {
+//     return new Promise((resolve, reject) => {
+//       this._httpClient.get('api/ecommerce-products').subscribe((response: any) => {
+//         this.productList = response;
+//         this.sortProduct('featured'); // Default shorting
+//         resolve(this.productList);
+//       }, reject);
+//     });
+//   }
   /**
    * Get Wishlist
    */
@@ -110,22 +124,25 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get Selected Product
    */
-  getSelectedProduct(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-products?id=' + this.idHandel).subscribe((response: any) => {
-        this.selectedProduct = response;
-        this.onSelectedProductChange.next(this.selectedProduct);
-        resolve(this.selectedProduct);
-      }, reject);
-    });
+  // getSelectedProduct(): Promise<any[]> {
+  //   return new Promise((resolve, reject) => {
+  //     this._httpClient.get('api/ecommerce-products?id=' + this.idHandel).subscribe((response: any) => {
+  //       this.selectedProduct = response;
+  //       this.onSelectedProductChange.next(this.selectedProduct);
+  //       resolve(this.selectedProduct);
+  //     }, reject);
+  //   });
+  // }
+  getSelectedProduct(productId: string): Observable<any> {
+    // https://localhost:5001/api/Products/GetProduct/39
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Products/GetProduct/` + productId);
   }
-
   /**
    * Get Related Products
    */
   getRelatedProducts(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-relatedProducts').subscribe((response: any) => {
+      this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
         this.relatedProducts = response;
         this.onRelatedProductsChange.next(this.relatedProducts);
         resolve(this.relatedProducts);

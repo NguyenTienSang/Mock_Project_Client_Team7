@@ -26,13 +26,14 @@ export const locale = {
           SHOP: 'Shop',
           DETAIL: 'Details',
           WISHLIST: 'Wish List',
-          CHECKOUT: 'Checkout'
+          CHECKOUT: 'Checkout',
+          MANAGER: 'Manager'
         },
         USER: {
           COLLAPSIBLE: 'User',
           LIST: 'List',
           VIEW: 'View',
-          EDIT: 'Edit'
+          DELETE: 'Delete'
         }
       },
       PAGES: {

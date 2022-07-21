@@ -21,6 +21,14 @@ import { EcommerceSidebarComponent } from 'app/main/apps/ecommerce/ecommerce-sho
 import { EcommerceWishlistComponent } from 'app/main/apps/ecommerce/ecommerce-wishlist/ecommerce-wishlist.component';
 import { EcommerceCheckoutComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout.component';
 import { EcommerceCheckoutItemComponent } from 'app/main/apps/ecommerce/ecommerce-checkout/ecommerce-checkout-item/ecommerce-checkout-item.component';
+import { EcommerceManagerComponent } from './ecommerce-manager/ecommerce-manager.component';
+import { EcommerceManagerService } from './ecommerce-manager/ecommerce-manager.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { EcommerceEditComponent } from './ecommerce-edit/ecommerce-edit.component';
+import { EcommerceAddComponent } from './ecommerce-add/ecommerce-add.component';
+import { EcommerceEditService } from './ecommerce-edit/ecommerce-edit.service';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -51,6 +59,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'add',
+    component: EcommerceAddComponent,
+    resolve: {
+      ecommerce: EcommerceService
+    }
+  },
+  {
     path: 'checkout',
     component: EcommerceCheckoutComponent,
     resolve: {
@@ -58,8 +73,34 @@ const routes: Routes = [
     }
   },
   {
+    path: 'edit/:id',
+    component: EcommerceEditComponent,
+    resolve: {
+      ues: EcommerceEditService //Warning
+    }
+  },
+  // {
+  //   path: 'manager',
+  //   component: EcommerceManagerComponent,
+  //   resolve: {
+  //     ecommerce: EcommerceService
+  //   }
+  // },
+  {
+    path: 'manager',
+    component: EcommerceManagerComponent,
+    resolve: {
+      uls: EcommerceManagerService,
+      EcommerceService //Warning
+    }
+  },
+  {
     path: 'details',
     redirectTo: '/apps/e-commerce/details/27' //Redirection
+  },
+  {
+    path: 'edit',
+    redirectTo: '/apps/e-commerce/edit/2' // Redirection
   }
 ];
 
@@ -71,7 +112,10 @@ const routes: Routes = [
     EcommerceWishlistComponent,
     EcommerceCheckoutComponent,
     EcommerceItemComponent,
-    EcommerceCheckoutItemComponent
+    EcommerceCheckoutItemComponent,
+    EcommerceManagerComponent,
+    EcommerceEditComponent,
+    EcommerceAddComponent
   ],
   imports: [
     CommonModule,
@@ -83,13 +127,18 @@ const routes: Routes = [
     CoreSidebarModule,
     CoreCommonModule,
     NgbModule,
+    NgSelectModule,
+    Ng2FlatpickrModule,
+    NgxDatatableModule,
     NouisliderModule
   ],
   providers: [
     {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
-    }
+    },
+    EcommerceManagerService,
+    EcommerceEditService
   ]
 })
 export class EcommerceModule {}

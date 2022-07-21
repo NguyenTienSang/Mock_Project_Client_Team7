@@ -25,7 +25,7 @@
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
         <h2 class="card-title font-weight-bold mb-1">Welcome to Vuexy! 👋</h2>
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
-        <ngb-alert [type]="'primary'" [dismissible]="false">
+        <!-- <ngb-alert [type]="'primary'" [dismissible]="false">
           <div class="alert-body font-small-2">
             <p>
               <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
@@ -39,7 +39,7 @@
             placement="left"
             ngbTooltip="This is just for role based JWT authorization demo purpose"
           ></span>
-        </ngb-alert>
+        </ngb-alert> -->
 
         <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error">
           <div class="alert-body">
@@ -49,20 +49,20 @@
 
         <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label class="form-label" for="login-email">Email</label>
+            <label class="form-label" for="login-username">Username</label>
             <input
               type="text"
-              formControlName="email"
+              formControlName="username"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-              placeholder="admin@demo.com"
-              aria-describedby="login-email"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              placeholder="admin123"
+              aria-describedby="login-username"
               autofocus=""
               tabindex="1"
             />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.required">Email is required</div>
-              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Username is required</div>
+              <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
             </div>
           </div>
           <div class="form-group">
@@ -101,12 +101,12 @@
               <div *ngIf="f.password.errors.required">Password is required</div>
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="custom-control custom-checkbox">
               <input class="custom-control-input" id="remember-me" type="checkbox" tabindex="3" />
               <label class="custom-control-label" for="remember-me"> Remember Me</label>
             </div>
-          </div>
+          </div> -->
           <button [disabled]="loading" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Sign in
           </button>
