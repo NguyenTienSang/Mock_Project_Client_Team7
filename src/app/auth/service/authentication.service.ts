@@ -37,6 +37,8 @@ export class AuthenticationService {
    *  Confirms if user is admin
    */
   get isAdmin() {
+    // console.log('this.currentUserSubject : ',this.currentUserSubject.value["Role"]);
+
     return this.currentUser && this.currentUserSubject.value.role === Role.Master;
   }
 
@@ -89,7 +91,7 @@ export class AuthenticationService {
           }, 2500);
 
           // notify
-          this.currentUserSubject.next(response);
+          this.currentUserSubject.next(decodedToken);
         }
 
         return response;
