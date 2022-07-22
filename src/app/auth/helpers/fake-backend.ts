@@ -29,16 +29,16 @@ const users: User[] = [
     firstName: 'John',
     lastName: 'Doe',
     avatar: 'avatar-s-11.jpg',
-    role: Role.Admin
+    role: Role.Master
   },
   {
     id: 2,
     email: 'client@demo.com',
-    password: 'client',
+    password: 'User',
     firstName: 'Nataly',
     lastName: 'Doe',
     avatar: 'avatar-s-2.jpg',
-    role: Role.Client
+    role: Role.User
   },
   {
     id: 3,
@@ -128,7 +128,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function isAdmin() {
-      return isLoggedIn() && currentUser().role === Role.Admin;
+      return isLoggedIn() && currentUser().role === Role.Master;
     }
 
     function currentUser() {

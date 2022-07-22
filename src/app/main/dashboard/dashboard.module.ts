@@ -26,7 +26,7 @@ const routes = [
     path: 'analytics',
     component: AnalyticsComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Admin] },
+    data: { roles: [Role.Master] },
     resolve: {
       css: DashboardService,
       inv: InvoiceListService

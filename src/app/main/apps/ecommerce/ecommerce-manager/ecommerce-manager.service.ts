@@ -42,7 +42,7 @@ export class EcommerceManagerService implements Resolve<any> {
   getDataTableRows(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
-        this.rows = response;
+        this.rows = response.resultObj;
         this.onDatatablessChanged.next(this.rows);
         resolve(this.rows);
       }, reject);

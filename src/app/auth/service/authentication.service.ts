@@ -7,8 +7,9 @@ import { environment } from 'environments/environment';
 import { User, Role } from 'app/auth/models';
 import { ToastrService } from 'ngx-toastr';
 
+import { JwtHelperService } from "@auth0/angular-jwt";
 
-
+const helper = new JwtHelperService();
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   //public
@@ -36,14 +37,14 @@ export class AuthenticationService {
    *  Confirms if user is admin
    */
   get isAdmin() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
+    return this.currentUser && this.currentUserSubject.value.role === Role.Master;
   }
 
   /**
    *  Confirms if user is client
    */
   get isClient() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Client;
+    return this.currentUser && this.currentUserSubject.value.role === Role.User;
   }
 
   /**
@@ -69,10 +70,12 @@ export class AuthenticationService {
       map(response => {
         // console.log('Test');
         console.log("user : ",response);
+        const decodedToken = helper.decodeToken(response.resultObj);
+        console.log("decodedToken : ",decodedToken);
         // login successful if there's a jwt token in the response
         if (response && response.resultObj) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
+          localStorage.setItem('currentUser', JSON.stringify(decodedToken));
 
           // Display welcome toast!
           setTimeout(() => {

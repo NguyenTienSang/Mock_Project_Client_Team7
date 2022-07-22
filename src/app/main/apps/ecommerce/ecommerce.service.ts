@@ -76,9 +76,9 @@ export class EcommerceService implements Resolve<any> {
   getProducts(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
-        this.productList = response;
+        this.productList = response.resultObj;
         console.log('response : ',response);
-        
+
         this.sortProduct('featured'); // Default shorting
         resolve(this.productList);
       }, reject);
