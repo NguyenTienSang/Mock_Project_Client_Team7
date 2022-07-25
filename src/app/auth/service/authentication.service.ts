@@ -74,10 +74,12 @@ export class AuthenticationService {
         console.log("user : ",response);
         const decodedToken = helper.decodeToken(response.resultObj);
         console.log("decodedToken : ",decodedToken);
+
+
         // login successful if there's a jwt token in the response
         if (response && response.resultObj) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(decodedToken));
+          localStorage.setItem('currentUser', JSON.stringify(response));
 
           // Display welcome toast!
           setTimeout(() => {

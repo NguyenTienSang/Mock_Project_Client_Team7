@@ -39,7 +39,7 @@ const appRoutes: Routes = [
   {
     path: 'apps',
     loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'pages',
@@ -48,32 +48,32 @@ const appRoutes: Routes = [
   {
     path: 'ui',
     loadChildren: () => import('./main/ui/ui.module').then(m => m.UIModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'components',
     loadChildren: () => import('./main/components/components.module').then(m => m.ComponentsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'extensions',
     loadChildren: () => import('./main/extensions/extensions.module').then(m => m.ExtensionsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'forms',
     loadChildren: () => import('./main/forms/forms.module').then(m => m.FormsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'tables',
     loadChildren: () => import('./main/tables/tables.module').then(m => m.TablesModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'charts-and-maps',
     loadChildren: () => import('./main/charts-and-maps/charts-and-maps.module').then(m => m.ChartsAndMapsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: '',
