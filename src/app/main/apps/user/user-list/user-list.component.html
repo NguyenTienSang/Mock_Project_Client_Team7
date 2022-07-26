@@ -108,9 +108,9 @@
                 </ng-template>
                 <div class="cell-line-height">
                   <a routerLink="/apps/user/user-view/{{ row.id }}" class="font-medium-1 d-block"
-                    ><span class="font-weight-bold">{{ name }}</span></a
+                    ><span class="font-weight-bold">{{ row.firstName }}{{ row.lastName}}</span></a
                   >
-                  <span class="text-muted font-small-2"> @{{ row.username }}</span>
+                  <span class="text-muted font-small-2"> @{{ row.userName }}</span>
                 </div>
               </div>
             </ng-template>

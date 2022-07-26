@@ -17,14 +17,50 @@
         </div>
         <div class="modal-body flex-grow-1">
           <div class="form-group">
-            <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+            <label class="form-label" for="basic-icon-default-fullname">First Name</label>
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="John"
+              name="user-finame"
+              [(ngModel)]="firstname"
+              [class.error]="newUserForm.submitted && FiNameRef.invalid"
+              #FiNameRef="ngModel"
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+            <!-- <span *ngIf="newUserForm.submitted || FiNameRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FiNameRef.errors?.required">Firstname is required!</small>
+            </span> -->
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname">Last Name</label>
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="Doe"
+              name="user-lname"
+              [(ngModel)]="lastname"
+              [class.error]="newUserForm.submitted && LNameRef.invalid"
+              #LNameRef="ngModel"
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+            <!-- <span *ngIf="newUserForm.submitted || LNameRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="LNameRef.errors?.required">Lastname is required!</small>
+            </span> -->
+          </div>
+          <!-- <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname">Phone Number</label>
             <input
               type="text"
               class="form-control dt-full-name"
               id="basic-icon-default-fullname"
               placeholder="John Doe"
               name="user-fullname"
-              [(ngModel)]="fullname"
+              [(ngModel)]="phonenumber"
               [class.error]="newUserForm.submitted && FNameRef.invalid"
               #FNameRef="ngModel"
               required
@@ -34,7 +70,27 @@
             <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
               <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
             </span>
-          </div>
+          </div> -->
+          
+          <!-- <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname">Address</label>
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="John Doe"
+              name="user-fullname"
+              [(ngModel)]="address"
+              [class.error]="newUserForm.submitted && FNameRef.invalid"
+              #FNameRef="ngModel"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+            <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
+            </span>
+          </div> -->
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-uname">Username</label>
             <input
@@ -48,11 +104,73 @@
               [(ngModel)]="username"
               [class.error]="newUserForm.submitted && FUserNameRef.invalid"
               #FUserNameRef="ngModel"
+              [pattern]="usernamePtn"
               required
             />
-            <span *ngIf="newUserForm.submitted && FUserNameRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FUserNameRef.errors.required">This field is required!</small>
+            <span *ngIf="newUserForm.submitted || FUserNameRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FUserNameRef.errors?.required">Username is required!</small>
             </span>
+            <span *ngIf="newUserForm.submitted || FUserNameRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FUserNameRef.errors?.pattern">Username is invalid!</small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname">Password</label>
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="Enter password"
+              name="password"
+              [(ngModel)]="password"
+              [class.error]="newUserForm.submitted && Password.invalid"
+              #Password="ngModel"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              minlength="8" maxlength="12"
+              [pattern]="passwordPtn"
+            />
+            <span *ngIf="newUserForm.submitted || Password.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="Password.errors?.required">Password is required!</small>
+            </span>
+            <span *ngIf="newUserForm.submitted || Password.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="Password.errors?.pattern">Password must be 8-12 characters & should contain letters, numbers, spectial characters & capital letters.</small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname">Confirm password</label>
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="Enter confirm password"
+              name="confirmPassword"
+              [(ngModel)]="confirmpass"
+              [class.error]="newUserForm.submitted && confirmPassword.touched"
+              #confirmPassword="ngModel"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              minlength="8" maxlength="12"
+            />
+            <span *ngIf="newUserForm.submitted || confirmPassword.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="confirmPassword.errors?.required">Confirm Password is required!</small>
+            </span>
+            <span *ngIf="newUserForm.submitted || confirmPassword.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="confirmpass !== password">Password & Confirm password should be same.</small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="accountTextarea">Image</label>
+            <input
+              type="file"               
+              class="form-control"
+              id="rating"
+              placeholder="Choose Image"
+              name="rating"
+              [(ngModel)]="avatar"
+            />
           </div>
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-email">Email</label>
@@ -67,32 +185,26 @@
               [(ngModel)]="email"
               [class.error]="newUserForm.submitted && FEmailRef.invalid"
               #FEmailRef="ngModel"
+              [pattern]="emailPtn"
               required
             />
-            <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            <span *ngIf="newUserForm.submitted || FEmailRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors?.required">Email is required!</small>
+            </span>
+            <span *ngIf="newUserForm.submitted || FEmailRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors?.pattern">You have entered an invalid email address!</small>
             </span>
             <small class="form-text text-muted"> You can use letters, numbers & periods </small>
           </div>
           <div class="form-group">
             <label class="form-label" for="user-role">User Role</label>
-            <select id="user-role" class="form-control">
-              <option value="subscriber">Subscriber</option>
-              <option value="editor">Editor</option>
-              <option value="maintainer">Maintainer</option>
-              <option value="author">Author</option>
-              <option value="admin">Admin</option>
+            <select id="user-role" class="form-control" [(ngModel)]="role" (change)="onChange($event)" #roleLevel="ngModel" required>
+              <option *ngFor="let r of roles" [value] ="r">{{r}}</option>
             </select>
           </div>
-          <div class="form-group mb-2">
-            <label class="form-label" for="user-plan">Select Plan</label>
-            <select id="user-plan" class="form-control">
-              <option value="basic">Basic</option>
-              <option value="enterprise">Enterprise</option>
-              <option value="company">Company</option>
-              <option value="team">Team</option>
-            </select>
-          </div>
+          <span *ngIf="newUserForm.submitted || roleLevel.touched" class="invalid-form">
+            <small class="form-text text-danger" *ngIf="roleLevel.errors?.required">Role is required!</small>
+          </span>
           <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Submit</button>
           <button
             type="reset"
