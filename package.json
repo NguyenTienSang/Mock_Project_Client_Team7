@@ -17,7 +17,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "11.2.1",
+    "@angular/animations": "^11.2.1",
     "@angular/cdk": "11.2.1",
     "@angular/common": "11.2.1",
     "@angular/compiler": "11.2.1",
@@ -69,7 +69,7 @@
     "ngx-plyr": "4.0.0",
     "ngx-quill": "13.2.0",
     "ngx-swiper-wrapper": "10.0.0",
-    "ngx-toastr": "13.2.0",
+    "ngx-toastr": "^13.2.0",
     "node-waves": "0.7.6",
     "nouislider": "14.6.3",
     "plyr": "3.6.4",

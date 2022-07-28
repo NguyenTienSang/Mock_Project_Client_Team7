@@ -72,4 +72,11 @@ export class UserListService implements Resolve<any> {
           });
     return this._httpClient.post<any>(`${environment.apiUrl}/api/User/create`, user, { headers: headers })
   };
+
+  //Upload image to cloudinary
+
+  onUploadAvatar(username: string, formData: FormData):Observable<any>{
+    
+    return this._httpClient.post(`${environment.apiUrl}/api/User/upload-avatar/${username}`,formData)
+  }
 }

@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
-//import Swal  from 'sweetalert2/dist/sweetalert2.js';
+import Swal  from 'sweetalert2/dist/sweetalert2.js';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-user-sidebar',
-  templateUrl: './new-user-sidebar.component.html'
+  templateUrl: './new-user-sidebar.component.html',
+  // styleUrls: ['./new-user-sidebar.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class NewUserSidebarComponent implements OnInit {
   public firstname;
@@ -20,12 +22,16 @@ export class NewUserSidebarComponent implements OnInit {
   public email;
   public role;
   public avatar;
+  public passwordTextType: boolean;
+  public confirmPasswordTextType: boolean;
 
   usernamePtn = '^(?=[a-zA-Z0-9._]{6,12}$)(?!.*[_.]{2})[^_.].*[^_.]$';
   passwordPtn = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$';
   emailPtn = '^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$';
 
   roles = ["Master", "Mod", "User"];
+
+ 
 
   /**
    * Constructor
@@ -44,23 +50,31 @@ export class NewUserSidebarComponent implements OnInit {
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
+  toggleConfirmPasswordTextType() {
+    this.confirmPasswordTextType = !this.confirmPasswordTextType;
+  }
 
   onChange(selectedrole) {
     this.role = selectedrole.target.value;
-    // I want to do something here with the new selectedDevice, but what I
-    // get here is always the last selection, not the one I just selected.
-}
+  }
+
+  fileToUpload: any;
+//Show image when select
+  upload(e : any){
+    this.fileToUpload = e.target.files[0]
+  }
   /**
    * Submit
    *
    * @param form
    */
   submit(form) {
-
     if (form.valid) {
       this.toggleSidebar('new-user-sidebar');
     }
-
     if(this.password == this.confirmpass){
       var currentUser = {
         "FirstName": this.firstname,
@@ -72,41 +86,32 @@ export class NewUserSidebarComponent implements OnInit {
         "Email": this.email,
         "Role": this.role
       };
-  
+      console.log("avatar",this.avatar);
       this._userListService.createUser(currentUser).subscribe(respone =>{
         console.log("respone",respone);
         if(respone.isSuccessed)
         {
-          setTimeout(() => {
-            this._toastrService.success(
-              ' '+respone.message+' ',
-              'Create user',
-              { toastClass: 'toast ngx-toastr', closeButton: true }
-            );
-          }, 2000);
+          console.log(1);
+          Swal.fire("Success",respone.message,"success")
+          //setTimeout(() => {
+            // this._toastrService.success(
+            //   ' '+respone.message+' ',
+            //   'Create user',
+            //   { toastClass: 'toast ngx-toastr', closeButton: true }
+            // );
+         // }, 2000);
+          let formData = new FormData();
+          formData.append('formFile',this.fileToUpload);
+          this._userListService.onUploadAvatar(this.username, formData).subscribe();
+          
         }
         else{
-          setTimeout(() => {
-            this._toastrService.error(
-              ''+respone.message+'',
-              'Create user',
-              { toastClass: 'toast ngx-toastr', closeButton: true }
-            );
-          }, 2500);
+          Swal.fire("Error",respone.message,"error")
         }
       });
   }
 }
-  ngOnInit(): void {}
-
-//   showSuccessMessage(
-//     title, message, icon = null,
-//     showCancelButton = true){
-//     return Swal.fire({
-//       title: title,
-//       text: message,
-//       icon: icon,
-//       showCancelButton: showCancelButton
-//     })
-//  }
+  ngOnInit(): void {
+    this.role = this.roles[0];
+  }
 }
