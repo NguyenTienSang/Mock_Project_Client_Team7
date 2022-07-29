@@ -1,7 +1,7 @@
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation,Input } from '@angular/core';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-
+import Swal  from 'sweetalert2/dist/sweetalert2.js';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -76,6 +76,8 @@ export class EcommerceManagerComponent implements OnInit {
       this.rows = response;
       this.tempData = this.rows;
     });
+    //Swal.fire("Success","Create product","success")
+
   }
   
 

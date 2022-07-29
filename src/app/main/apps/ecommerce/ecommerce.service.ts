@@ -242,4 +242,6 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
+
+  
 }

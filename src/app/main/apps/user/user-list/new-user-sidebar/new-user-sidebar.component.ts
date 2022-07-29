@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
-import Swal  from 'sweetalert2/dist/sweetalert2.js';
+import Swal  from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
