@@ -1,54 +1,102 @@
 <div class="content-wrapper">
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
-    <form class="validate-form">
+    <form class="validate-form" (ngSubmit)="(newProductForm.form.valid)" #newProductForm="ngForm">
         <div class="row">
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <label for="account-birth-date">Name Product</label>
               <input
-                
+                [(ngModel)]="nameProduct"
                 type="text"
                 class="form-control flatpickr"
                 placeholder="Enter Product..."
                 id="name-product"
                 name="Name Product"
+                [class.error]="newProductForm.submitted && nameProductRef.invalid"
+                #nameProductRef="ngModel"
+                required
               />
+            </div>
+            <span *ngIf="newProductForm.submitted || nameProductRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="nameProductRef.errors?.required">Name product is required!</small>
+            </span>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="account-birth-date">Category</label>
+              <select id="user-role" class="form-control" [(ngModel)]="categoryId" (change)="onChangeCategory($event)" [class.error]="newProductForm.submitted && categoryIdRef.invalid" #categoryIdRef="ngModel" required>
+                <option *ngFor="let c of categories" [value] ="c.id">{{c.name}}</option>
+              </select>
+            <span *ngIf="newProductForm.submitted || categoryIdRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="categoryIdRef.errors?.required">Category is required!</small>
+            </span>
             </div>
           </div>
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <label for="account-birth-date">Brand</label>
-              <input               
-                type="text"
-                class="form-control flatpickr"
-                placeholder="Enter brand..."
-                id="brand"
-                name="Brand"
-              />
+              <select id="user-role" class="form-control" [(ngModel)]="brandId" (change)="onChangeBrand($event)" [class.error]="newProductForm.submitted && brandIdRef.invalid" #brandIdRef="ngModel" required>
+                <option *ngFor="let b of brandtemp" [value] ="b.id">{{b.name}}</option>
+              </select>
+            <span *ngIf="newProductForm.submitted || brandIdRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="brandIdRef.errors?.required">Brand is required!</small>
+            </span>
             </div>
           </div>
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <label for="price">Price</label>
               <input
-                type="text"               
+                type="number"               
                 class="form-control"
                 name="price"
                 id="price"
-                placeholder="Enter Price"
+                placeholder="Enter price..."
+                [(ngModel)]="price"
+                [class.error]="newProductForm.submitted && priceRef.invalid"
+                #priceRef="ngModel"
+                required
               />
+              <span *ngIf="newProductForm.submitted || priceRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="priceRef.errors?.required">Price is required!</small>
+              </span>
             </div>
           </div>
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <label for="rating">Rating</label>
+              <label for="quantity">Quantity</label>
               <input
                 type="number"               
                 class="form-control"
-                id="rating"
-                placeholder="Rating"
-                name="rating"
+                id="quantity"
+                placeholder="Enter quantity ..."
+                name="quantity"
+                [(ngModel)]="quantity"
+                [class.error]="newProductForm.submitted && quantityRef.invalid"
+                #quantityRef="ngModel"
+                required
               />
+              <span *ngIf="newProductForm.submitted || quantityRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="quantityRef.errors?.required">Quantity is required!</small>
+              </span>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="expire">Expire</label>
+              <input
+                type="date"               
+                class="form-control"
+                id="expire"
+                name="expire"
+                [(ngModel)]="expire"
+                [class.error]="newProductForm.submitted && expireRef.invalid"
+                #expireRef="ngModel"
+                required
+              />
+              <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="expireRef.errors?.required">Expire is required!</small>
+              </span>
             </div>
           </div>
           <div class="col-12">
@@ -60,7 +108,14 @@
                 name="Description"
                 rows="4"
                 placeholder="Description here..."
+                [(ngModel)]="description"
+                [class.error]="newProductForm.submitted && descriptionRef.invalid"
+                #descriptionRef="ngModel"
+                required
               ></textarea>
+              <span *ngIf="newProductForm.submitted || descriptionRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="descriptionRef.errors?.required">Description is required!</small>
+              </span>
             </div>
           </div>
           <div class="col-12 col-sm-6">
@@ -69,14 +124,22 @@
               <input
                 type="file"               
                 class="form-control"
+                (change)="upload($event)"
                 id="rating"
                 placeholder="Choose Image"
                 name="rating"
+                [(ngModel)]="image"
+                [class.error]="newProductForm.submitted && imageRef.invalid"
+                #imageRef="ngModel" accept=".png, .jpg, .jpeg" 
+                required
               />
+              <span *ngIf="newProductForm.submitted || imageRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="imageRef.errors?.required">Image is required!</small>
+              </span>
             </div>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect>Save changes</button>
+            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit(newProductForm)" >Save changes</button>
             <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
           </div>
         </div>

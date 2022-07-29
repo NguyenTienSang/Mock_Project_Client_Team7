@@ -77,7 +77,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/dashboard/ecommerce',
+    redirectTo: '/apps/e-commerce/shop',
     pathMatch: 'full'
   },
   {
