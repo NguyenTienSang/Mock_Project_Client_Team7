@@ -17,6 +17,8 @@ export class EcommerceShopComponent implements OnInit {
   public shopSidebarReset = false;
   public gridViewRef = true;
   public products;
+  public categories;
+  public brands;
   public wishlist;
   public cartList;
   public page = 1;
@@ -77,6 +79,10 @@ export class EcommerceShopComponent implements OnInit {
       this.products.isInWishlist = false;
     });
 
+    this._ecommerceService.onCategoryListChange.subscribe(res => {
+      this.categories = res;
+    console.log(res);
+    });
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
