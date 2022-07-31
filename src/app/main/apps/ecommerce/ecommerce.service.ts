@@ -92,7 +92,9 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
-
+  updateProduct(productId: string, productList: any): Observable<any>{
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/Products/UpdateProduct/` + productId, productList);
+  }
   getBrandLists():Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
@@ -283,4 +285,6 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
+
+
 }
