@@ -122,12 +122,13 @@
             <div class="form-group">
               <label for="accountTextarea">Image</label>
               <input
-                type="file"               
+                type="file"          
+                     
                 class="form-control"
                 (change)="upload($event)"
-                id="rating"
+                id="file"
                 placeholder="Choose Image"
-                name="rating"
+                name="file"
                 [(ngModel)]="image"
                 [class.error]="newProductForm.submitted && imageRef.invalid"
                 #imageRef="ngModel" accept=".png, .jpg, .jpeg" 
@@ -139,7 +140,7 @@
             </div>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit(newProductForm)" >Save changes</button>
+            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit()" >Save changes</button>
             <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
           </div>
         </div>
