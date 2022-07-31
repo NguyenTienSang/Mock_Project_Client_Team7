@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-// import { CategoryUI } from './ui-models/Categories/CategoryUI';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +11,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class EcommerceService implements Resolve<any> {
   // Public
   public productList: Array<any>;
-  public brandList:Array<any>;
   public wishlist: Array<any>;
   public cartList: Array<any>;
   public selectedProduct;
   public relatedProducts;
-  public categoryList: Array<any>;
 
   public onProductListChange: BehaviorSubject<any>;
-  public onCategoryListChange: BehaviorSubject<any>;
-  public onBrandListChange:BehaviorSubject<any>;
   public onRelatedProductsChange: BehaviorSubject<any>;
   public onWishlistChange: BehaviorSubject<any>;
   public onCartListChange: BehaviorSubject<any>;
   public onSelectedProductChange: BehaviorSubject<any>;
-
 
   // Private
   private idHandel;
@@ -53,12 +47,10 @@ export class EcommerceService implements Resolve<any> {
    */
   constructor(private _httpClient: HttpClient) {
     this.onProductListChange = new BehaviorSubject({});
-    this.onCategoryListChange = new BehaviorSubject({});
-    this.onBrandListChange= new BehaviorSubject({});
-    this.onSelectedProductChange = new BehaviorSubject({});
     this.onRelatedProductsChange = new BehaviorSubject({});
     this.onWishlistChange = new BehaviorSubject({});
     this.onCartListChange = new BehaviorSubject({});
+    this.onSelectedProductChange = new BehaviorSubject({});
   }
 
   /**
@@ -72,7 +64,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
+      Promise.all([this.getProducts(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -89,19 +81,6 @@ export class EcommerceService implements Resolve<any> {
 
         this.sortProduct('featured'); // Default shorting
         resolve(this.productList);
-      }, reject);
-    });
-  }
-  updateProduct(productId: string, productList: any): Observable<any>{
-    return this._httpClient.put<any>(`${environment.apiUrl}/api/Products/UpdateProduct/` + productId, productList);
-  }
-  getBrandLists():Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
-        this.brandList=response.resultObj;
-        console.log('response : ',response);
-
-        resolve(this.cartList);
       }, reject);
     });
   }
@@ -263,28 +242,4 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
-
-  // Get list Category
-  // GetListCategory():Promise<any[]>{
-  //   return new Promise((resolve, reject) => {
-  //     this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
-  //       this.categoryList = response.resultObj;
-
-  //       console.log('response : ',response);
-
-  //       resolve(this.categoryList);
-  //   },  reject);
-  // });
-  // }
-  getListCategory(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
-        this.categoryList = response.resultObj;
-        console.log('response : ',response);
-        resolve(this.categoryList);
-      }, reject);
-    });
-  }
-
-
 }
