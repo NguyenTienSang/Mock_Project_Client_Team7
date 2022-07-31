@@ -36,7 +36,7 @@ export class UserListComponent implements OnInit {
    * @param {UserListService} _userListService
    * @param {CoreSidebarService} _coreSidebarService
    */
-  constructor(private _userListService: UserListService, 
+  constructor(private _userListService: UserListService,
     private _coreSidebarService: CoreSidebarService,
     private _toastrService: ToastrService) {
     this._unsubscribeAll = new Subject();
@@ -55,7 +55,7 @@ export class UserListComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-      return d.fullName.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.userName.toLowerCase().indexOf(val) !== -1 || d.email.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // Update The Rows
