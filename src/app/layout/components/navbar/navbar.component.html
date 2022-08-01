@@ -61,7 +61,11 @@
     <!--/ Cart -->
 
     <!-- Notification -->
-    <app-navbar-notification></app-navbar-notification>
+    <!-- <app-navbar-notification></app-navbar-notification> -->
+    <div [hidden]="this.currentUser"><a routerLink="/pages/authentication/login-v2" class="font-medium-1 d-block"
+      >Login</a
+    ></div>
+
     <!--/ Notification -->
 
     <!-- User Dropdown -->

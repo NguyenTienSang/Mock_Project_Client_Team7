@@ -58,10 +58,30 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
         type: 'collapsible',
         icon: 'shopping-cart',
-        children: [
+        children: currentUser == 'User' ? [
           {
             id: 'shop',
-            title: 'shop',
+            title: 'Shop',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/e-commerce/shop'
+          },
+
+          {
+            id: 'wishList',
+            title: 'WishList',
+            translate: 'MENU.APPS.ECOMMERCE.WISHLIST',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/e-commerce/wishlist'
+          },
+        ]
+        :
+        [
+          {
+            id: 'shop',
+            title: 'Shop',
             translate: 'MENU.APPS.ECOMMERCE.SHOP',
             type: 'item',
             icon: 'circle',
@@ -98,7 +118,7 @@ export const menu: CoreMenu[] = [
         children: [
           {
             id: 'shop',
-            title: 'shop',
+            title: 'Shop',
             translate: 'MENU.APPS.ECOMMERCE.SHOP',
             type: 'item',
             icon: 'circle',

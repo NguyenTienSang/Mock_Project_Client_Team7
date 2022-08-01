@@ -204,6 +204,21 @@ export class UserEditComponent implements OnInit {
 
   }
 
+  get lastName() {
+    return this.editUserForm.get('lastname');
+  }
+
+  get firstName() {
+    return this.editUserForm.get('firstname');
+  }
+
+  get email() {
+    return this.editUserForm.get('email');
+  }
+
+  get phoneNumber() {
+    return this.editUserForm.get('phonenumber');
+  }
 
 
 }

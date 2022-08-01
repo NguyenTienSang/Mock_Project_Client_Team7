@@ -97,6 +97,12 @@
                               formControlName="lastname"
                             />
                           </div>
+                          <div *ngIf="!lastName?.valid && (lastName?.dirty
+                          || lastName?.touched)"
+                            class="alert">
+                          <div [hidden]="!lastName.errors?.required">  <p style="color: red">Last name is required</p></div>
+                          <!-- <div [hidden]="!lastName.errors?.minlength">  <p style="color: red">Minleng is 5</p></div> -->
+                        </div>
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
@@ -111,6 +117,11 @@
                               formControlName="firstname"
                             />
                           </div>
+                          <div *ngIf="!firstName?.valid && (firstName?.dirty
+                          || firstName?.touched)"
+                            class="alert">
+                          <div [hidden]="!firstName.errors?.required"><p style="color: red">First name is required</p></div>
+                        </div>
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
@@ -123,8 +134,15 @@
                               name="phoneNumber"
                               id="phoneNumber"
                               formControlName="phonenumber"
+                              pattern="[0-9 ]{10}"
                             />
                           </div>
+                          <div *ngIf="!phoneNumber?.valid && (phoneNumber?.dirty
+                          || phoneNumber?.touched)"
+                            class="alert">
+                          <div [hidden]="!phoneNumber.errors?.required"><p style="color: red">Phone number is required</p></div>
+                          <div [hidden]="!phoneNumber.errors?.pattern"><p style="color: red">Invalid phone number</p></div>
+                        </div>
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
@@ -137,8 +155,15 @@
                               name="email"
                               id="email"
                               formControlName="email"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                             />
                           </div>
+                          <div *ngIf="!email?.valid && (email?.dirty
+                          || email?.touched)"
+                            class="alert">
+                          <div [hidden]="!email.errors?.required"><p style="color: red">Email is required</p></div>
+                          <div [hidden]="!email.errors?.pattern"><p style="color: red">Invalid email</p></div>
+                        </div>
                         </div>
 
                         <!-- <div class="col-md-4">
@@ -180,7 +205,12 @@
                           <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect>
                             Save Changes
                           </button>
-                          <button type="reset" class="btn btn-outline-secondary" rippleEffect>Cancel</button>
+                          <button type="reset" class="btn btn-outline-secondary" rippleEffect>
+                            <a routerLink="/apps/user/user-list" class="font-medium-1 d-block"
+                            >Cancel</a
+                          >
+                          </button>
+
                         </div>
                       </div>
                     </form>

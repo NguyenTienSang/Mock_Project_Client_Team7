@@ -40,44 +40,44 @@ const routes: Routes = [
   {
     path: 'shop',
     component: EcommerceShopComponent,
-    // resolve: {
-    //   ecommerce: EcommerceService
-    // }
+    resolve: {
+      ecommerce: EcommerceService
+    }
   },
   {
     path: 'details/:id',
     component: EcommerceDetailsComponent,
-    // resolve: {
-    //   ecommerce: EcommerceService
-    // }
+    resolve: {
+      ecommerce: EcommerceService
+    }
   },
   {
     path: 'wishlist',
     component: EcommerceWishlistComponent,
-    // resolve: {
-    //   ecommerce: EcommerceService
-    // }
+    resolve: {
+      ecommerce: EcommerceService
+    }
   },
   {
     path: 'add',
     component: EcommerceAddComponent,
-    // resolve: {
-    //   ecommerce: EcommerceService
-    // }
+    resolve: {
+      ecommerce: EcommerceService
+    }
   },
   {
     path: 'checkout',
     component: EcommerceCheckoutComponent,
-    // resolve: {
-    //   ecommerce: EcommerceService
-    // }
+    resolve: {
+      ecommerce: EcommerceService
+    }
   },
   {
     path: 'edit/:id',
     component: EcommerceEditComponent,
-    // resolve: {
-    //   ues: EcommerceEditService //Warning
-    // }
+    resolve: {
+      ues: EcommerceEditService //Warning
+    }
   },
   // {
   //   path: 'manager',
@@ -89,10 +89,10 @@ const routes: Routes = [
   {
     path: 'manager',
     component: EcommerceManagerComponent,
-    // resolve: {
-    //   uls: EcommerceManagerService,
-    //   EcommerceService //Warning
-    // }
+    resolve: {
+      uls: EcommerceManagerService,
+      EcommerceService //Warning
+    }
   },
   {
     path: 'details',
