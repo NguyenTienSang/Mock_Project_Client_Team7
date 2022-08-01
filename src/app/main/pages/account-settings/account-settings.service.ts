@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable()
@@ -72,7 +72,9 @@ export class AccountSettingsService implements Resolve<any> {
     }))
    }
 
-
+   getUserContact(id: string): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/contact/${id}`)
+  };
 
 
 }

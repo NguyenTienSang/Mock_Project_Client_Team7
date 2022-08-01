@@ -29,7 +29,7 @@ export class AccountSettingsComponent implements OnInit {
   public messageUploadSettings = '';
   public typeAlertUploadSettings = '';
 
-
+  public contacts: any;
 
   // private
   private _unsubscribeAll: Subject<any>;
@@ -190,6 +190,12 @@ export class AccountSettingsComponent implements OnInit {
 
 
     this.data = (JSON.parse(localStorage.getItem("currentUser")));
+
+    this._accountSettingsService.getUserContact(this.data.user.id).subscribe(respone=>{
+      this.contacts = respone.resultObj;
+    })
+
+
 
     // content header
     this.contentHeader = {
