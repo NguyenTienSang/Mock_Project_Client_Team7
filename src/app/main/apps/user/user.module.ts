@@ -39,25 +39,25 @@ const routes: Routes = [
   {
     path: 'user-delete',
     component: UserDeletedComponent,
-    resolve: {
-      uls: UserListService
-    }
+    // resolve: {
+    //   uls: UserListService
+    // }
   },
   {
     path: 'user-view/:id',
     component: UserViewComponent,
-    resolve: {
-      data: UserViewService,
-      InvoiceListService
-    },
+    // resolve: {
+    //   data: UserViewService,
+    //   InvoiceListService
+    // },
     data: { path: 'view/:id' }
   },
   {
     path: 'user-edit/:id',
     component: UserEditComponent,
-    resolve: {
-      ues: UserEditService
-    }
+    // resolve: {
+    //   ues: UserEditService
+    // }
   },
   {
     path: 'user-view',

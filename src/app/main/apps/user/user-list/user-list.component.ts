@@ -7,6 +7,10 @@ import { takeUntil } from 'rxjs/operators';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import {HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -21,6 +25,8 @@ export class UserListComponent implements OnInit {
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
 
+  public currentUser;
+
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -34,13 +40,31 @@ export class UserListComponent implements OnInit {
    * @param {UserListService} _userListService
    * @param {CoreSidebarService} _coreSidebarService
    */
-  constructor(private _userListService: UserListService, private _coreSidebarService: CoreSidebarService) {
+  constructor(private _userListService: UserListService,
+    private _coreSidebarService: CoreSidebarService,
+	private _toastrService: ToastrService,
+    private _httpClient: HttpClient) {
     this._unsubscribeAll = new Subject();
   }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
+  //DeleteUser
+  deleteUser(id: string): Promise<any[]> {
+    if(confirm("Are you sure to delete?")){
+      return new Promise((resolve, reject) => {
+       this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+         const headers = new HttpHeaders({
+           'Content-Type': 'application/json',
+           'Authorization': `Bearer ` + this.currentUser.resultObj
+         })
+         this._httpClient.delete(`${environment.apiUrl}/api/User/delete` +'/' + id, { headers: headers }).subscribe(data => {
+           window.location.reload();
+         });
+   });
+    }
+  }
   /**
    * filterUpdate
    *
@@ -51,7 +75,7 @@ export class UserListComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-      return d.fullName.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.userName.toLowerCase().indexOf(val) !== -1 || d.email.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // Update The Rows
@@ -67,6 +91,7 @@ export class UserListComponent implements OnInit {
    */
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+    Swal.close();
   }
 
   // Lifecycle Hooks
@@ -75,6 +100,7 @@ export class UserListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
       this.rows = response;
       this.tempData = this.rows;

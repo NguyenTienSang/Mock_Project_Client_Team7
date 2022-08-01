@@ -3,7 +3,7 @@
     <!-- User List -->
     <section class="users-list-wrapper">
       <!-- users filter start -->
-      <div class="card">
+      <!-- <div class="card">
         <h5 class="card-header">Search Filter</h5>
         <div class="card-body">
           <div class="users-list-filter">
@@ -41,7 +41,7 @@
             </form>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- users filter end -->
 
       <div class="card">
@@ -108,9 +108,9 @@
                 </ng-template>
                 <div class="cell-line-height">
                   <a routerLink="/apps/user/user-view/{{ row.id }}" class="font-medium-1 d-block"
-                    ><span class="font-weight-bold">{{ name }}</span></a
+                    ><span class="font-weight-bold">{{ row.firstName }}{{ row.lastName}}</span></a
                   >
-                  <span class="text-muted font-small-2"> @{{ row.username }}</span>
+                  <span class="text-muted font-small-2"> {{ row.userName }}</span>
                 </div>
               </div>
             </ng-template>
@@ -133,8 +133,8 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Plan" prop="currentPlan" [width]="100"></ngx-datatable-column>
-          <ngx-datatable-column name="Status" prop="status" [width]="50">
+          <!-- <ngx-datatable-column name="Plan" prop="currentPlan" [width]="100"></ngx-datatable-column> -->
+          <!-- <ngx-datatable-column name="Status" prop="status" [width]="50">
             <ng-template let-status="value" ngx-datatable-cell-template>
               <div
                 class="badge badge-pill"
@@ -147,7 +147,7 @@
                 {{ status }}
               </div>
             </ng-template>
-          </ngx-datatable-column>
+          </ngx-datatable-column> -->
           <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">
@@ -159,9 +159,17 @@
                     ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
                   ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
                     ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
-                  ><a href="javascript:;" ngbDropdownItem
+                  ><a  [hidden]="currentUser.user.id == row.id" href="javascript:;" (click)="deleteUser(row.id)" ngbDropdownItem
                     ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
                   >
+
+                  <!-- <h2>{{currentUser.user.id}}</h2> -->
+                  <!-- <div [hidden]="this.currentUser"><a routerLink="/pages/authentication/login-v2" class="font-medium-1 d-block"
+                    >Login</a
+                  ></div> -->
+
+
+                  <!-- this.currentUser.user.id == row.id -->
                 </div>
               </div>
             </ng-template>

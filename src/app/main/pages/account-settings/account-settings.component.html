@@ -24,95 +24,234 @@
                 <div class="card">
                   <div class="card-body">
                     <!-- header media -->
+                    <!-- <div class="row">
                     <div class="media">
                       <a href="javascript:void(0);" class="mr-25">
                         <img
-                          [src]="data.accountSetting.general.avatar"
-                          class="rounded mr-50"
-                          alt="profile image"
-                          height="76"
-                          width="80"
-                        />
+                        [src]="data.avatar"
+                        class="rounded mr-50"
+                        alt="profile image"
+                        height="130"
+                        width="130"
+                      />
                       </a>
-                      <!-- upload and reset button -->
-                      <div class="media-body mt-75 ml-1">
-                        <button for="account-upload" class="btn btn-sm btn-primary mb-75 mr-75" rippleEffect>
-                          Upload
+
+
+                      <div class="col-12 d-flex mt-1 px-0">
+                        <label class="btn btn-primary mr-75 mb-0" for="change-picture">
+                          <span class="d-none d-sm-block">Choose file</span>
+
+                          <input
+                            class="form-control"
+                            type="file"
+                            id="change-picture"
+                            (change)="onSelectFileAvatar($event)"
+                            hidden
+                            accept="image/png, image/jpeg, image/jpg"
+                          />
+                          <span class="d-block d-sm-none">
+                            <i class="mr-0" data-feather="edit"></i>
+                          </span>
+                        </label>
+                        <button class="btn btn-outline-secondary d-none d-sm-block"  (click)="onUploadAvatar()" rippleEffect>Upload</button>
+                        <button class="btn btn-outline-secondary d-block d-sm-none">
+                          <i class="mr-0" data-feather="trash-2"></i>
                         </button>
-                        <input type="file" id="account-upload" hidden accept="image/*" />
-                        <button class="btn btn-sm btn-outline-secondary mb-75" rippleEffect>Reset</button>
-                        <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+
                       </div>
-                      <!--/ upload and reset button -->
+                      <ngb-alert type={{typeAlertUpload}} [dismissible]="false">
+                        <div class="alert-body">
+
+                          <p>sdfsfsdf</p>
+                        </div>
+                      </ngb-alert>
                     </div>
+                  </div> -->
+
+                  <div class="media mb-2">
+                    <!-- <img
+                    class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
+                    [src]="rows.avatar"
+                    height="90"
+                    width="90"
+                    alt="User avatar"
+                  /> -->
+                    <div *ngIf="data.user.avatar.length > 0; else customAvatar">
+                      <img
+                        class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
+                        [src]="data.user.avatar"
+                        height="150"
+                        width="150"
+                        alt="User avatar"
+                      />
+                    </div>
+                    <ng-template #customAvatar>
+                      <div
+                        class="mr-1 ml-0"
+                        [ngClass]="{
+                          'bg-light-success': data.user.status == 'Active',
+                          'bg-light-secondary': data.user.status == 'Inactive'
+                        }"
+                      >
+                        <div class="rounded p-3">{{ data.user.userName | initials }}</div>
+
+                      </div>
+                    </ng-template>
+                    <div class="media-body mt-50">
+                      <h4>{{ data.user.userName }}</h4>
+                      <div class="col-12 d-flex mt-1 px-0">
+                        <label class="btn btn-primary mr-75 mb-0" for="change-picture">
+                          <span class="d-none d-sm-block">Choose file</span>
+                          <input
+                            class="form-control"
+                            type="file"
+                            id="change-picture"
+                            (change)="onSelectFileAvatar($event)"
+                            hidden
+                            accept="image/png, image/jpeg, image/jpg"
+                          />
+                          <span class="d-block d-sm-none">
+                            <i class="mr-0" data-feather="edit"></i>
+                          </span>
+                        </label>
+                        <button class="btn btn-outline-secondary d-none d-sm-block"  (click)="onUploadAvatar()" rippleEffect>Upload</button>
+                        <button class="btn btn-outline-secondary d-block d-sm-none">
+                          <i class="mr-0" data-feather="trash-2"></i>
+                        </button>
+                      </div>
+                      <br>
+
+                      <ngb-alert type={{typeAlertUploadSettings}} [dismissible]="false">
+                        <div class="alert-body">
+                          <p>{{ messageUploadSettings }}</p>
+                        </div>
+                      </ngb-alert>
+                    </div>
+                  </div>
+
+
+
                     <!--/ header media -->
 
                     <!-- form -->
-                    <form class="validate-form mt-2">
+                    <form class="form-validate"
+                    [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()"
+                    >
                       <div class="row">
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label for="account-username">Username</label>
+                            <label for="account-username">LastName</label>
                             <input
                               type="text"
-                              [(ngModel)]="data.accountSetting.general.username"
+                              [(ngModel)]="data.user.lastName"
                               class="form-control"
-                              id="account-username"
+                              id="account-lastname"
                               name="username"
-                              placeholder="Username"
+                              placeholder="Lastname"
+                              formControlName="lastname"
                             />
                           </div>
+                          <div *ngIf="!lastName?.valid && (lastName?.dirty
+                          || lastName?.touched)"
+                            class="alert">
+                          <div [hidden]="!lastName.errors?.required">  <p style="color: red">Last name is required</p></div>
+                          <!-- <div [hidden]="!lastName.errors?.minlength">  <p style="color: red">Minleng is 5</p></div> -->
+                        </div>
                         </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label for="account-name">Name</label>
+                            <label for="account-name">FirstName</label>
                             <input
                               type="text"
-                              [(ngModel)]="data.accountSetting.general.fullName"
+                              [(ngModel)]="data.user.firstName"
                               class="form-control"
                               id="account-name"
                               name="name"
                               placeholder="Name"
+                              formControlName="firstname"
                             />
                           </div>
+                          <div *ngIf="!firstName?.valid && (firstName?.dirty
+                          || firstName?.touched)"
+                            class="alert">
+                          <div [hidden]="!firstName.errors?.required"><p style="color: red">First name is required</p></div>
+                        </div>
                         </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-e-mail">E-mail</label>
                             <input
                               type="email"
-                              [(ngModel)]="data.accountSetting.general.email"
+                              [(ngModel)]="data.user.email"
                               class="form-control"
                               id="account-e-mail"
                               name="email"
                               placeholder="Email"
+                              formControlName="email"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                             />
+                            <!-- <span *ngIf="submitted && this.loginForm.controls.errors" class="invalid-form">
+                              <small class="form-text text-danger" *ngIf="emailRef.errors.required">Email is required!</small>
+                            </span> -->
+
+                            <div *ngIf="!email?.valid && (email?.dirty
+                            || email?.touched)"
+                              class="alert">
+                            <div [hidden]="!email.errors?.required"><p style="color: red">Email is required</p></div>
+                            <div [hidden]="!email.errors?.pattern"><p style="color: red">Invalid email</p></div>
+                          </div>
+
+                            <!-- <span *ngIf="emailRef.errors && (emailRef.touched || emailRef.dirty)" class="invalid-form">
+                              <small class="form-text text-danger" [hidden]="!emailRef.errors?.pattern"> Invalid email </small>
+                            </span> -->
+
                           </div>
                         </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label for="account-company">Company</label>
+                            <label for="account-company">Phone number</label>
                             <input
                               type="text"
-                              [(ngModel)]="data.accountSetting.general.company"
+                              [(ngModel)]="data.user.phoneNumber"
                               class="form-control"
                               id="account-company"
                               name="company"
-                              placeholder="Company name"
+                              placeholder="Phone numbser"
+                              formControlName="phonenumber"
+                              pattern="[0-9 ]{10}"
                             />
+                            <div *ngIf="!phoneNumber?.valid && (phoneNumber?.dirty
+                            || phoneNumber?.touched)"
+                              class="alert">
+                            <div [hidden]="!phoneNumber.errors?.required"><p style="color: red">Phone number is required</p></div>
+                            <div [hidden]="!phoneNumber.errors?.pattern"><p style="color: red">Invalid phone number</p></div>
+                          </div>
                           </div>
                         </div>
-                        <div class="col-12 mt-75">
+                        <!-- <div class="col-12 mt-75">
                           <div class="alert alert-warning mb-50" role="alert">
                             <h4 class="alert-heading">Your email is not confirmed. Please check your inbox.</h4>
                             <div class="alert-body">
                               <a href="javascript: void(0);" class="alert-link">Resend confirmation</a>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
+
+                        <ngb-alert type={{typealert}} [dismissible]="false">
+                          <div class="alert-body">
+                            <p>{{ message }}</p>
+                          </div>
+                        </ngb-alert>
+
+
                         <div class="col-12">
-                          <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect>Save changes</button>
-                          <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Cancel</button>
+                          <button type="submit"  class="btn btn-primary mt-2 mr-1" rippleEffect>Save Changes</button>
+                          <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>
+                            <!-- <a>Cancel</a> -->
+                            <a routerLink="/apps/e-commerce/shop/" class="font-medium-1 d-block"
+                            >Cancel</a
+                          >
+                          </button>
                         </div>
                       </div>
                     </form>
@@ -121,7 +260,7 @@
                 </div>
               </ng-template>
             </li>
-            <li class="nav-item" ngbNavItem>
+            <!-- <li class="nav-item" ngbNavItem>
               <a
                 ngbNavLink
                 class="nav-link d-flex py-75"
@@ -136,7 +275,6 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- form -->
                     <form class="validate-form">
                       <div class="row">
                         <div class="col-12 col-sm-6">
@@ -225,386 +363,146 @@
                         </div>
                       </div>
                     </form>
-                    <!--/ form -->
                   </div>
                 </div>
               </ng-template>
-            </li>
+            </li> -->
+
+
             <li class="nav-item" ngbNavItem>
               <a
                 ngbNavLink
                 class="nav-link d-flex py-75"
-                id="account-pill-info"
+                id="account-pill-password"
                 data-toggle="pill"
-                href="#account-vertical-info"
+                href="#account-vertical-password"
                 aria-expanded="false"
               >
-                <i data-feather="info" class="font-medium-3 mr-1"></i>
-                <span class="font-weight-bold">Information</span>
+                <i data-feather="home" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Contact</span>
               </a>
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- form -->
-                    <form class="validate-form">
+
+                    <div class="d-flex flex-wrap">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let contact of contacts">
+                            <td>{{contact.name}}</td>
+                            <td>{{contact.address}}</td>
+                            <td>{{contact.phoneNumber}}</td>
+                            <td>Edit</td>
+                            <td>Delete</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- <form class="validate-form">
                       <div class="row">
-                        <div class="col-12">
-                          <div class="form-group">
-                            <label for="accountTextarea">Bio</label>
-                            <textarea
-                              [(ngModel)]="data.accountSetting.info.bio"
-                              class="form-control"
-                              id="accountTextarea"
-                              name="accountTextarea"
-                              rows="4"
-                              placeholder="Your Bio data here..."
-                            ></textarea>
-                          </div>
-                        </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label for="account-birth-date">Birth date</label>
-                            <input
-                              [(ngModel)]="data.accountSetting.info.dob"
-                              type="text"
-                              class="form-control flatpickr"
-                              placeholder="Birth date"
-                              id="account-birth-date"
-                              name="dob"
-                            />
+                            <label for="account-old-password">Old Password</label>
+
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeOld ? 'text' : 'password'"
+                                class="form-control"
+                                id="account-old-password"
+                                name="password"
+                                placeholder="Old Password"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeOld,
+                                      'icon-eye': !passwordTextTypeOld
+                                    }"
+                                    (click)="togglePasswordTextTypeOld()"
+                                  ></i
+                                ></span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="accountSelect">Country</label>
-                            <select
-                              class="form-control"
-                              [(ngModel)]="data.accountSetting.info.country"
-                              id="accountSelect"
-                              name="accountSelect"
-                            >
-                              <option>USA</option>
-                              <option>India</option>
-                              <option>Canada</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-website">Website</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.info.website"
-                              class="form-control"
-                              name="website"
-                              id="account-website"
-                              placeholder="Website address"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-phone">Phone</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.info.phone"
-                              class="form-control"
-                              id="account-phone"
-                              placeholder="Phone number"
-                              name="phone"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-12">
-                          <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect>Save changes</button>
-                          <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
                         </div>
                       </div>
-                    </form>
-                    <!--/ form -->
-                  </div>
-                </div>
-              </ng-template>
-            </li>
-            <li class="nav-item" ngbNavItem>
-              <a
-                ngbNavLink
-                class="nav-link d-flex py-75"
-                id="account-pill-social"
-                data-toggle="pill"
-                href="#account-vertical-social"
-                aria-expanded="false"
-              >
-                <i data-feather="link" class="font-medium-3 mr-1"></i>
-                <span class="font-weight-bold">Social</span>
-              </a>
-              <ng-template ngbNavContent>
-                <div class="card">
-                  <div class="card-body">
-                    <!-- form -->
-                    <form class="validate-form">
                       <div class="row">
-                        <!-- social header -->
-                        <div class="col-12">
-                          <div class="d-flex align-items-center mb-2">
-                            <i data-feather="link" class="font-medium-3"></i>
-                            <h4 class="mb-0 ml-75">Social Links</h4>
-                          </div>
-                        </div>
-                        <!-- twitter link input -->
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
-                            <label for="account-twitter">Twitter</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.twitter"
-                              id="account-twitter"
-                              name="account-twitter"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-                        <!-- facebook link input -->
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-facebook">Facebook</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.facebook"
-                              id="account-facebook"
-                              name="account-facebook"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-                        <!-- google plus input -->
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-google">Google+</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.google"
-                              id="account-google"
-                              name="account-google"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-                        <!-- linkedin link input -->
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-linkedin">LinkedIn</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.linkedIn"
-                              id="account-linkedin"
-                              name="account-linkedin"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-                        <!-- instagram link input -->
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-instagram">Instagram</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.instagram"
-                              id="account-instagram"
-                              name="account-instagram"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-                        <!-- Quora link input -->
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-quora">Quora</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="data.accountSetting.social.socialLinks.quora"
-                              id="account-quora"
-                              name="account-quora"
-                              class="form-control"
-                              placeholder="Add link"
-                            />
-                          </div>
-                        </div>
-
-                        <!-- divider -->
-                        <div class="col-12">
-                          <hr class="my-2" />
-                        </div>
-
-                        <div class="col-12 mt-1">
-                          <!-- profile connection header -->
-                          <div class="d-flex align-items-center mb-3">
-                            <i data-feather="user" class="font-medium-3"></i>
-                            <h4 class="mb-0 ml-75">Profile Connections</h4>
-                          </div>
-
-                          <div class="row">
-                            <!-- twitter user -->
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold">Your Twitter</p>
-                              <div class="avatar mb-1">
-                                <span class="avatar-content">
-                                  <img
-                                    [src]="data.accountSetting.social.connections.twitter.profileImg"
-                                    alt="avatar img"
-                                    width="40"
-                                    height="40"
-                                  />
-                                </span>
+                            <label for="account-new-password">New Password</label>
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeNew ? 'text' : 'password'"
+                                id="account-new-password"
+                                name="new-password"
+                                class="form-control"
+                                placeholder="New Password"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeNew,
+                                      'icon-eye': !passwordTextTypeNew
+                                    }"
+                                    (click)="togglePasswordTextTypeNew()"
+                                  ></i
+                                ></span>
                               </div>
-                              <p class="mb-0">{{ data.accountSetting.social.connections.twitter.id }}</p>
-                              <a href="javascript:void(0)">Disconnect</a>
                             </div>
-                            <!-- facebook button -->
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold mb-2">Your Facebook</p>
-                              <button class="btn btn-outline-primary" rippleEffect>Connect</button>
-                            </div>
-                            <!-- google user -->
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold">Your Google</p>
-                              <div class="avatar mb-1">
-                                <span class="avatar-content">
-                                  <img
-                                    [src]="data.accountSetting.social.connections.google.profileImg"
-                                    alt="avatar img"
-                                    width="40"
-                                    height="40"
-                                  />
-                                </span>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-retype-new-password">Retype New Password</label>
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeRetype ? 'text' : 'password'"
+                                class="form-control"
+                                id="account-retype-new-password"
+                                name="confirm-new-password"
+                                placeholder="New Password"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeRetype,
+                                      'icon-eye': !passwordTextTypeRetype
+                                    }"
+                                    (click)="togglePasswordTextTypeRetype()"
+                                  ></i
+                                ></span>
                               </div>
-                              <p class="mb-0">{{ data.accountSetting.social.connections.google.id }}</p>
-                              <a href="javascript:void(0)">Disconnect</a>
-                            </div>
-                            <!-- github button -->
-                            <div class="col-6 col-md-3 text-center mb-2">
-                              <p class="font-weight-bold mb-1">Your GitHub</p>
-                              <button class="btn btn-outline-primary" rippleEffect>Connect</button>
                             </div>
                           </div>
                         </div>
                         <div class="col-12">
-                          <!-- submit and cancel button -->
                           <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect>Save changes</button>
                           <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
                         </div>
                       </div>
-                    </form>
-                    <!--/ form -->
+                    </form> -->
                   </div>
                 </div>
               </ng-template>
             </li>
 
-            <li class="nav-item" ngbNavItem>
-              <a
-                ngbNavLink
-                class="nav-link d-flex py-75"
-                id="account-pill-notifications"
-                data-toggle="pill"
-                href="#account-vertical-notifications"
-                aria-expanded="false"
-              >
-                <i data-feather="bell" class="font-medium-3 mr-1"></i>
-                <span class="font-weight-bold">Notifications</span>
-              </a>
-              <ng-template ngbNavContent>
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row">
-                      <h6 class="section-label mx-1 mb-2">Activity</h6>
-                      <div class="col-12 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.commentOnArticle"
-                            id="accountSwitch1"
-                          />
-                          <label class="custom-control-label" for="accountSwitch1">
-                            Email me when someone comments onmy article
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.AnswerOnForm"
-                            id="accountSwitch2"
-                          />
-                          <label class="custom-control-label" for="accountSwitch2">
-                            Email me when someone answers on my form
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.followMe"
-                            id="accountSwitch3"
-                          />
-                          <label class="custom-control-label" for="accountSwitch3"
-                            >Email me hen someone follows me</label
-                          >
-                        </div>
-                      </div>
-                      <h6 class="section-label mx-1 mt-2">Application</h6>
-                      <div class="col-12 mt-1 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.newAnnouncements"
-                            id="accountSwitch4"
-                          />
-                          <label class="custom-control-label" for="accountSwitch4">News and announcements</label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.productUpdates"
-                            id="accountSwitch6"
-                          />
-                          <label class="custom-control-label" for="accountSwitch6">Weekly product updates</label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-75">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.blogDigest"
-                            id="accountSwitch5"
-                          />
-                          <label class="custom-control-label" for="accountSwitch5">Weekly blog digest</label>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect>Save changes</button>
-                        <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Cancel</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </li>
+
           </ul>
         </div>
         <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>

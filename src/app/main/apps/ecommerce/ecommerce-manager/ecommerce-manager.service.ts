@@ -48,4 +48,21 @@ export class EcommerceManagerService implements Resolve<any> {
       }, reject);
     });
   }
+
+  getCategory():Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Category/GetAllCategory`)
+  }
+
+  getBrand():Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Brand/GetAllBrand`)
+  }
+
+  createProduct(product: any):Observable<any>{
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/Products/CreateProduct`, product)
+  }
+
+  onUploadAvatar(id: number, formData: FormData):Observable<any>{
+    
+    return this._httpClient.post(`${environment.apiUrl}/api/Products/UploadImage/${id}`,formData)
+  }
 }

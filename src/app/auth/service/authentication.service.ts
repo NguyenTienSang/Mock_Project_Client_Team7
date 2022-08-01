@@ -7,9 +7,9 @@ import { environment } from 'environments/environment';
 import { User, Role } from 'app/auth/models';
 import { ToastrService } from 'ngx-toastr';
 
-import { JwtHelperService } from "@auth0/angular-jwt";
+//import { JwtHelperService } from "@auth0/angular-jwt";
 
-const helper = new JwtHelperService();
+//const helper = new JwtHelperService();
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   //public
@@ -72,8 +72,8 @@ export class AuthenticationService {
       map(response => {
         // console.log('Test');
         console.log("user : ",response);
-        const decodedToken = helper.decodeToken(response.resultObj);
-        console.log("decodedToken : ",decodedToken);
+        //const decodedToken = helper.decodeToken(response.resultObj);
+        //console.log("decodedToken : ",decodedToken);
 
 
         // login successful if there's a jwt token in the response
@@ -93,7 +93,7 @@ export class AuthenticationService {
           }, 2500);
 
           // notify
-          this.currentUserSubject.next(decodedToken);
+          //this.currentUserSubject.next(decodedToken);
         }
 
         return response;

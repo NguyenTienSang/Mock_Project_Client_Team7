@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 @Injectable()
 export class AccountSettingsService implements Resolve<any> {
   rows: any;
@@ -46,4 +46,35 @@ export class AccountSettingsService implements Resolve<any> {
       }, reject);
     });
   }
+
+  uploadImageToCloud(formData: FormData, id : string) {
+    return this._httpClient.post<any>(`https://localhost:5001/api/User/upload-avatar/${id}`,formData).pipe(map(
+     response => {
+      console.log('response : ',response);
+
+       return response
+     }
+    ));
+   }
+
+   updateProfile(firstName : string, lastName : string, phoneNumber : string, email : string, role : string, status :string, id : string){
+    return this._httpClient.put<any>(`https://localhost:5001/api/User/update/${id}`,
+    {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      role,
+      status
+    }).pipe(map(
+      response => {
+      return response;
+    }))
+   }
+
+   getUserContact(id: string): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/contact/${id}`)
+  };
+
+
 }

@@ -15,7 +15,7 @@
             <div class="col-12 col-md-7">
               <h4>{{ selectedProduct.name }}</h4>
               <span class="card-text item-company"
-                >By <a href="javascript:void(0)" class="company-name">{{ selectedProduct.brand }}</a></span
+                >By <a href="javascript:void(0)" class="company-name">{{ selectedProduct.brand.name }}</a></span
               >
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
                 <h4 class="item-price mr-1">${{ selectedProduct.price }}</h4>
@@ -27,16 +27,16 @@
                   </ngb-rating>
                 </div>
               </div>
-              <p class="card-text">Available - <span class="text-success">In stock</span></p>
+              <p class="card-text">Available - <span class="text-success">{{ selectedProduct.quantity }}</span></p>
               <p class="card-text">
                 {{ selectedProduct.description }}
               </p>
               <ul class="product-features list-unstyled">
                 <li *ngIf="selectedProduct.hasFreeShipping"><i data-feather="shopping-cart"></i> <span>Free Shipping</span></li>
-                <li>
+                <!-- <li>
                   <i data-feather="dollar-sign"></i>
                   <span>EMI options available</span>
-                </li>
+                </li> -->
               </ul>
               <hr />
               <div class="d-flex flex-column flex-sm-row pt-1">

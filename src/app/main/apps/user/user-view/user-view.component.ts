@@ -21,6 +21,7 @@ export class UserViewComponent implements OnInit {
   // private
   private _unsubscribeAll: Subject<any>;
 
+  public contacts: any
   /**
    * Constructor
    *
@@ -38,8 +39,11 @@ export class UserViewComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this._userViewService.onDataChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-      this.data = response;
+    this._userViewService.getUser(this.lastValue).subscribe(response => {
+      this.data = response.resultObj;
     });
+    this._userViewService.getUserContact(this.lastValue).subscribe(respone=>{
+      this.contacts = respone.resultObj;
+    })
   }
 }

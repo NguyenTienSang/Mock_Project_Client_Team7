@@ -1,9 +1,13 @@
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation,Input } from '@angular/core';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'environments/environment';
+import Swal  from 'sweetalert2/dist/sweetalert2.js';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
 @Component({
@@ -19,14 +23,34 @@ export class EcommerceManagerComponent implements OnInit {
   public selectedOption = 10;
   public rows;
   public ColumnMode = ColumnMode;
+  public onDatatablessChanged: BehaviorSubject<any>;
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   // Private
   private tempData = [];
   private _unsubscribeAll: Subject<any>;
-  constructor(private _ecommerceManagerService: EcommerceManagerService, private _ecommerceService: EcommerceService) { 
+  constructor(private _ecommerceManagerService: EcommerceManagerService, 
+    private _ecommerceService: EcommerceService, 
+    private _httpClient: HttpClient) { 
     this._unsubscribeAll = new Subject();
+    this.onDatatablessChanged = new BehaviorSubject({});
+  }
+
+  //DeleteProduct Authenticate Role : Mod
+  deleteProduct(id: string): Promise<any[]> {
+    if(confirm("Are you sure to delete?")){
+      return new Promise((resolve, reject) => {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+         const headers = new HttpHeaders({
+           'Content-Type': 'application/json',
+           'Authorization': `Bearer ` + currentUser.resultObj
+         })
+         this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct` +'/' + id, { headers: headers }).subscribe(data => {
+           window.location.reload();
+         });
+   });
+    }
   }
 
   /**
@@ -76,6 +100,8 @@ export class EcommerceManagerComponent implements OnInit {
       this.rows = response;
       this.tempData = this.rows;
     });
+    //Swal.fire("Success","Create product","success")
+
   }
   
 

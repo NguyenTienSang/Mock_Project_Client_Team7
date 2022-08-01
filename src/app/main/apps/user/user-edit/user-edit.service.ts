@@ -1,13 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import { User } from 'app/auth/models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-@Injectable()
-export class UserEditService implements Resolve<any> {
+@Injectable({
+  providedIn: 'root',
+})
+export class UserEditService {
   public apiData: any;
-  public onDataChanged: BehaviorSubject<any>;
+  public resultObj: BehaviorSubject<any>;
 
   /**
    * Constructor
@@ -16,34 +20,43 @@ export class UserEditService implements Resolve<any> {
    */
   constructor(private _httpClient: HttpClient) {
     // Set the defaults
-    this.onDataChanged = new BehaviorSubject({});
+    // this.onDataChanged = new BehaviorSubject({});
   }
 
-  /**
-   * Resolver
-   *
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<any> | Promise<any> | any}
-   */
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getApiData()]).then(() => {
-        resolve();
-      }, reject);
-    });
+
+
+   getCurrentUser(id : string): Observable<any> {
+
+         return this._httpClient.get<any>(`https://localhost:5001/api/User/${id}`)
+
+   }
+
+   editUser(firstName : string, lastName : string, phoneNumber : string, email : string, role : string, status :string, id : string){
+    return this._httpClient.put<any>(`https://localhost:5001/api/User/update/${id}`,
+    {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      role,
+      status
+    }).pipe(map(
+      response => {
+      return response;
+    }))
+   }
+
+
+   uploadImageToCloud(formData: FormData, id : string) {
+   return this._httpClient.post<any>(`https://localhost:5001/api/User/upload-avatar/${id}`,formData).pipe(map(
+    response => {
+      console.log('response : ',response);
+      return response
+    }
+   ));
   }
 
-  /**
-   * Get API Data
-   */
-  getApiData(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get('api/users-data').subscribe((response: any) => {
-        this.apiData = response;
-        this.onDataChanged.next(this.apiData);
-        resolve(this.apiData);
-      }, reject);
-    });
-  }
+
+  //
+
 }

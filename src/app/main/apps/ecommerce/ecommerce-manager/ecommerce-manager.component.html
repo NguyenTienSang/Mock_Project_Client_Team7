@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <app-content-header [contentHeader]="contentHeader"></app-content-header>   
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
     <div class="row">
       <div class="col-md-6 col-12">
         <div class="d-flex justify-content-between align-items-center m-1">
@@ -23,13 +23,12 @@
           <button class="btn btn-primary ml-1" routerLink="/apps/e-commerce/add">
             <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i>
             <span>Add New Product</span>
-
           </button>
         </div>
       </div>
     </div>
     <div class="content-body">
-        <ngx-datatable        
+        <ngx-datatable
           [rows]="rows"
           [rowHeight]="60"
           class="bootstrap core-bootstrap"
@@ -59,15 +58,17 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Description" prop="description" [width]="250">  
+          <ngx-datatable-column name="Description" prop="description" [width]="250">
             <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                <div class="cell-line-height">                   
+                <div class="cell-line-height">
                       <span>{{ (name | slice:0:40) + '...'}}
                       </span>
                   </div>
-              </ng-template>         
+              </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Brand" prop="brand" [width]="50">
+          <ngx-datatable-column name="Brand" prop="brand.name" [width]="50">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Quantity" prop="quantity" [width]="50">
           </ngx-datatable-column>
           <ngx-datatable-column name="Price" prop="price" [width]="50">
             <ng-template let-price="value" ngx-datatable-cell-template>
@@ -86,14 +87,14 @@
                 <div ngbDropdownMenu>
                   <a routerLink="/apps/e-commerce/edit/{{ row.id }}" ngbDropdownItem
                     ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
-                  ><a href="javascript:;" ngbDropdownItem
+                  ><a href="javascript:;" (click)="deleteProduct(row.id)" ngbDropdownItem
                     ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
                   >
                 </div>
               </div>
             </ng-template>
           </ngx-datatable-column>
-          
+
         </ngx-datatable>
     </div>
     <core-sidebar

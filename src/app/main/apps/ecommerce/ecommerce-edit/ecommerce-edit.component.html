@@ -63,7 +63,13 @@
                             name="name"
                             id="name"
                             [(ngModel)]="row.name"
+                            [class.error]="updateForm.submitted && nameProductRef.invalid"
+                            #nameProductRef="ngModel"
+                            required
                           />
+                          <span *ngIf="updateForm.submitted || nameProductRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="nameProductRef.errors?.required">Name product is required!</small>
+                          </span>
                         </div>
                       </div>
 
@@ -77,7 +83,13 @@
                             name="price"
                             id="price"
                             [(ngModel)]="row.price"
+                            [class.error]="updateForm.submitted && priceRef.invalid"
+                            #priceRef="ngModel"
+                            required
                           />
+                          <span *ngIf="updateForm.submitted || priceRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="priceRef.errors?.required">Price is required!</small>
+                          </span>
                         </div>
                       </div>
 
@@ -91,7 +103,13 @@
                             [(ngModel)]="row.quantity"
                             name="quantity"
                             id="quantity"
+                            [class.error]="updateForm.submitted && quantityRef.invalid"
+                            #quantityRef="ngModel"
+                            required
                           />
+                          <span *ngIf="updateForm.submitted || quantityRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="quantityRef.errors?.required">Quantity is required!</small>
+                          </span>
                         </div>
                       </div>
 
@@ -138,7 +156,13 @@
                             name="description"
                             rows="4"
                             id="description"
+                            [class.error]="updateForm.submitted && descriptionRef.invalid"
+                            #descriptionRef="ngModel"
+                            required
                           ></textarea>
+                          <span *ngIf="updateForm.submitted || descriptionRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="descriptionRef.errors?.required">Description is required!</small>
+                          </span>
                         </div>
                       </div>
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">

@@ -8,6 +8,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class UserListService implements Resolve<any> {
   public rows: any;
   public onDatatablessChanged: BehaviorSubject<any>;
+  public user: any;
+  public onUser: BehaviorSubject<any>;
 
   /**
    * Constructor
@@ -55,5 +57,26 @@ export class UserListService implements Resolve<any> {
         resolve(this.rows);
       }, reject);
     });
+  }
+
+  // createUser(user: any) : Observable<any> {
+  //   return this._httpClient.post<any>(`${environment.apiUrl}/api/User/create/`, user)
+  // }
+
+  createUser(user: any): Observable<any> {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${auth_token}`
+            'Authorization': `Bearer ` + currentUser.resultObj
+          });
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/User/create`, user, { headers: headers })
+  };
+
+  //Upload image to cloudinary
+
+  onUploadAvatar(username: string, formData: FormData):Observable<any>{
+    
+    return this._httpClient.post(`${environment.apiUrl}/api/User/upload-avatar/${username}`,formData)
   }
 }
