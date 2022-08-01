@@ -41,10 +41,27 @@ export class EcommerceEditService  implements Resolve<any> {
   getApiData(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
-        this.apiData = response;
+        this.apiData = response.resultObj;
         this.onDataChanged.next(this.apiData);
         resolve(this.apiData);
       }, reject);
     });
+  }
+
+  getCategory():Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Category/GetAllCategory`)
+  }
+
+  getBrand():Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Brand/GetAllBrand`)
+  }
+
+  updateProduct(product: any, id: number):Observable<any>{
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/Products/UpdateProduct/${id}`, product)
+  }
+
+  onUploadAvatar(id: number, formData: FormData):Observable<any>{
+
+    return this._httpClient.post(`${environment.apiUrl}/api/Products/UploadImage/${id}`,formData)
   }
 }

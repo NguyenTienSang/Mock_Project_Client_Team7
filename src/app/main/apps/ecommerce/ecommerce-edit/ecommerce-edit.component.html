@@ -22,6 +22,7 @@
                         height="150"
                         width="150"
                         alt="Image product"
+                        id="imgProduct"
                       />
                     </div>
                     <div class="media-body mt-50">
@@ -35,12 +36,13 @@
                             id="change-picture"
                             hidden
                             accept="image/png, image/jpeg, image/jpg"
+                            [(ngModel)]="image"
+                            (change)="upload($event)"
                           />
                           <span class="d-block d-sm-none">
                             <i class="mr-0" data-feather="edit"></i>
                           </span>
                         </label>
-                        <button class="btn btn-outline-secondary d-none d-sm-block" rippleEffect>Remove</button>
                         <button class="btn btn-outline-secondary d-block d-sm-none">
                           <i class="mr-0" data-feather="trash-2"></i>
                         </button>
@@ -49,7 +51,7 @@
                   </div>
                   <!-- users edit media object ends -->
                   <!-- users edit account form start -->
-                  <form class="form-validate">
+                  <form  #updateForm="ngForm" class="form-validate"  (ngSubmit)="update(updateForm)" cForm >
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
@@ -59,26 +61,91 @@
                             class="form-control"
                             placeholder="Name Product"
                             name="name"
-                            [(ngModel)]="row.name"
                             id="name"
+                            [(ngModel)]="row.name"
+                            [class.error]="updateForm.submitted && nameProductRef.invalid"
+                            #nameProductRef="ngModel"
+                            required
                           />
+                          <span *ngIf="updateForm.submitted || nameProductRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="nameProductRef.errors?.required">Name product is required!</small>
+                          </span>
                         </div>
                       </div>
 
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="brand">Brand</label>
+                          <label for="price">Price</label>
                           <input
-                            type="brand"
+                            type="number"
                             class="form-control"
-                            placeholder="brand"
-                            [(ngModel)]="row.brand"
-                            name="brand"
-                            id="brand"
+                            placeholder="price"
+                            name="price"
+                            id="price"
+                            [(ngModel)]="row.price"
+                            [class.error]="updateForm.submitted && priceRef.invalid"
+                            #priceRef="ngModel"
+                            required
                           />
+                          <span *ngIf="updateForm.submitted || priceRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="priceRef.errors?.required">Price is required!</small>
+                          </span>
                         </div>
                       </div>
+
                       <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="quantity">Quantity</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="quantity"
+                            [(ngModel)]="row.quantity"
+                            name="quantity"
+                            id="quantity"
+                            [class.error]="updateForm.submitted && quantityRef.invalid"
+                            #quantityRef="ngModel"
+                            required
+                          />
+                          <span *ngIf="updateForm.submitted || quantityRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="quantityRef.errors?.required">Quantity is required!</small>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                          <div class="form-group">
+                            <label for="expire">Expire</label>
+                            <input id="expire"
+                            type="datetime-local"
+                            class="form-control"
+                            placeholder="expire"
+                            name="expire"
+                            [(ngModel)]="row.expire"/>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="categoryId" name="categoryId" class="form-control" (change)="onChangeCategory($event)"
+                            (onload)="GetBrand(row.categoryId)" required >
+                          <option name="categoryId" *ngFor="let c of categories" value ="{{c.id}}" [selected]="c.id===row.categoryId"
+                          [(ngModel)]="row.categoryId">{{c.name}}</option>
+                        </select>
+                          </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="brand">Brand</label>
+                          <select id="brandId" name="brandId" class="form-control" (change)="onChangeBrand($event)" required>
+                            <option name="brandId" *ngFor="let b of brandtemp" value ="{{b.id}}" [selected]="b.id===row.brandId" [(ngModel)]="row.brandId">{{b.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
                         <div class="form-group">
                           <label for="description">Description</label>
                           <textarea
@@ -89,33 +156,17 @@
                             name="description"
                             rows="4"
                             id="description"
+                            [class.error]="updateForm.submitted && descriptionRef.invalid"
+                            #descriptionRef="ngModel"
+                            required
                           ></textarea>
+                          <span *ngIf="updateForm.submitted || descriptionRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="descriptionRef.errors?.required">Description is required!</small>
+                          </span>
                         </div>
-                      </div>
-                      <div class="col-md-4">
-                          <div class="form-group">
-                            <label for="price">Price</label>
-                            <input id="price"
-                            type="number"
-                            class="form-control"
-                            placeholder="price"
-                            [(ngModel)]="row.price"
-                            name="price" />
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label for="rating">Rating</label>
-                            <input id="rating"
-                            type="number"
-                            class="form-control"
-                            placeholder="rating"
-                            [(ngModel)]="row.rating"
-                            name="rating" />
-                          </div>
                       </div>
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect>
+                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"rippleEffect>
                           Save Changes
                         </button>
                         <button type="reset" class="btn btn-outline-secondary" rippleEffect>Reset</button>
