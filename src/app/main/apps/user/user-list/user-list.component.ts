@@ -25,6 +25,8 @@ export class UserListComponent implements OnInit {
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
 
+  public currentUser;
+
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -38,10 +40,10 @@ export class UserListComponent implements OnInit {
    * @param {UserListService} _userListService
    * @param {CoreSidebarService} _coreSidebarService
    */
-  constructor(private _userListService: UserListService, 
+  constructor(private _userListService: UserListService,
     private _coreSidebarService: CoreSidebarService,
-    private _httpClient: HttpClient,
-	private _toastrService: ToastrService) {
+	private _toastrService: ToastrService,
+    private _httpClient: HttpClient) {
     this._unsubscribeAll = new Subject();
   }
 
@@ -52,10 +54,10 @@ export class UserListComponent implements OnInit {
   deleteUser(id: string): Promise<any[]> {
     if(confirm("Are you sure to delete?")){
       return new Promise((resolve, reject) => {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+       this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
          const headers = new HttpHeaders({
            'Content-Type': 'application/json',
-           'Authorization': `Bearer ` + currentUser.resultObj
+           'Authorization': `Bearer ` + this.currentUser.resultObj
          })
          this._httpClient.delete(`${environment.apiUrl}/api/User/delete` +'/' + id, { headers: headers }).subscribe(data => {
            window.location.reload();
@@ -98,6 +100,7 @@ export class UserListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
       this.rows = response;
       this.tempData = this.rows;

@@ -159,9 +159,17 @@
                     ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
                   ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
                     ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
-                  ><a href="javascript:;" (click)="deleteUser(row.id)" ngbDropdownItem 
+                  ><a  [hidden]="currentUser.user.id == row.id" href="javascript:;" (click)="deleteUser(row.id)" ngbDropdownItem
                     ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
                   >
+
+                  <!-- <h2>{{currentUser.user.id}}</h2> -->
+                  <!-- <div [hidden]="this.currentUser"><a routerLink="/pages/authentication/login-v2" class="font-medium-1 d-block"
+                    >Login</a
+                  ></div> -->
+
+
+                  <!-- this.currentUser.user.id == row.id -->
                 </div>
               </div>
             </ng-template>
