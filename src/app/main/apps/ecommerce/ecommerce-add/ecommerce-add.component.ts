@@ -26,7 +26,7 @@ export class EcommerceAddComponent implements OnInit {
   public image;
 
   quantityPtn = '^[1-9]+$';
-  pricePtn = '^\d+\.\d{1,2}$';
+  pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
 
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
