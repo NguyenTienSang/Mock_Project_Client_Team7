@@ -73,8 +73,42 @@ export class AccountSettingsService implements Resolve<any> {
    }
 
    getUserContact(id: string): Observable<any> {
-    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/contact/${id}`)
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/getallcontact/${id}`)
   };
+
+  getUserDetailContact(id: string): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/getdetailcontact/${id}`)
+  };
+
+
+  addContact(name : string, address : string, phonenumber : string){
+    return this._httpClient.post<any>(`https://localhost:5001/api/User/contact/add`,{
+      name,
+      address,
+      phonenumber
+    }).pipe(map(
+      response => {
+      return response;
+    }))
+  }
+
+  editContact(id : string,name : string, address : string, phonenumber : string){
+    return this._httpClient.put<any>(`https://localhost:5001/api/User/contact/update/${id}`,{
+      name,
+      address,
+      phonenumber
+    }).pipe(map(
+      response => {
+      return response;
+    }))
+  }
+
+  deleteContact(id : string){
+    return this._httpClient.delete<any>(`https://localhost:5001/api/User/contact/delete/${id}`).pipe(map(
+      response => {
+      return response;
+    }))
+  }
 
 
 }
