@@ -55,10 +55,14 @@
                 [(ngModel)]="price"
                 [class.error]="newProductForm.submitted && priceRef.invalid"
                 #priceRef="ngModel"
+                [pattern]="pricePtn"
                 required
               />
               <span *ngIf="newProductForm.submitted || priceRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="priceRef.errors?.required">Price is required!</small>
+              </span>
+              <span *ngIf="newProductForm.submitted || priceRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="priceRef.errors?.pattern">Price is positive</small>
               </span>
             </div>
           </div>
@@ -74,10 +78,14 @@
                 [(ngModel)]="quantity"
                 [class.error]="newProductForm.submitted && quantityRef.invalid"
                 #quantityRef="ngModel"
+                [pattern]="quantityPtn"
                 required
               />
               <span *ngIf="newProductForm.submitted || quantityRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="quantityRef.errors?.required">Quantity is required!</small>
+              </span>
+              <span *ngIf="newProductForm.submitted || quantityRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="quantityRef.errors?.pattern">Quantity is integer.</small>
               </span>
             </div>
           </div>
@@ -140,7 +148,7 @@
             </div>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit()" >Save changes</button>
+            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit(newProductForm)" >Save changes</button>
             <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
           </div>
         </div>

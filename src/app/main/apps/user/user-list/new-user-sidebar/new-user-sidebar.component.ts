@@ -29,7 +29,7 @@ export class NewUserSidebarComponent implements OnInit {
   passwordPtn = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$';
   emailPtn = '^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$';
 
-  roles = ["Master", "Mod", "User"];
+  roles = ["Mod", "User"];
 
  
 

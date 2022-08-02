@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit , ViewEncapsulation} from '@angular/core';
 import Swal  from 'sweetalert2';
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ecommerce-add',
@@ -23,6 +24,9 @@ export class EcommerceAddComponent implements OnInit {
   public expire;
   public description;
   public image;
+
+  quantityPtn = '^[1-9]+$';
+  pricePtn = '^\d+\.\d{1,2}$';
 
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
@@ -51,7 +55,7 @@ export class EcommerceAddComponent implements OnInit {
     this.image = e.target.files[0]
   }
 
-  submit(){
+  submit(form){
     var product = {
       "name":this.nameProduct,
       "createdBy":this.currentUser,
@@ -65,23 +69,34 @@ export class EcommerceAddComponent implements OnInit {
       "description": this.description,
       //"image": this.image
     }
+    try{
+      if(form.valid){
+        this._ecommerceManagerService.createProduct(product).subscribe(respone=>{
+          console.log("Create product", respone)
+          if(respone.isSuccessed)
+          {
+            let formData = new FormData();
+            formData.append('fileInput',this.image);
+            this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
+              console.log(res);
+              
+            })
+            Swal.fire("Success",respone.message,"success")
+          }
+          else{
+            Swal.fire("Error",respone.message,"error")
+          }
+        },
+        (error: HttpErrorResponse)=>{
+          Swal.fire("Error",error.error,"error")
+        }
+        );
+      }
+    }
+    catch(e){
+      Swal.fire("Error",e,"error")
+    }
     
-    this._ecommerceManagerService.createProduct(product).subscribe(respone=>{
-      console.log("Create product", respone)
-      if(respone.isSuccessed)
-      {
-        let formData = new FormData();
-        formData.append('fileInput',this.image);
-        this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
-          console.log(res);
-          
-        })
-        Swal.fire("Success",respone.message,"success")
-      }
-      else{
-        Swal.fire("Error",respone.message,"error")
-      }
-    });
   }
 
   ngOnInit(): void {
