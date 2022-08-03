@@ -62,11 +62,16 @@ export class EcommerceManagerService implements Resolve<any> {
   }
 
   onUploadAvatar(id: number, formData: FormData):Observable<any>{
-    
+
     return this._httpClient.post(`${environment.apiUrl}/api/Products/UploadImage/${id}`,formData)
   }
 
   deleteProduct(id: number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
+  }
+
+  reportExcel(startDay:any, endDay:any):Observable<any>{
+    console.log(startDay, endDay);
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Report/GetListReportOrder/${startDay}/${endDay}`);
   }
 }
