@@ -33,9 +33,9 @@ const routes: Routes = [
   {
     path: 'user-list',
     component: UserListComponent,
-    // resolve: {
-    //   uls: UserListService
-    // }
+    resolve: {
+      uls: UserListService
+    }
   },
   {
     path: 'user-delete',
