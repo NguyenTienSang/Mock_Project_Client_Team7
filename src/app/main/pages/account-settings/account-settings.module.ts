@@ -19,7 +19,15 @@ const routes: Routes = [
     resolve: {
       accountSetting: AccountSettingsService
     }
-  }
+  },
+  // {
+  //   path: 'account-settings1',
+  //   component: AccountSettingsComponent,
+  //   canActivate: [AuthGuard],
+  //   resolve: {
+  //     accountSetting: AccountSettingsService
+  //   }
+  // }
 ];
 
 @NgModule({

@@ -114,7 +114,7 @@ export class EcommerceDetailsComponent implements OnInit {
           Swal.fire("Error",error,"error")
         })
         );
-      } 
+      }
       // else if (result.dismiss === Swal.DismissReason.cancel) {
       //   Swal.fire(
       //     'Cancelled',
@@ -135,7 +135,7 @@ export class EcommerceDetailsComponent implements OnInit {
     let roleUser = this.currentUser.user.role;
     if(roleUser == "Master" || roleUser == "Mod")
       this.role = true;
-    
+
 
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
@@ -157,7 +157,7 @@ export class EcommerceDetailsComponent implements OnInit {
       if(this.productId){
         this._ecommerceService.getSelectedProduct(this.productId)
           .subscribe((respone)=>{
-            this.selectedProduct = respone.resultObj;          
+            this.selectedProduct = respone.resultObj;
           })
       }
     });

@@ -6,6 +6,11 @@ import { takeUntil } from 'rxjs/operators';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import Swal  from 'sweetalert2';
+// declare var window: any
+
+
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
@@ -13,6 +18,13 @@ import { AccountSettingsService } from 'app/main/pages/account-settings/account-
   encapsulation: ViewEncapsulation.None
 })
 export class AccountSettingsComponent implements OnInit {
+
+
+
+  // title = 'ang13-bootstrap5-modal-demo';
+  // formModal: any;
+
+  closeResult: string;
   // public
   public contentHeader: object;
   public data: any;
@@ -26,10 +38,23 @@ export class AccountSettingsComponent implements OnInit {
   public message = '';
   public typealert = '';
 
+  public messageContact = '';
+  public typealertContact = '';
+
+  public typeAction;
+
   public messageUploadSettings = '';
   public typeAlertUploadSettings = '';
 
   public contacts: any;
+
+
+  //Param Contact
+  public contactEdit : any;
+  public NameContactEdit;
+  public AddressContactEdit;
+  public PhoneNumberContactEdit;
+
 
   // private
   private _unsubscribeAll: Subject<any>;
@@ -39,8 +64,49 @@ export class AccountSettingsComponent implements OnInit {
    *
    * @param {AccountSettingsService} _accountSettingsService
    */
-  constructor(private _accountSettingsService: AccountSettingsService) {
+  constructor(private _accountSettingsService: AccountSettingsService, private modalService: NgbModal) {
     this._unsubscribeAll = new Subject();
+  }
+
+
+
+  // onSubmit(f: NgForm) {
+  //   // const url = 'http://localhost:8888/friends/addnew';
+  //   // this.HttpClient.post(url, f.value)
+  //   //   .subscribe((result) => {
+  //   //     this.ngOnInit(); //reload the table
+  //   //   });
+  //   // this.modalService.dismissAll(); //dismiss the modal
+  // }
+
+
+  //Open and close popup
+  open(content,type) {
+
+    //If add contact then reset null data
+    if(type == 'Add Contact' )
+    {
+      this.NameContactEdit = "";
+      this.AddressContactEdit = "";
+      this.PhoneNumberContactEdit = "";
+    }
+    // console.log('txt : ',type);
+    this.typeAction = type
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   // Public Methods
@@ -102,7 +168,147 @@ export class AccountSettingsComponent implements OnInit {
   }
 
 
+  addContact(){
+    if(!this.ContactForm.value.Name || !this.ContactForm.value.Address || !this.ContactForm.value.Phonenumber)
+    {
+      this.typealertContact = "danger";
+      this.messageContact = "Please enter full field";
+    }
+    else {
+      this._accountSettingsService.addContact(
+        this.ContactForm.value.Name,
+        this.ContactForm.value.Address,
+        this.ContactForm.value.Phonenumber,
+      ).subscribe((response)=>{
+        // this.router.navigate([this.router.url])
 
+        if(response.isSuccessed == true)
+        {
+          this.typealertContact = "success";
+        }
+        else {
+          this.typealertContact = "danger";
+        }
+        this.messageContact = response.message;
+      },(err) =>{
+        console.log(err);
+      })
+
+    }
+
+
+  }
+
+  editContact(id : string){
+    if(!this.ContactForm.value.Name || !this.ContactForm.value.Address || !this.ContactForm.value.Phonenumber)
+    {
+      this.typealertContact = "danger";
+      this.messageContact = "Please enter full field";
+    }
+    else {
+      this._accountSettingsService.editContact(
+        id,
+        this.ContactForm.value.Name,
+        this.ContactForm.value.Address,
+        this.ContactForm.value.Phonenumber,
+      ).subscribe((response)=>{
+        // this.router.navigate([this.router.url])
+
+        if(response.isSuccessed == true)
+        {
+          this.typealertContact = "success";
+        }
+        else {
+          this.typealertContact = "danger";
+        }
+        this.messageContact = response.message;
+      },(err) =>{
+        console.log(err);
+      })
+
+    }
+  }
+
+
+  deleteContact(id : string){
+    // alert('editcontact : '+id);
+    console.log('this.ContactForm.value.Name : ',this.ContactForm.value.Name );
+    console.log('this.ContactForm.value.Address : ',this.ContactForm.value.Address  );
+    console.log('this.ContactForm.value.Phonenumber  : ',this.ContactForm.value.Phonenumber );
+
+    this._accountSettingsService.deleteContact(
+      id
+    ).subscribe((response)=>{
+      if(response.isSuccessed)
+      {
+        console.log(1);
+        Swal.fire("Success",response.message,"success")
+        //setTimeout(() => {
+          // this._toastrService.success(
+          //   ' '+respone.message+' ',
+          //   'Create user',
+          //   { toastClass: 'toast ngx-toastr', closeButton: true }
+          // );
+       // }, 2000);
+        // let formData = new FormData();
+        // formData.append('formFile',this.fileToUpload);
+        // this._userListService.onUploadAvatar(this.username, formData).subscribe();
+
+      }
+      else{
+        Swal.fire("Error",response.message,"error")
+      }
+    },(err) =>{
+      console.log(err);
+    })
+
+
+    // if(!this.ContactForm.value.Name || !this.ContactForm.value.Address || !this.ContactForm.value.Phonenumber)
+    // {
+    //   this.typealertContact = "danger";
+    //   this.messageContact = "Please enter full field";
+    // }
+    // else {
+    //   this._accountSettingsService.deleteContact(
+    //     id
+    //   ).subscribe((response)=>{
+    //     console.log("response nts 1 : ",response.message);
+    //     // this.router.navigate([this.router.url])
+
+    //     if(response.isSuccessed == true)
+    //     {
+    //       this.typealertContact = "success";
+    //     }
+    //     else {
+    //       this.typealertContact = "danger";
+    //     }
+    //     this.messageContact = response.message;
+    //   },(err) =>{
+    //     console.log(err);
+    //   })
+
+    // }
+  }
+
+
+  getContact(content : any,type : any,id : any){
+    // contactEdit
+    this.open(content,type);
+
+    this._accountSettingsService.getUserDetailContact(
+      id
+    ).subscribe((response)=>{
+      this.contactEdit = response.resultObj;
+      this.NameContactEdit = response.resultObj.name;
+      this.AddressContactEdit = response.resultObj.address;
+      this.PhoneNumberContactEdit = response.resultObj.phoneNumber;
+    },(err) =>{
+      console.log(err);
+    })
+
+
+
+  }
 
 
 
@@ -128,6 +334,12 @@ export class AccountSettingsComponent implements OnInit {
     email : new FormControl('', Validators.required),
   })
 
+
+  ContactForm = new FormGroup({
+    Name : new FormControl('', [Validators.required]),
+    Address : new FormControl('', Validators.required),
+    Phonenumber : new FormControl('', Validators.required),
+  })
 
 
   //Upload image to cloudinary
@@ -184,9 +396,6 @@ export class AccountSettingsComponent implements OnInit {
    * On init
    */
   ngOnInit() : void {
-    // this._accountSettingsService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-    //   this.data = response;
-    // });
 
 
     this.data = (JSON.parse(localStorage.getItem("currentUser")));
@@ -224,6 +433,8 @@ export class AccountSettingsComponent implements OnInit {
   }
 
 
+
+
   get lastName() {
     return this.updateProfileForm.get('lastname');
   }
@@ -238,6 +449,18 @@ export class AccountSettingsComponent implements OnInit {
 
   get phoneNumber() {
     return this.updateProfileForm.get('phonenumber');
+  }
+
+  get name() {
+    return this.ContactForm.get('Name');
+  }
+
+  get address() {
+    return this.ContactForm.get('Address');
+  }
+
+  get phonenumber() {
+    return this.ContactForm.get('Phonenumber');
   }
 
 }

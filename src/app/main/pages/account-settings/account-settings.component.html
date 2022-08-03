@@ -23,59 +23,9 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- header media -->
-                    <!-- <div class="row">
-                    <div class="media">
-                      <a href="javascript:void(0);" class="mr-25">
-                        <img
-                        [src]="data.avatar"
-                        class="rounded mr-50"
-                        alt="profile image"
-                        height="130"
-                        width="130"
-                      />
-                      </a>
-
-
-                      <div class="col-12 d-flex mt-1 px-0">
-                        <label class="btn btn-primary mr-75 mb-0" for="change-picture">
-                          <span class="d-none d-sm-block">Choose file</span>
-
-                          <input
-                            class="form-control"
-                            type="file"
-                            id="change-picture"
-                            (change)="onSelectFileAvatar($event)"
-                            hidden
-                            accept="image/png, image/jpeg, image/jpg"
-                          />
-                          <span class="d-block d-sm-none">
-                            <i class="mr-0" data-feather="edit"></i>
-                          </span>
-                        </label>
-                        <button class="btn btn-outline-secondary d-none d-sm-block"  (click)="onUploadAvatar()" rippleEffect>Upload</button>
-                        <button class="btn btn-outline-secondary d-block d-sm-none">
-                          <i class="mr-0" data-feather="trash-2"></i>
-                        </button>
-
-                      </div>
-                      <ngb-alert type={{typeAlertUpload}} [dismissible]="false">
-                        <div class="alert-body">
-
-                          <p>sdfsfsdf</p>
-                        </div>
-                      </ngb-alert>
-                    </div>
-                  </div> -->
 
                   <div class="media mb-2">
-                    <!-- <img
-                    class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
-                    [src]="rows.avatar"
-                    height="90"
-                    width="90"
-                    alt="User avatar"
-                  /> -->
+
                     <div *ngIf="data.user.avatar.length > 0; else customAvatar">
                       <img
                         class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
@@ -260,113 +210,6 @@
                 </div>
               </ng-template>
             </li>
-            <!-- <li class="nav-item" ngbNavItem>
-              <a
-                ngbNavLink
-                class="nav-link d-flex py-75"
-                id="account-pill-password"
-                data-toggle="pill"
-                href="#account-vertical-password"
-                aria-expanded="false"
-              >
-                <i data-feather="lock" class="font-medium-3 mr-1"></i>
-                <span class="font-weight-bold">Change Password</span>
-              </a>
-              <ng-template ngbNavContent>
-                <div class="card">
-                  <div class="card-body">
-                    <form class="validate-form">
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-old-password">Old Password</label>
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeOld ? 'text' : 'password'"
-                                class="form-control"
-                                id="account-old-password"
-                                name="password"
-                                placeholder="Old Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeOld,
-                                      'icon-eye': !passwordTextTypeOld
-                                    }"
-                                    (click)="togglePasswordTextTypeOld()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-new-password">New Password</label>
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeNew ? 'text' : 'password'"
-                                id="account-new-password"
-                                name="new-password"
-                                class="form-control"
-                                placeholder="New Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeNew,
-                                      'icon-eye': !passwordTextTypeNew
-                                    }"
-                                    (click)="togglePasswordTextTypeNew()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-retype-new-password">Retype New Password</label>
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeRetype ? 'text' : 'password'"
-                                class="form-control"
-                                id="account-retype-new-password"
-                                name="confirm-new-password"
-                                placeholder="New Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeRetype,
-                                      'icon-eye': !passwordTextTypeRetype
-                                    }"
-                                    (click)="togglePasswordTextTypeRetype()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12">
-                          <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect>Save changes</button>
-                          <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </ng-template>
-            </li> -->
 
 
             <li class="nav-item" ngbNavItem>
@@ -384,9 +227,14 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-
+                    <!-- <button style="font-weight: 800" class="btn btn-md btn-outline-primary" (click)="open(content)">Add contact</button> -->
+                    <div class="border">
+                      <button class="btn btn-md btn-outline-primary" (click)="open(content,'Add Contact')">
+                        <i class="fa fa-user"></i>New Contact</button>
+                    </div>
                     <div class="d-flex flex-wrap">
                       <table class="table table-striped">
+
                         <thead>
                           <tr>
                             <th scope="col">Name</th>
@@ -398,107 +246,139 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let contact of contacts">
+                            <!-- <td>{{contact.id}}</td> -->
                             <td>{{contact.name}}</td>
                             <td>{{contact.address}}</td>
                             <td>{{contact.phoneNumber}}</td>
-                            <td>Edit</td>
-                            <td>Delete</td>
+                            <td>
+                              <!-- <button class="btn btn-sm btn-info">
+                                <i class="fa fa-search"></i>Details</button> -->
+                              <button class="btn btn-sm btn-warning" (click)="getContact(content,'Edit Contact',contact.id)">
+                                <i class="fa fa-edit"></i>Edit</button>
+
+                            </td>
+                            <td> <button class="btn btn-sm btn-danger" (click)="deleteContact(contact.id)">
+                              <i class="fa fa-remove"></i>Delete</button></td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-
-                    <!-- <form class="validate-form">
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-old-password">Old Password</label>
-
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeOld ? 'text' : 'password'"
-                                class="form-control"
-                                id="account-old-password"
-                                name="password"
-                                placeholder="Old Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeOld,
-                                      'icon-eye': !passwordTextTypeOld
-                                    }"
-                                    (click)="togglePasswordTextTypeOld()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-new-password">New Password</label>
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeNew ? 'text' : 'password'"
-                                id="account-new-password"
-                                name="new-password"
-                                class="form-control"
-                                placeholder="New Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeNew,
-                                      'icon-eye': !passwordTextTypeNew
-                                    }"
-                                    (click)="togglePasswordTextTypeNew()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-retype-new-password">Retype New Password</label>
-                            <div class="input-group form-password-toggle input-group-merge">
-                              <input
-                                [type]="passwordTextTypeRetype ? 'text' : 'password'"
-                                class="form-control"
-                                id="account-retype-new-password"
-                                name="confirm-new-password"
-                                placeholder="New Password"
-                              />
-                              <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"
-                                  ><i
-                                    class="feather font-small-4"
-                                    [ngClass]="{
-                                      'icon-eye-off': passwordTextTypeRetype,
-                                      'icon-eye': !passwordTextTypeRetype
-                                    }"
-                                    (click)="togglePasswordTextTypeRetype()"
-                                  ></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12">
-                          <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect>Save changes</button>
-                          <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
-                        </div>
-                      </div>
-                    </form> -->
                   </div>
                 </div>
+
+
+
+                  <ng-template #content let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">{{typeAction}}</h4>
+                      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="ContactForm" class="form-validate" (ngSubmit)="typeAction == 'Add Contact' ? addContact() : editContact(contactEdit.id)">
+                      <!-- <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()"> -->
+
+                        <div class="mb-3">
+                          <label for="account-Name">Name</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="NameContactEdit"
+                            class="form-control"
+                            id="account-Name"
+                            name="Name"
+                            placeholder="Name"
+                            formControlName="Name"
+                          />
+                          <div *ngIf="!name?.valid && (name?.dirty
+                          || name?.touched)"
+                            class="alert">
+                          <div [hidden]="!name.errors?.required">  <p style="color: red">Name is required</p></div>
+                        </div>
+                        </div>
+
+
+
+                        <div class="mb-3">
+                          <label for="account-Address">Address</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="AddressContactEdit"
+                            class="form-control"
+                            id="account-Address"
+                            name="username"
+                            placeholder="Address"
+                            formControlName="Address"
+                          />
+                          <div *ngIf="!address?.valid && (address?.dirty
+                          || address?.touched)"
+                            class="alert">
+                          <div [hidden]="!address.errors?.required">  <p style="color: red">Address is required</p></div>
+
+                        </div>
+                        </div>
+
+
+
+                        <div class="mb-3">
+                          <label for="account-Phonenumber">Phone number</label>
+                          <input
+                            type="number"
+                            [(ngModel)]="PhoneNumberContactEdit"
+                            class="form-control"
+                            id="Phonenumber"
+                            name="Phonenumber"
+                            placeholder="Phonenumber"
+                            formControlName="Phonenumber"
+                          />
+                          <div *ngIf="!phonenumber?.valid && (phonenumber?.dirty
+                          || phonenumber?.touched)"
+                            class="alert">
+                          <div [hidden]="!phonenumber.errors?.required">  <p style="color: red">Phonenumber is required</p></div>
+
+                        </div>
+                        </div>
+
+
+
+
+                        <ngb-alert type={{typealertContact}} [dismissible]="false">
+                          <div class="alert-body">
+                            <p>{{ messageContact }}</p>
+                          </div>
+                        </ngb-alert>
+                        <!-- <div class="mb-3">
+                          <label for="account-username">Firstname</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="data.user.firstName"
+                            class="form-control"
+                            id="account-firstname"
+                            name="firstname"
+                            placeholder="Firstname"
+                            formControlName="firstname"
+                          />
+                        </div> -->
+                        <!-- <div class="border text-center">
+                          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+                          </div> -->
+                          <div class="modal-footer">
+                            <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button>
+                            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+                          </div>
+                      </form>
+                    </div>
+
+
+                  </ng-template>
+
+
+
+
+
+
+
+
               </ng-template>
             </li>
 

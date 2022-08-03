@@ -29,16 +29,16 @@ export class NewUserSidebarComponent implements OnInit {
   passwordPtn = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$';
   emailPtn = '^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$';
 
-  roles = ["Mod", "User"];
+  roles = [ "Mod", "User"];
 
- 
+
 
   /**
    * Constructor
    *
    * @param {CoreSidebarService} _coreSidebarService
    */
-  constructor(private _coreSidebarService: CoreSidebarService, 
+  constructor(private _coreSidebarService: CoreSidebarService,
     private _userListService: UserListService,
     private _toastrService: ToastrService) {}
 
@@ -103,7 +103,7 @@ export class NewUserSidebarComponent implements OnInit {
           let formData = new FormData();
           formData.append('formFile',this.fileToUpload);
           this._userListService.onUploadAvatar(this.username, formData).subscribe();
-          
+
         }
         else{
           Swal.fire("Error",respone.message,"error")

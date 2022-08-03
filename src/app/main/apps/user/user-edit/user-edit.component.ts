@@ -42,7 +42,7 @@ export class UserEditComponent implements OnInit {
 
 
   listRole = [
-    {role : 'Master'},
+    // {role : 'Master'},
     {role : 'Mod'},
     {role : 'User'},
   ]
