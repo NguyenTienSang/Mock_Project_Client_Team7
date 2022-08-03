@@ -26,7 +26,6 @@ export class UserEditService {
 
    getCurrentUser(id : string): Observable<any> {
          return this._httpClient.get<any>(`${environment.apiUrl}/api/User/${id}`)
-
    }
 
    editUser(firstName : string, lastName : string, phoneNumber : string, email : string, role : string, status :string, id : string){
