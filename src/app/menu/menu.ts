@@ -104,6 +104,14 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'apps/e-commerce/manager'
           },
+          {
+            id: 'Delete',
+            title: 'List Deleted',
+            translate: 'MENU.APPS.ECOMMERCE.DELETE',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/e-commerce/product-delete'
+          },
         ]
       }
     ]
@@ -141,6 +149,14 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'apps/e-commerce/manager'
           },
+          {
+            id: 'delete',
+            title: 'List Deleted',
+            translate: 'MENU.APPS.ECOMMERCE.DELETE',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/e-commerce/product-delete'
+          }
         ]
       },
       {
@@ -158,14 +174,14 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'apps/user/user-list'
           },
-          // {
-          //   id: 'delete',
-          //   title: 'Delete',
-          //   translate: 'MENU.APPS.USER.DELETE',
-          //   type: 'item',
-          //   icon: 'circle',
-          //   url: 'apps/user/user-delete'
-          // }
+          {
+            id: 'delete',
+            title: 'List Deleted',
+            translate: 'MENU.APPS.USER.DELETE',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/user/user-delete'
+          }
         ]
       }
     ]

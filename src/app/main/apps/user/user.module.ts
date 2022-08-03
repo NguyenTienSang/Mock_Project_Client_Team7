@@ -25,7 +25,8 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 import { UserViewComponent } from 'app/main/apps/user/user-view/user-view.component';
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
-import { UserDeletedComponent } from './user-deleted/user-deleted.component';
+import { UserListDeletedComponent } from './user-deleted/user-deleted.component';
+import { UserListDeletedService } from './user-deleted/user-deleted.service';
 
 // routing
 const routes: Routes = [
@@ -38,9 +39,9 @@ const routes: Routes = [
   },
   {
     path: 'user-delete',
-    component: UserDeletedComponent,
+    component: UserListDeletedComponent,
     // resolve: {
-    //   uls: UserListService
+    //   uls: UserListDeletedService
     // }
   },
   {
@@ -70,7 +71,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UserListComponent, UserViewComponent, UserEditComponent, NewUserSidebarComponent, UserDeletedComponent],
+  declarations: [UserListComponent, UserViewComponent, UserEditComponent, NewUserSidebarComponent, UserListDeletedComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -85,6 +86,6 @@ const routes: Routes = [
     InvoiceModule,
     CoreSidebarModule
   ],
-  providers: [UserListService, UserViewService, UserEditService]
+  providers: [UserListService, UserViewService, UserEditService, UserListDeletedComponent]
 })
 export class UserModule {}

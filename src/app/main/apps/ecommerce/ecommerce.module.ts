@@ -29,6 +29,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { EcommerceEditComponent } from './ecommerce-edit/ecommerce-edit.component';
 import { EcommerceAddComponent } from './ecommerce-add/ecommerce-add.component';
 import { EcommerceEditService } from './ecommerce-edit/ecommerce-edit.service';
+import { EcommerceDeleteComponent } from './ecommerce-delete/ecommerce-delete.component';
+import { EcommerceDeleteService } from './ecommerce-delete/ecommerce-delete.service';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -70,6 +72,13 @@ const routes: Routes = [
     component: EcommerceCheckoutComponent,
     resolve: {
       ecommerce: EcommerceService
+    }
+  },
+  {
+    path: 'product-delete',
+    component: EcommerceDeleteComponent,
+    resolve: {
+      ecommerce: EcommerceDeleteService ,EcommerceService
     }
   },
   {
@@ -115,7 +124,8 @@ const routes: Routes = [
     EcommerceCheckoutItemComponent,
     EcommerceManagerComponent,
     EcommerceEditComponent,
-    EcommerceAddComponent
+    EcommerceAddComponent,
+    EcommerceDeleteComponent
   ],
   imports: [
     CommonModule,
