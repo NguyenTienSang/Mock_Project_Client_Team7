@@ -69,4 +69,14 @@ export class EcommerceManagerService implements Resolve<any> {
   deleteProduct(id: number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
   }
+
+  addCategory(categoryForCreate: any):Observable<any>{
+    console.log("name", categoryForCreate);
+    
+    return this._httpClient.post(`${environment.apiUrl}/api/Category/CreateCategory`, categoryForCreate);
+  }
+
+  addBrand(brandForCreate: any):Observable<any>{
+    return this._httpClient.post(`${environment.apiUrl}/api/Brand/CreateBrand`, brandForCreate);
+  }
 }
