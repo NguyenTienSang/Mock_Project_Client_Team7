@@ -48,7 +48,7 @@ export class AccountSettingsService implements Resolve<any> {
   }
 
   uploadImageToCloud(formData: FormData, id : string) {
-    return this._httpClient.post<any>(`https://localhost:5001/api/User/upload-avatar/${id}`,formData).pipe(map(
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/User/upload-avatar/${id}`,formData).pipe(map(
      response => {
       console.log('response : ',response);
 
@@ -58,7 +58,7 @@ export class AccountSettingsService implements Resolve<any> {
    }
 
    updateProfile(firstName : string, lastName : string, phoneNumber : string, email : string, role : string, status :string, id : string){
-    return this._httpClient.put<any>(`https://localhost:5001/api/User/update/${id}`,
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/User/update/${id}`,
     {
       firstName,
       lastName,
@@ -82,7 +82,7 @@ export class AccountSettingsService implements Resolve<any> {
 
 
   addContact(name : string, address : string, phonenumber : string){
-    return this._httpClient.post<any>(`https://localhost:5001/api/User/contact/add`,{
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/User/contact/add`,{
       name,
       address,
       phonenumber
@@ -93,7 +93,7 @@ export class AccountSettingsService implements Resolve<any> {
   }
 
   editContact(id : string,name : string, address : string, phonenumber : string){
-    return this._httpClient.put<any>(`https://localhost:5001/api/User/contact/update/${id}`,{
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/User/contact/update/${id}`,{
       name,
       address,
       phonenumber
@@ -104,7 +104,7 @@ export class AccountSettingsService implements Resolve<any> {
   }
 
   deleteContact(id : string){
-    return this._httpClient.delete<any>(`https://localhost:5001/api/User/contact/delete/${id}`).pipe(map(
+    return this._httpClient.delete<any>(`${environment.apiUrl}/api/User/contact/delete/${id}`).pipe(map(
       response => {
       return response;
     }))
