@@ -285,6 +285,8 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
-
+  deleteProduct(id: number):Observable<any>{
+    return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
+  }
 
 }

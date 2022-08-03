@@ -26,15 +26,16 @@ import { UserViewComponent } from 'app/main/apps/user/user-view/user-view.compon
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
 import { UserDeletedComponent } from './user-deleted/user-deleted.component';
+//import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
 
 // routing
 const routes: Routes = [
   {
     path: 'user-list',
     component: UserListComponent,
-    resolve: {
-      uls: UserListService
-    }
+    // resolve: {
+    //   uls: UserListService
+    // }
   },
   {
     path: 'user-delete',
@@ -83,7 +84,8 @@ const routes: Routes = [
     CorePipesModule,
     CoreDirectivesModule,
     InvoiceModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    //NgxBootstrapConfirmModule
   ],
   providers: [UserListService, UserViewService, UserEditService]
 })

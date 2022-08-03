@@ -97,7 +97,7 @@
               type="text"
               id="basic-icon-default-uname"
               class="form-control dt-uname"
-              placeholder="Web Developer"
+              placeholder="JohnDoe"
               aria-label="jdoe1"
               aria-describedby="basic-icon-default-uname2"
               name="user-name"
@@ -138,8 +138,8 @@
                   <i
                     class="feather font-small-4"
                     [ngClass]="{
-                      'icon-eye-off': passwordTextType,
-                      'icon-eye': !passwordTextType
+                      'icon-eye-off': !passwordTextType,
+                      'icon-eye': passwordTextType
                     }"
                     (click)="togglePasswordTextType()"
                   ></i
@@ -177,8 +177,8 @@
                 <i
                   class="feather font-small-4"
                   [ngClass]="{
-                    'icon-eye-off': confirmPasswordTextType,
-                    'icon-eye': !confirmPasswordTextType
+                    'icon-eye-off': !confirmPasswordTextType,
+                    'icon-eye': confirmPasswordTextType
                   }"
                   (click)="toggleConfirmPasswordTextType()"
                 ></i

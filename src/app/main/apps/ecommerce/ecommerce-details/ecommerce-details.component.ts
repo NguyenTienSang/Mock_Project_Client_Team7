@@ -4,6 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import Swal  from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-ecommerce-details',
@@ -21,6 +22,8 @@ export class EcommerceDetailsComponent implements OnInit {
   public cartList;
   public relatedProducts;
   public selectedProduct;
+  public role: boolean;
+  currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   // Swiper
   public swiperResponsive: SwiperConfigInterface = {
@@ -87,7 +90,40 @@ export class EcommerceDetailsComponent implements OnInit {
       selectedProduct.isInCart = true;
     });
   }
-
+  deleteProduct(id: number){
+    console.log("id product", id);
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this._ecommerceService.deleteProduct(id).subscribe(respone=>{
+          console.log("delete",respone);
+          if(respone.isSuccessed){
+            Swal.fire("Success",respone.message,"success")
+            window.location.href = "http://localhost:4200/apps/e-commerce/shop";
+          }
+          else{
+            Swal.fire("Error",respone.message,"error")
+          }
+        },(error=>{
+          Swal.fire("Error",error,"error")
+        })
+        );
+      }
+      // else if (result.dismiss === Swal.DismissReason.cancel) {
+      //   Swal.fire(
+      //     'Cancelled',
+      //     'Your imaginary file is safe :)',
+      //     'error'
+      //   )
+      // }
+    })
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -95,6 +131,12 @@ export class EcommerceDetailsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.role = false;
+    let roleUser = this.currentUser.user.role;
+    if(roleUser == "Master" || roleUser == "Mod")
+      this.role = true;
+
+
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];
@@ -115,7 +157,7 @@ export class EcommerceDetailsComponent implements OnInit {
       if(this.productId){
         this._ecommerceService.getSelectedProduct(this.productId)
           .subscribe((respone)=>{
-            this.selectedProduct = respone.resultObj;          
+            this.selectedProduct = respone.resultObj;
           })
       }
     });
