@@ -31,6 +31,10 @@
               <small class="form-text text-danger" *ngIf="categoryIdRef.errors?.required">Category is required!</small>
             </span>
             </div>
+            <div  class="container">
+              <button type="button" style="margin-left:295px ;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Category')" >
+                <i data-feather="plus-square" class="mr-25"></i>Add Category</button>
+            </div>
           </div>
           <div class="col-12 col-sm-6">
             <div class="form-group">
@@ -41,6 +45,10 @@
             <span *ngIf="newProductForm.submitted || brandIdRef.touched" class="invalid-form">
               <small class="form-text text-danger" *ngIf="brandIdRef.errors?.required">Brand is required!</small>
             </span>
+            </div>
+            <div  class="container">
+              <button type="button" style="margin-left:295px ;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Brand')" >
+                <i data-feather="plus-square" class="mr-25"></i>Add Brand</button>
             </div>
           </div>
           <div class="col-12 col-sm-6">
@@ -154,3 +162,41 @@
         </div>
       </form>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{typeAction}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #AddCategoryForm="ngForm" class="form-validate" (ngSubmit)="typeAction == 'Add Category' ? AddCategory() : AddBrand()">
+      <div class="mb-3">
+        <label for="account-Name">Name</label>
+        <input
+          type="text"
+          [(ngModel)]="categoryName"
+          class="form-control"
+          #categoryNameRef="ngModel"
+          id="account-Name"
+          name="Name"
+          placeholder="Name"
+          [class.error]="AddCategoryForm.submitted && categoryNameRef.invalid"
+          required
+        />
+        <span *ngIf="AddCategoryForm.submitted || categoryNameRef.touched" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="categoryNameRef.errors?.required">Name is required!</small>
+        </span>
+      </div>
+      <!-- <ngb-alert type={{typealertContact}} [dismissible]="false">
+        <div class="alert-body">
+          <p>{{ messageContact }}</p>
+        </div>
+      </ngb-alert> -->
+        <div class="modal-footer">
+          <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+    </form>
+  </div>
+</ng-template>
