@@ -51,7 +51,14 @@
                           <a routerLink="/apps/user/user-edit/{{ data.id }}" class="btn btn-primary" rippleEffect
                             >Edit</a
                           >
-                          <button class="btn btn-outline-danger ml-1" rippleEffect>Delete</button>
+                          <a
+                          class="btn btn-outline-danger ml-1"
+                          rippleEffect
+                          (click)="deleteUser(data.id)"
+                        >
+                          <i data-feather="trash-2" class="mr-25"></i>
+                          <span >Delete</span>
+                        </a>
                         </div>
                       </div>
                     </div>
@@ -102,7 +109,7 @@
                     </div>
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
-                        <i data-feather="star" class="mr-1"></i>
+                        <i data-feather="phone-call" class="mr-1"></i>
                         <span class="card-text user-info-title font-weight-bold mb-0">Phone number</span>
                       </div>
                       <p class="card-text mb-0">{{ data.phoneNumber }}</p>
@@ -136,7 +143,7 @@
 
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
-                        <i data-feather="star" class="mr-1"></i>
+                        <i data-feather="mail" class="mr-1"></i>
                         <span class="card-text user-info-title font-weight-bold mb-0">Email</span>
                       </div>
                       <p class="card-text mb-0">{{ data.email }}</p>
@@ -144,7 +151,7 @@
 
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
-                        <i data-feather="star" class="mr-1"></i>
+                        <i data-feather="calendar" class="mr-1"></i>
                         <span class="card-text user-info-title font-weight-bold mb-0">Create date</span>
                       </div>
                       <p class="card-text mb-0">{{ data.createAt.substring(0,10) }}</p>
@@ -152,7 +159,7 @@
 
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
-                        <i data-feather="star" class="mr-1"></i>
+                        <i data-feather="user" class="mr-1"></i>
                         <span class="card-text user-info-title font-weight-bold mb-0">Created By</span>
                       </div>
                       <p class="card-text mb-0">{{ data.createdBy }}</p>

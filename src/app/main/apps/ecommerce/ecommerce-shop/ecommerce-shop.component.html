@@ -77,7 +77,7 @@
 
       <section id="ecommerce-searchbar" class="ecommerce-searchbar">
         <div class="row mt-1">
-          <div class="col-sm-12">
+          <!-- <div class="col-sm-12">
             <div class="input-group input-group-merge">
               <input
                 type="text"
@@ -88,6 +88,28 @@
                 aria-describedby="shop-search"
                 [(ngModel)]="searchText"
               />
+              <div class="input-group-append">
+                <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-sm-12">
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                class="form-control search-product"
+                id="shop-search"
+                placeholder="Search Product"
+                aria-label="Search..."
+                aria-describedby="shop-search"
+                [(ngModel)]="search"
+                #searchRef="ngModel"
+                (keyup)="Search()"
+              />
+              <!-- <div class="input-group-append">
+                <button *ngIf="!searchRef.invalid" type="button" class="btn btn-sm btn-outline-primary" (click)="Search()" >
+                  <i data-feather="search" class="mr-25"></i>Search</button>
+              </div> -->
               <div class="input-group-append">
                 <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
               </div>
