@@ -183,6 +183,23 @@ export const menu: CoreMenu[] = [
             url: 'apps/user/user-delete'
           }
         ]
+      },
+      {
+        id: 'category',
+        title: 'Category',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'list',
+            title: 'List',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/category/manager'
+          },
+        ]
       }
     ]
   },
