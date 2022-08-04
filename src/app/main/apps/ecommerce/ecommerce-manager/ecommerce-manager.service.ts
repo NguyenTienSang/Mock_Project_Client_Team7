@@ -65,4 +65,8 @@ export class EcommerceManagerService implements Resolve<any> {
     
     return this._httpClient.post(`${environment.apiUrl}/api/Products/UploadImage/${id}`,formData)
   }
+
+  deleteProduct(id: number):Observable<any>{
+    return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
+  }
 }

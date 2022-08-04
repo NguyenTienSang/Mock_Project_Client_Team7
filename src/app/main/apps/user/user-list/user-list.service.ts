@@ -79,4 +79,8 @@ export class UserListService implements Resolve<any> {
     
     return this._httpClient.post(`${environment.apiUrl}/api/User/upload-avatar/${username}`,formData)
   }
+
+  deleteProduct(id: string):Observable<any>{
+    return this._httpClient.delete(`${environment.apiUrl}/api/User/delete/${id}`);
+  }
 }

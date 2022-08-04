@@ -38,19 +38,39 @@ export class EcommerceManagerComponent implements OnInit {
   }
 
   //DeleteProduct Authenticate Role : Mod
-  deleteProduct(id: string): Promise<any[]> {
-    if(confirm("Are you sure to delete?")){
-      return new Promise((resolve, reject) => {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-         const headers = new HttpHeaders({
-           'Content-Type': 'application/json',
-           'Authorization': `Bearer ` + currentUser.resultObj
-         })
-         this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct` +'/' + id, { headers: headers }).subscribe(data => {
-           window.location.reload();
-         });
-   });
-    }
+  deleteProduct(id: number){
+
+    Swal.fire({
+      title: 'Are you sure want to remove?',
+      text: 'You will not be able to recover this file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this._ecommerceManagerService.deleteProduct(id).subscribe(respone=>{
+          console.log("delete",respone);
+          if(respone.isSuccessed){
+            Swal.fire("Success",respone.message,"success")
+            window.location.reload();
+          }
+          else{
+            Swal.fire("Error",respone.message,"error")
+          }
+        },(error=>{
+          Swal.fire("Error",error,"error")
+        })
+        );
+      } 
+      // else if (result.dismiss === Swal.DismissReason.cancel) {
+      //   Swal.fire(
+      //     'Cancelled',
+      //     'Your imaginary file is safe :)',
+      //     'error'
+      //   )
+      // }
+    })
   }
 
   /**
@@ -100,8 +120,7 @@ export class EcommerceManagerComponent implements OnInit {
       this.rows = response;
       this.tempData = this.rows;
     });
-    //Swal.fire("Success","Create product","success")
-
+    
   }
   
 

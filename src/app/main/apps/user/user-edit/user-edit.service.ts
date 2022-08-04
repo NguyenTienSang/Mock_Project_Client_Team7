@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { User } from 'app/auth/models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,9 @@ export class UserEditService {
   }
 
    getCurrentUser(id : string): Observable<any> {
+
          return this._httpClient.get<any>(`${environment.apiUrl}/api/User/${id}`)
+
    }
 
    editUser(firstName : string, lastName : string, phoneNumber : string, email : string, role : string, status :string, id : string){

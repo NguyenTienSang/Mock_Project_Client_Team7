@@ -155,7 +155,6 @@ export class EcommerceService implements Resolve<any> {
   //   });
   // }
   getSelectedProduct(productId: string): Observable<any> {
-    // https://localhost:5001/api/Products/GetProduct/39
     return this._httpClient.get<any>(`${environment.apiUrl}/api/Products/GetProduct/` + productId);
   }
   /**
@@ -285,6 +284,8 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
-
+  deleteProduct(id: number):Observable<any>{
+    return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
+  }
 
 }

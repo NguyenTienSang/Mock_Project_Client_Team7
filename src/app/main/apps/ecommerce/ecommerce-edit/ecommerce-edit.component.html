@@ -85,10 +85,14 @@
                             [(ngModel)]="row.price"
                             [class.error]="updateForm.submitted && priceRef.invalid"
                             #priceRef="ngModel"
+                            [pattern]="pricePtn"
                             required
                           />
                           <span *ngIf="updateForm.submitted || priceRef.touched" class="invalid-form">
                             <small class="form-text text-danger" *ngIf="priceRef.errors?.required">Price is required!</small>
+                          </span>
+                          <span *ngIf="updateForm.submitted || priceRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="priceRef.errors?.pattern">Price is positive</small>
                           </span>
                         </div>
                       </div>
@@ -105,10 +109,14 @@
                             id="quantity"
                             [class.error]="updateForm.submitted && quantityRef.invalid"
                             #quantityRef="ngModel"
+                            [pattern]="quantityPtn"
                             required
                           />
                           <span *ngIf="updateForm.submitted || quantityRef.touched" class="invalid-form">
                             <small class="form-text text-danger" *ngIf="quantityRef.errors?.required">Quantity is required!</small>
+                          </span>
+                          <span *ngIf="updateForm.submitted || quantityRef.touched" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="quantityRef.errors?.pattern">Quantity is positive integer.</small>
                           </span>
                         </div>
                       </div>

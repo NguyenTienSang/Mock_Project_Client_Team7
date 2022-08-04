@@ -27,6 +27,7 @@ import { UserViewService } from 'app/main/apps/user/user-view/user-view.service'
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
 import { UserListDeletedComponent } from './user-deleted/user-deleted.component';
 import { UserListDeletedService } from './user-deleted/user-deleted.service';
+//import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
 
 // routing
 const routes: Routes = [
