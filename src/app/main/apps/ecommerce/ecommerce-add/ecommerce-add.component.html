@@ -55,7 +55,7 @@
             <div class="form-group">
               <label for="price">Price</label>
               <input
-                type="number"               
+                type="number"
                 class="form-control"
                 name="price"
                 id="price"
@@ -78,7 +78,7 @@
             <div class="form-group">
               <label for="quantity">Quantity</label>
               <input
-                type="number"               
+                type="number"
                 class="form-control"
                 id="quantity"
                 placeholder="Enter quantity ..."
@@ -101,7 +101,7 @@
             <div class="form-group">
               <label for="expire">Expire</label>
               <input
-                type="date"               
+                type="date"
                 class="form-control"
                 id="expire"
                 name="expire"
@@ -138,8 +138,8 @@
             <div class="form-group">
               <label for="accountTextarea">Image</label>
               <input
-                type="file"          
-                     
+                type="file"
+
                 class="form-control"
                 (change)="upload($event)"
                 id="file"
@@ -147,7 +147,7 @@
                 name="file"
                 [(ngModel)]="image"
                 [class.error]="newProductForm.submitted && imageRef.invalid"
-                #imageRef="ngModel" accept=".png, .jpg, .jpeg" 
+                #imageRef="ngModel" accept=".png, .jpg, .jpeg"
                 required
               />
               <span *ngIf="newProductForm.submitted || imageRef.touched" class="invalid-form">
@@ -172,7 +172,7 @@
   <div class="modal-body">
     <form #AddCategoryForm="ngForm" class="form-validate" (ngSubmit)="typeAction == 'Add Category' ? AddCategory() : AddBrand()">
       <div class="mb-3">
-        <label for="account-Name">Name</label>
+        <label for="account-Name">{{typeAction == 'Add Category' ? 'Name category' : 'Name brand'}}</label>
         <input
           type="text"
           [(ngModel)]="categoryName"
@@ -180,7 +180,7 @@
           #categoryNameRef="ngModel"
           id="account-Name"
           name="Name"
-          placeholder="Name"
+          placeholder="{{typeAction == 'Add Category' ? 'Please enter name category' : 'Please enter name brand'}}"
           [class.error]="AddCategoryForm.submitted && categoryNameRef.invalid"
           required
         />

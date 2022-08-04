@@ -106,7 +106,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'Delete',
-            title: 'List Deleted',
+            title: 'List Product Deleted',
             translate: 'MENU.APPS.ECOMMERCE.DELETE',
             type: 'item',
             icon: 'circle',
@@ -151,7 +151,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'delete',
-            title: 'List Deleted',
+            title: 'List Product Deleted',
             translate: 'MENU.APPS.ECOMMERCE.DELETE',
             type: 'item',
             icon: 'circle',
@@ -176,7 +176,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'delete',
-            title: 'List Deleted',
+            title: 'List User Deleted',
             translate: 'MENU.APPS.USER.DELETE',
             type: 'item',
             icon: 'circle',

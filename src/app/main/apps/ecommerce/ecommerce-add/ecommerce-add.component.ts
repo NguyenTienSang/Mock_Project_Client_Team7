@@ -34,7 +34,8 @@ export class EcommerceAddComponent implements OnInit {
 
  // quantityPtn = '^[1-9]+$';
   quantityPtn = '^[1-9][0-9]*$';
-  pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  //pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  pricePtn = '^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$';
 
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
@@ -86,7 +87,7 @@ export class EcommerceAddComponent implements OnInit {
             formData.append('fileInput',this.image);
             this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
               console.log(res);
-              
+
             })
             Swal.fire("Success",respone.message,"success")
           }
@@ -103,7 +104,7 @@ export class EcommerceAddComponent implements OnInit {
     catch(e){
       Swal.fire("Error",e,"error")
     }
-    
+
   }
 
   ngOnInit(): void {
@@ -144,6 +145,8 @@ export class EcommerceAddComponent implements OnInit {
 
   open(content,type) {
 
+    this.categoryName = "";
+
     //If add contact then reset null data
     if(type == 'Add Category' )
     {
@@ -172,7 +175,10 @@ export class EcommerceAddComponent implements OnInit {
   AddCategory(){
     console.log("Category name", this.categoryName);
     let categoryForCreate= {
-      name: this.categoryName
+      name: this.categoryName,
+      createdBy: this.currentUser,
+      updatedDate: this.transformDate,
+      updatedBy: this.currentUser
     }
     this._ecommerceManagerService.addCategory(categoryForCreate).subscribe((response =>{
       if(response.isSuccessed)
@@ -206,7 +212,7 @@ export class EcommerceAddComponent implements OnInit {
           this.brands = respone.resultObj;
           this.brandtemp = this.brands.filter(x=>x.categoryId == this.categoryId);
         });
-        
+
         this.modalService.dismissAll();
       }
       else
