@@ -51,7 +51,16 @@
                           <a routerLink="/apps/user/user-edit/{{ data.id }}" class="btn btn-primary" rippleEffect
                             >Edit</a
                           >
-                          <button class="btn btn-outline-danger ml-1" rippleEffect>Delete</button>
+                          <!-- <button class="btn btn-outline-danger ml-1"  rippleEffect>Delete</button> -->
+                          <a
+                          class="btn btn-outline-danger ml-1"
+                          rippleEffect
+                          (click)="deleteUser(data.id)"
+                          routerLink="/apps/user/user-list"
+                        >
+                          <i data-feather="trash-2" class="mr-25"></i>
+                          <span >Delete</span>
+                        </a>
                         </div>
                       </div>
                     </div>
