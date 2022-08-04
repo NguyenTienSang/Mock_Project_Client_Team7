@@ -45,7 +45,7 @@ export class UserListComponent implements OnInit {
   constructor(private _userListService: UserListService,
     private _coreSidebarService: CoreSidebarService,
 	  private _toastrService: ToastrService,
-    private _httpClient: HttpClient, 
+    private _httpClient: HttpClient,
     //private _ngxBootstrapConfirmService: NgxBootstrapConfirmService
     ) {
     this._unsubscribeAll = new Subject();
@@ -72,6 +72,7 @@ export class UserListComponent implements OnInit {
           {
             Swal.fire("Success", respone.message, "success");
             window.location.reload();
+
           }
           else
             Swal.fire("Error", respone.message, "error");
@@ -80,7 +81,7 @@ export class UserListComponent implements OnInit {
           Swal.fire("Error", error, "error");
         })
         );
-      } 
+      }
       // else if (result.dismiss === Swal.DismissReason.cancel) {
       //   Swal.fire(
       //     'Cancelled',

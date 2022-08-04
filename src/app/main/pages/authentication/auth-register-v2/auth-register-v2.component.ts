@@ -19,6 +19,9 @@ export class AuthRegisterV2Component implements OnInit {
   public registerForm: FormGroup;
   public emailVar;
   public passwordVar;
+  public confirmpasswordVar;
+  public addressVar;
+  public phoneNumberVar;
   public returnUrl: string;
   public error = '';
   public message = '';
@@ -93,26 +96,45 @@ get f() {
     // }
 
     // console.log('this.userNameVar : ',this.userNameVar);
-    this.loading = true;
-    this._authenticationService
-      .register(this.userNameVar,this.emailVar,this.passwordVar)
-      .subscribe(
-        data => {
-          if(data.isSuccessed == true)
-          {
-            this.typealert = "success";
+    // console.log('this.emailVar : ',this.emailVar);
+    // console.log('this.passwordVar : ',this.passwordVar);
+    // console.log('this.addressVar : ',this.addressVar);
+    // console.log('this.phoneNumberVar : ',this.phoneNumberVar);
+    if(!this.userNameVar || !this.emailVar || !this.passwordVar || !this.confirmpasswordVar || !this.addressVar || !this.phoneNumberVar)
+    {
+      this.typealert = "danger";
+      this.message = "Please enter full field";
+    }
+    else {
+      if(this.passwordVar != this.confirmpasswordVar)
+      {
+        this.typealert = "danger";
+        this.message = "Confirm password not exactly";
+      }
+      else {
+      this.loading = true;
+      this._authenticationService
+        .register(this.userNameVar,this.emailVar,this.passwordVar,this.addressVar,this.phoneNumberVar)
+        .subscribe(
+          data => {
+            if(data.isSuccessed == true)
+            {
+              this.typealert = "success";
+            }
+            else {
+              this.typealert = "danger";
+            }
+            console.log(data.message);
+            this.message = data.message;
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
           }
-          else {
-            this.typealert = "danger";
-          }
-          console.log(data.message);
-          this.message = data.message;
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-        }
-      );
+        );
+      }
+    }
+
   }
 
   // Lifecycle Hooks

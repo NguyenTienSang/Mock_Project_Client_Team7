@@ -185,6 +185,7 @@ export class AccountSettingsComponent implements OnInit {
         if(response.isSuccessed == true)
         {
           this.typealertContact = "success";
+          this.getUserContact(this.data.user.id);
         }
         else {
           this.typealertContact = "danger";
@@ -217,6 +218,7 @@ export class AccountSettingsComponent implements OnInit {
         if(response.isSuccessed == true)
         {
           this.typealertContact = "success";
+          this.getUserContact(this.data.user.id);
         }
         else {
           this.typealertContact = "danger";
@@ -241,6 +243,8 @@ export class AccountSettingsComponent implements OnInit {
     ).subscribe((response)=>{
       if(response.isSuccessed)
       {
+        this.getUserContact(this.data.user.id);
+        // getContact(content,type,id);
         console.log(1);
         Swal.fire("Success",response.message,"success")
         //setTimeout(() => {
@@ -389,6 +393,14 @@ export class AccountSettingsComponent implements OnInit {
 
   }
 
+
+  getUserContact(id : string)
+  {
+    this._accountSettingsService.getUserContact(id).subscribe(respone=>{
+      this.contacts = respone.resultObj;
+    })
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -400,10 +412,8 @@ export class AccountSettingsComponent implements OnInit {
 
     this.data = (JSON.parse(localStorage.getItem("currentUser")));
 
-    this._accountSettingsService.getUserContact(this.data.user.id).subscribe(respone=>{
-      this.contacts = respone.resultObj;
-    })
 
+    this.getUserContact(this.data.user.id);
 
 
     // content header
