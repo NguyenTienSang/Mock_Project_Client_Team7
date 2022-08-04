@@ -59,6 +59,6 @@ export class UserViewService  {
   };
 
   getUserContact(id: string): Observable<any> {
-    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/contact/${id}`)
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/User/getallcontact/${id}`)
   };
 }

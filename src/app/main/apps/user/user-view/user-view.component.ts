@@ -30,6 +30,7 @@ export class UserViewComponent implements OnInit {
    * @param {Router} router
    * @param {UserViewService} _userViewService
    */
+
   constructor(private router: Router, private _userViewService: UserViewService, private _userListService: UserListService) {
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -48,7 +49,6 @@ export class UserViewComponent implements OnInit {
       this.contacts = respone.resultObj;
     })
   }
-
   deleteUser(id: string) {
 
     Swal.fire({
@@ -65,11 +65,10 @@ export class UserViewComponent implements OnInit {
           if(respone.isSuccessed)
           {
             Swal.fire("Success", respone.message, "success");
-            window.location.reload();
-            // this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            //   this.rows = response;
-            //   this.tempData = this.rows;
-            // });
+
+            window.location.href = "/apps/user/user-list";
+
+
           }
           else
             Swal.fire("Error", respone.message, "error");

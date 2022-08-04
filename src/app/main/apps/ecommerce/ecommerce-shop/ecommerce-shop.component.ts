@@ -24,7 +24,8 @@ export class EcommerceShopComponent implements OnInit {
   public page = 1;
   public pageSize = 12;
   public searchText = '';
-
+  public search = '';
+  public productsTemp;
   /**
    *
    * @param {CoreSidebarService} _coreSidebarService
@@ -65,6 +66,19 @@ export class EcommerceShopComponent implements OnInit {
     this._ecommerceService.sortProduct(sortParam);
   }
 
+
+
+  Search(){
+    console.log(this.search);
+    if(this.search != null || this.search != " "){
+      let search = this.search.toLowerCase();
+      this.products = this.productsTemp.filter(x=>x.name.toLowerCase().includes(search) || x.category.name.toLowerCase().includes(search)|| x.brand.name.toLowerCase().includes(search))
+      console.log("product search", this.products);
+    }
+    else{
+      this.products = this.productsTemp;
+    }
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -76,9 +90,11 @@ export class EcommerceShopComponent implements OnInit {
 
     this._ecommerceService.onProductListChange.subscribe(res => {
       this.products = res;
+      console.log("all product", res[0].brand.name);
+      
       this.products.isInWishlist = false;
     });
-
+    this.productsTemp = this.products;
     this._ecommerceService.onCategoryListChange.subscribe(res => {
       this.categories = res;
     console.log(res);
