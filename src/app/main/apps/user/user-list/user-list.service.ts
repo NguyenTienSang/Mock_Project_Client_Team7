@@ -52,7 +52,8 @@ export class UserListService implements Resolve<any> {
           })
           this._httpClient.get(`${environment.apiUrl}/api/User/all`, { headers: headers }).subscribe((response: any) => {
         this.rows = response.resultObj;
-        console.log("response  :",response);
+        console.log("response  :",response.resultObj);
+
         this.onDatatablessChanged.next(this.rows);
         resolve(this.rows);
       }, reject);
