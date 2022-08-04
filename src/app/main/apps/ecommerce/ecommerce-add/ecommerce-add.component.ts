@@ -34,7 +34,8 @@ export class EcommerceAddComponent implements OnInit {
 
  // quantityPtn = '^[1-9]+$';
   quantityPtn = '^[1-9][0-9]*$';
-  pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  //pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  pricePtn = '^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$';
 
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
@@ -172,7 +173,10 @@ export class EcommerceAddComponent implements OnInit {
   AddCategory(){
     console.log("Category name", this.categoryName);
     let categoryForCreate= {
-      name: this.categoryName
+      name: this.categoryName,
+      createdBy: this.currentUser,
+      updatedDate: this.transformDate,
+      updatedBy: this.currentUser
     }
     this._ecommerceManagerService.addCategory(categoryForCreate).subscribe((response =>{
       if(response.isSuccessed)

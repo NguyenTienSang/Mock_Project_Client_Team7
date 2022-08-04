@@ -133,8 +133,17 @@ export class EcommerceDeleteComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     // Filter Our Data
+    // const temp = this.tempData.filter(function (d) {
+    //   return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+    // });
     const temp = this.tempData.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+
+      return d.brand["name"].toLowerCase().indexOf(val) !== -1 ||
+
+      d.category["name"].toLowerCase().indexOf(val) !== -1 ||
+
+      d.name.toLowerCase().indexOf(val) !== -1 || !val;
+
     });
 
     // Update The Rows

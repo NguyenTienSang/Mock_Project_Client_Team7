@@ -36,8 +36,9 @@ export class EcommerceEditComponent implements OnInit {
   public id;
   public image=null;
 
-  quantityPtn = '^[1-9]+$';
-  pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  quantityPtn = '^[1-9][0-9]*$';
+  //pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
+  pricePtn = '^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$';
 
   currentUser = JSON.parse(localStorage.getItem("currentUser")).user.userName;
 
