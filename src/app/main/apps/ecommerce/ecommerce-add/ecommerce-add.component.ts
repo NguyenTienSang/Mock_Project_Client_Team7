@@ -3,6 +3,7 @@ import { Component, OnInit , ViewEncapsulation} from '@angular/core';
 import Swal  from 'sweetalert2';
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ecommerce-add',
@@ -12,7 +13,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EcommerceAddComponent implements OnInit {
   public contentHeader: object;
-  constructor(private _ecommerceManagerService: EcommerceManagerService) { }
+  typeAction: any;
+  closeResult: string;
+  constructor(private _ecommerceManagerService: EcommerceManagerService,
+    private modalService:NgbModal
+    ) { }
 
   currentUser = JSON.parse(localStorage.getItem("currentUser")).user.userName;
 
@@ -25,7 +30,10 @@ export class EcommerceAddComponent implements OnInit {
   public description;
   public image;
 
-  quantityPtn = '^[1-9]+$';
+  public categoryName;
+
+ // quantityPtn = '^[1-9]+$';
+  quantityPtn = '^[1-9][0-9]*$';
   pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
 
   datePipe: DatePipe = new DatePipe('en-US');
@@ -39,7 +47,6 @@ export class EcommerceAddComponent implements OnInit {
     console.log(e.target.value);
     this.getBrandByCategoryId(e.target.value);
     this.categoryId = e.target.value;
-
   }
 
   onChangeBrand(ev){
@@ -133,5 +140,77 @@ export class EcommerceAddComponent implements OnInit {
     });
 
     //Swal.fire("Success","respone.message","success")
+  }
+
+  open(content,type) {
+
+    //If add contact then reset null data
+    if(type == 'Add Category' )
+    {
+      this.categoryName = "";
+
+    }
+    // console.log('txt : ',type);
+    this.typeAction = type
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  AddCategory(){
+    console.log("Category name", this.categoryName);
+    let categoryForCreate= {
+      name: this.categoryName
+    }
+    this._ecommerceManagerService.addCategory(categoryForCreate).subscribe((response =>{
+      if(response.isSuccessed)
+      {
+        Swal.fire("Success",response.message,"success")
+        this._ecommerceManagerService.getCategory().subscribe(respone=>{
+          this.categories = respone.resultObj;
+        });
+        this.modalService.dismissAll();
+      }
+      else
+        Swal.fire("Error",response.message,"error")
+    }))
+  }
+
+  AddBrand(){
+    console.log("Brand name", this.categoryName);
+    let brandForCreate= {
+      name: this.categoryName,
+      createdBy: this.currentUser,
+      updatedDate: this.transformDate,
+      updatedBy: this.currentUser,
+      categoryId: this.categoryId
+    }
+    this._ecommerceManagerService.addBrand(brandForCreate).subscribe((response =>{
+      if(response.isSuccessed)
+      {
+        Swal.fire("Success",response.message,"success")
+
+        this._ecommerceManagerService.getBrand().subscribe(respone=>{
+          this.brands = respone.resultObj;
+          this.brandtemp = this.brands.filter(x=>x.categoryId == this.categoryId);
+        });
+        
+        this.modalService.dismissAll();
+      }
+      else
+        Swal.fire("Error",response.message,"error")
+    }))
   }
 }

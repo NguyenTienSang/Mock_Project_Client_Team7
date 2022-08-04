@@ -340,9 +340,9 @@
                         </div>
 
 
+                          <!-- <h2>{{phonenumber.errors?.required}}</h2> -->
 
-
-                        <ngb-alert type={{typealertContact}} [dismissible]="false">
+                        <ngb-alert [hidden]="!showAlert"  type={{typealertContact}} [dismissible]="false">
                           <div class="alert-body">
                             <p>{{ messageContact }}</p>
                           </div>

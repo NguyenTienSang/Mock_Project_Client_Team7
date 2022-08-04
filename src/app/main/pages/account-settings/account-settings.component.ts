@@ -35,6 +35,8 @@ export class AccountSettingsComponent implements OnInit {
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
 
+  public showAlert = true;
+
   public message = '';
   public typealert = '';
 
@@ -82,6 +84,8 @@ export class AccountSettingsComponent implements OnInit {
 
   //Open and close popup
   open(content,type) {
+
+    this.showAlert = false;
 
     //If add contact then reset null data
     if(type == 'Add Contact' )
@@ -144,7 +148,7 @@ export class AccountSettingsComponent implements OnInit {
       this.data.user.status,
       this.data.user.id,
     ).subscribe((response)=>{
-      console.log("response nts 1 : ",response.message);
+      // console.log("response nts 1 : ",response.message);
       // this.router.navigate([this.router.url])
 
       if(response.isSuccessed == true)
@@ -190,6 +194,7 @@ export class AccountSettingsComponent implements OnInit {
         else {
           this.typealertContact = "danger";
         }
+        this.showAlert = true;
         this.messageContact = response.message;
       },(err) =>{
         console.log(err);
@@ -223,6 +228,7 @@ export class AccountSettingsComponent implements OnInit {
         else {
           this.typealertContact = "danger";
         }
+        this.showAlert = true;
         this.messageContact = response.message;
       },(err) =>{
         console.log(err);
@@ -245,7 +251,6 @@ export class AccountSettingsComponent implements OnInit {
       {
         this.getUserContact(this.data.user.id);
         // getContact(content,type,id);
-        console.log(1);
         Swal.fire("Success",response.message,"success")
         //setTimeout(() => {
           // this._toastrService.success(

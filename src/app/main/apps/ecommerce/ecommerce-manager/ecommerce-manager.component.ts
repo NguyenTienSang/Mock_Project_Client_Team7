@@ -1,5 +1,5 @@
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
-import { Component, OnInit, ViewChild, ViewEncapsulation,Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation,Input, ElementRef } from '@angular/core';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -7,6 +7,14 @@ import Swal  from 'sweetalert2/dist/sweetalert2.js';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import * as XLSX from 'xlsx';
+
+declare var require: any;
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+const htmlToPdfmake = require("html-to-pdfmake");
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
@@ -24,15 +32,20 @@ export class EcommerceManagerComponent implements OnInit {
   public rows;
   public ColumnMode = ColumnMode;
   public onDatatablessChanged: BehaviorSubject<any>;
+
+  public startDay;
+  public endDay;
+  currentDate = new Date();
+  public listReport;
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   // Private
   private tempData = [];
   private _unsubscribeAll: Subject<any>;
-  constructor(private _ecommerceManagerService: EcommerceManagerService, 
-    private _ecommerceService: EcommerceService, 
-    private _httpClient: HttpClient) { 
+  constructor(private _ecommerceManagerService: EcommerceManagerService,
+    private _ecommerceService: EcommerceService,
+    private _httpClient: HttpClient) {
     this._unsubscribeAll = new Subject();
     this.onDatatablessChanged = new BehaviorSubject({});
   }
@@ -62,7 +75,7 @@ export class EcommerceManagerComponent implements OnInit {
           Swal.fire("Error",error,"error")
         })
         );
-      } 
+      }
       // else if (result.dismiss === Swal.DismissReason.cancel) {
       //   Swal.fire(
       //     'Cancelled',
@@ -90,6 +103,59 @@ export class EcommerceManagerComponent implements OnInit {
     this.rows = temp;
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
+  }
+
+  loadListReport() {
+    console.log(this.startDay);
+    console.log(this.endDay);
+    if (this.startDay != null && this.endDay != null) {
+      if (this.startDay > this.endDay) {
+        Swal.fire('Warning', 'Start date must be less than end date');
+        return;
+      }
+      else{
+      var startDay = Math.round(Date.parse(this.startDay) / 1000);
+      console.log(this.startDay);
+      var endDay = Math.round(Date.parse(this.endDay) / 1000);
+      this._ecommerceManagerService
+        .reportExcel(startDay, endDay)
+        .subscribe((reponse) => {
+          console.log(reponse);
+          this.listReport = reponse.resultObj;
+        });
+      }
+    }
+  }
+
+  exportExcel(): void {
+    if(this.startDay == null || this.endDay == null){
+      Swal.fire('Warning', 'Please select a start and end date');
+        return;
+    }
+    var fileName = this.currentDate.toString()+'_ReportProduct.xlsx';
+    /* pass here the table id */
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, fileName);
+  }
+
+  @ViewChild('content') pdfTable: ElementRef;
+  exportPDF():void{
+    if(this.startDay == null || this.endDay == null){
+      Swal.fire('Warning', 'Please select a start and end date');
+        return;
+    }
+    var fileName = this.currentDate.toString()+'_ReportProduct';
+    const pdfTable = this.pdfTable.nativeElement;
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).download(fileName);
   }
 
   ngOnInit(): void {
@@ -120,8 +186,8 @@ export class EcommerceManagerComponent implements OnInit {
       this.rows = response;
       this.tempData = this.rows;
     });
-    
+
   }
-  
+
 
 }
