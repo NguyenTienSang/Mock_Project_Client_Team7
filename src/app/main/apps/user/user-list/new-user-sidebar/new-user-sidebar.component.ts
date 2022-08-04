@@ -5,6 +5,7 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 import Swal  from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-new-user-sidebar',
   templateUrl: './new-user-sidebar.component.html',
@@ -24,6 +25,8 @@ export class NewUserSidebarComponent implements OnInit {
   public avatar;
   public passwordTextType: boolean;
   public confirmPasswordTextType: boolean;
+
+  public showSpinner : boolean;
 
   usernamePtn = '^(?=[a-zA-Z0-9._]{6,12}$)(?!.*[_.]{2})[^_.].*[^_.]$';
   passwordPtn = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$';
@@ -93,6 +96,7 @@ export class NewUserSidebarComponent implements OnInit {
         {
           console.log(1);
           Swal.fire("Success",respone.message,"success")
+          form.reset();
           //setTimeout(() => {
             // this._toastrService.success(
             //   ' '+respone.message+' ',
@@ -113,5 +117,6 @@ export class NewUserSidebarComponent implements OnInit {
 }
   ngOnInit(): void {
     this.role = this.roles[0];
+    this.showSpinner = true;
   }
 }
