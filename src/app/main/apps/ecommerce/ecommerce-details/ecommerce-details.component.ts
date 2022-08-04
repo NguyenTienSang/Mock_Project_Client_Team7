@@ -132,11 +132,12 @@ export class EcommerceDetailsComponent implements OnInit {
    */
   ngOnInit(): void {
     this.role = false;
-    let roleUser = this.currentUser.user.role;
-    if(roleUser == "Master" || roleUser == "Mod")
-      this.role = true;
-
-
+    if(this.currentUser != null){
+      let roleUser = this.currentUser.user.role;
+      if(roleUser == "Master" || roleUser == "Mod")
+        this.role = true;  
+    }
+    
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];

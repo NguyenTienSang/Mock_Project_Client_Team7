@@ -37,8 +37,10 @@ export class EcommerceEditComponent implements OnInit {
   public image=null;
 
   quantityPtn = '^[1-9][0-9]*$';
+
   //pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
   pricePtn = '^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$';
+
 
   currentUser = JSON.parse(localStorage.getItem("currentUser")).user.userName;
 
@@ -115,12 +117,15 @@ export class EcommerceEditComponent implements OnInit {
       "name":form.value.name,
       "updatedDate": this.transformDate,
       "updatedBy":this.currentUser,
+      // "createdDate": this.transformDate,
+      // "createdBy": this.currentUser,
       "categoryId": form.value.categoryId,
       "brandId": form.value.brandId,
       "price": form.value.price,
       "quantity": form.value.quantity,
       "expire": form.value.expire,
       "description": form.value.description,
+      //"slug": "/product"
       //"image": this.image
     }
 
