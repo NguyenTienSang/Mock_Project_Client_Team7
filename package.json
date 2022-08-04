@@ -70,6 +70,7 @@
     "ngx-perfect-scrollbar": "10.1.0",
     "ngx-plyr": "4.0.0",
     "ngx-quill": "13.2.0",
+    "ngx-spinner": "^14.0.0",
     "ngx-swiper-wrapper": "10.0.0",
     "ngx-toastr": "^13.2.0",
     "node-waves": "0.7.6",
@@ -80,6 +81,7 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.17.2",
     "tslib": "2.1.0",
+    "xlsx": "^0.18.5",
     "zone.js": "0.11.4"
   },
   "devDependencies": {

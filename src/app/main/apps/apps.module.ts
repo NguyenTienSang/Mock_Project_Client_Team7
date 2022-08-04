@@ -43,7 +43,6 @@ const routes: Routes = [
 FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
 
 @NgModule({
-  declarations: [],
   imports: [CommonModule, RouterModule.forChild(routes)]
 })
 export class AppsModule {}
