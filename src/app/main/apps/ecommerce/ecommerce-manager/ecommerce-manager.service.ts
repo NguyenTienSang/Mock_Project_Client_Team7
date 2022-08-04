@@ -62,7 +62,7 @@ export class EcommerceManagerService implements Resolve<any> {
   }
 
   onUploadAvatar(id: number, formData: FormData):Observable<any>{
-    
+
     return this._httpClient.post(`${environment.apiUrl}/api/Products/UploadImage/${id}`,formData)
   }
 
@@ -70,9 +70,14 @@ export class EcommerceManagerService implements Resolve<any> {
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
   }
 
+  reportExcel(startDay:any, endDay:any):Observable<any>{
+    console.log(startDay, endDay);
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Report/GetListReportOrder/${startDay}/${endDay}`);
+  }
+
   addCategory(categoryForCreate: any):Observable<any>{
     console.log("name", categoryForCreate);
-    
+
     return this._httpClient.post(`${environment.apiUrl}/api/Category/CreateCategory`, categoryForCreate);
   }
 
