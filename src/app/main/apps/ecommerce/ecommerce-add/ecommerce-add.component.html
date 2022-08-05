@@ -25,7 +25,7 @@
             <div class="form-group">
               <label for="account-birth-date">Category</label>
               <select id="user-role" class="form-control" [(ngModel)]="categoryId" (change)="onChangeCategory($event)" [class.error]="newProductForm.submitted && categoryIdRef.invalid" #categoryIdRef="ngModel" required>
-                <option *ngFor="let c of categories" [value] ="c.id">{{c.name}}</option>
+                <option *ngFor="let c of categories" [selected]="c.id === categoryId" [value] ="c.id">{{c.name}}</option>
               </select>
             <span *ngIf="newProductForm.submitted || categoryIdRef.touched" class="invalid-form">
               <small class="form-text text-danger" *ngIf="categoryIdRef.errors?.required">Category is required!</small>
@@ -106,12 +106,16 @@
                 id="expire"
                 name="expire"
                 [(ngModel)]="expire"
-                [class.error]="newProductForm.submitted && expireRef.invalid"
+                [class.error]="newProductForm.submitted && expire < transformDate.substring(0,10)"
                 #expireRef="ngModel"
                 required
+                [value]="expire"
               />
-              <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
+              <!-- <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="expireRef.errors?.required">Expire is required!</small>
+              </span> -->
+              <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="expire < transformDate.substring(0,10)">Expire is greater date now!</small>
               </span>
             </div>
           </div>
@@ -156,7 +160,7 @@
             </div>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit(newProductForm)" >Save changes</button>
+            <button type="submit" [disabled]="newProductForm.invalid" class="btn btn-primary mt-1 mr-1" rippleEffect (click)="submit(newProductForm)" >Save changes</button>
             <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
           </div>
         </div>
@@ -188,6 +192,15 @@
           <small class="form-text text-danger" *ngIf="categoryNameRef.errors?.required">Name is required!</small>
         </span>
       </div>
+      <!-- <div class="mb-3">
+        <label for="account-birth-date">Category</label>
+              <select id="user-role" class="form-control" [(ngModel)]="categoryIdInAddBrand" [class.error]="AddCategoryForm.submitted && categoryIdInAddBrandRef.invalid" #categoryIdInAddBrandRef="ngModel" required>
+                <option *ngFor="let c of categories"  [value] ="c.id">{{c.name}}</option>
+              </select>
+            <span *ngIf="AddCategoryForm.submitted || categoryIdInAddBrandRef.touched" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="categoryIdInAddBrandRef.errors?.required">Category is required!</small>
+            </span>
+      </div> -->
       <!-- <ngb-alert type={{typealertContact}} [dismissible]="false">
         <div class="alert-body">
           <p>{{ messageContact }}</p>

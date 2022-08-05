@@ -102,6 +102,7 @@ export class CategoryManagerComponent implements OnInit {
       {
         Swal.fire("Success",response.message,"success")
         this.modalService.dismissAll();
+        this.GetAllCategory();
       }
       else
         Swal.fire("Error",response.message,"error")
@@ -120,6 +121,7 @@ export class CategoryManagerComponent implements OnInit {
       {
         Swal.fire("Success",response.message,"success")
         this.modalService.dismissAll();
+        this.GetAllCategory();
       }
       else
         Swal.fire("Error",response.message,"error")
@@ -132,6 +134,7 @@ export class CategoryManagerComponent implements OnInit {
       {
         Swal.fire("Success",response.message,"success")
         this.modalService.dismissAll();
+        this.GetAllCategory();
       }
       else
         Swal.fire("Error",response.message,"error")
@@ -148,9 +151,9 @@ export class CategoryManagerComponent implements OnInit {
 
   ngOnInit(): void {
       console.log(this.categoryList);
-      this._categoryService._refreshCategory$.subscribe(()=>{
-        this.GetAllCategory();
-      });
+      // this._categoryService._refreshCategory$.subscribe(()=>{
+      //   this.GetAllCategory();
+      // });
       this.GetAllCategory();
 
     this.contentHeader = {
