@@ -65,8 +65,9 @@ export class EcommerceManagerComponent implements OnInit {
         this._ecommerceManagerService.deleteProduct(id).subscribe(respone=>{
           console.log("delete",respone);
           if(respone.isSuccessed){
+            this._ecommerceManagerService.getDataTableRows();
             Swal.fire("Success",respone.message,"success")
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             Swal.fire("Error",respone.message,"error")

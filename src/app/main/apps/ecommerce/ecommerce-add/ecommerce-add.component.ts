@@ -92,6 +92,7 @@ console.log(this.transformDate.substring(0,10));
           console.log("Create product", respone)
           if(respone.isSuccessed)
           {
+            this._ecommerceManagerService.getDataTableRows();
             let formData = new FormData();
             formData.append('fileInput',this.image);
             this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{

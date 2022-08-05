@@ -65,8 +65,13 @@ export class UserListDeletedComponent implements OnInit {
         this._userListDeletedService.restoreUser(id).subscribe(respone=>{
           console.log("restore",respone);
           if(respone.isSuccessed){
+            this._userListDeletedService.getDataTableRows().subscribe((respone=>{
+              this.rows = respone.resultObj;
+              console.log("data", respone.resultObj);
+            }))
+            //this._userListDeletedService.getDataTableRows();
             Swal.fire("Success",respone.message,"success")
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             Swal.fire("Error",respone.message,"error")
@@ -121,14 +126,20 @@ export class UserListDeletedComponent implements OnInit {
    */
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
     // this._userListDeletedService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
     //   this.rows = response;
     //   this.tempData = this.rows;
     // });
+
     this._userListDeletedService.getDataTableRows().subscribe((respone=>{
       this.rows = respone.resultObj;
       console.log("data", respone.resultObj);
-      
     }))
+
+    // this._userListDeletedService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+    //   this.rows = response;
+    //   this.tempData = this.rows;
+    // });
   }
 }
