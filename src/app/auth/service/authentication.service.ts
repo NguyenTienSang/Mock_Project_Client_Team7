@@ -112,10 +112,12 @@ export class AuthenticationService {
    * @returns user
    */
 
- register(UserName: string,Email: string, Password: string) {
+ register(UserName: string,Email: string, Password: string, Address : string, PhoneNumber : string) {
   console.log('UserName : ',UserName);
   console.log('Email : ',Email);
-
+  console.log('Password : ',Password);
+  console.log('Address : ',Address);
+  console.log('PhoneNumber : ',PhoneNumber);
 
   return this._http
   .post<any>(`${environment.apiUrl}/api/Authenticate/register`, {

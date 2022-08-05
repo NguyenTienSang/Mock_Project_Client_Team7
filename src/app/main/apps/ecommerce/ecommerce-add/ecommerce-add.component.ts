@@ -87,7 +87,7 @@ export class EcommerceAddComponent implements OnInit {
             formData.append('fileInput',this.image);
             this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
               console.log(res);
-              
+
             })
             Swal.fire("Success",respone.message,"success")
           }
@@ -104,7 +104,7 @@ export class EcommerceAddComponent implements OnInit {
     catch(e){
       Swal.fire("Error",e,"error")
     }
-    
+
   }
 
   ngOnInit(): void {
@@ -144,6 +144,8 @@ export class EcommerceAddComponent implements OnInit {
   }
 
   open(content,type) {
+
+    this.categoryName = "";
 
     //If add contact then reset null data
     if(type == 'Add Category' )
@@ -210,7 +212,7 @@ export class EcommerceAddComponent implements OnInit {
           this.brands = respone.resultObj;
           this.brandtemp = this.brands.filter(x=>x.categoryId == this.categoryId);
         });
-        
+
         this.modalService.dismissAll();
       }
       else

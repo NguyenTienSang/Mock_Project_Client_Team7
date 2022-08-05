@@ -52,8 +52,7 @@ export class UserListService implements Resolve<any> {
           })
           this._httpClient.get(`${environment.apiUrl}/api/User/all`, { headers: headers }).subscribe((response: any) => {
         this.rows = response.resultObj;
-        console.log("response  :",response.resultObj);
-
+        console.log("response  :",response);
         this.onDatatablessChanged.next(this.rows);
         resolve(this.rows);
       }, reject);
@@ -77,7 +76,7 @@ export class UserListService implements Resolve<any> {
   //Upload image to cloudinary
 
   onUploadAvatar(username: string, formData: FormData):Observable<any>{
-    
+
     return this._httpClient.post(`${environment.apiUrl}/api/User/upload-avatar/${username}`,formData)
   }
 

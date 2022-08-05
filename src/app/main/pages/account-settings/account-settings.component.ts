@@ -35,6 +35,8 @@ export class AccountSettingsComponent implements OnInit {
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
 
+  public showAlert = true;
+
   public message = '';
   public typealert = '';
 
@@ -82,6 +84,8 @@ export class AccountSettingsComponent implements OnInit {
 
   //Open and close popup
   open(content,type) {
+
+    this.showAlert = false;
 
     //If add contact then reset null data
     if(type == 'Add Contact' )
@@ -144,7 +148,7 @@ export class AccountSettingsComponent implements OnInit {
       this.data.user.status,
       this.data.user.id,
     ).subscribe((response)=>{
-      console.log("response nts 1 : ",response.message);
+      // console.log("response nts 1 : ",response.message);
       // this.router.navigate([this.router.url])
 
       if(response.isSuccessed == true)
@@ -185,10 +189,12 @@ export class AccountSettingsComponent implements OnInit {
         if(response.isSuccessed == true)
         {
           this.typealertContact = "success";
+          this.getUserContact(this.data.user.id);
         }
         else {
           this.typealertContact = "danger";
         }
+        this.showAlert = true;
         this.messageContact = response.message;
       },(err) =>{
         console.log(err);
@@ -217,10 +223,12 @@ export class AccountSettingsComponent implements OnInit {
         if(response.isSuccessed == true)
         {
           this.typealertContact = "success";
+          this.getUserContact(this.data.user.id);
         }
         else {
           this.typealertContact = "danger";
         }
+        this.showAlert = true;
         this.messageContact = response.message;
       },(err) =>{
         console.log(err);
@@ -241,7 +249,8 @@ export class AccountSettingsComponent implements OnInit {
     ).subscribe((response)=>{
       if(response.isSuccessed)
       {
-        console.log(1);
+        this.getUserContact(this.data.user.id);
+        // getContact(content,type,id);
         Swal.fire("Success",response.message,"success")
         //setTimeout(() => {
           // this._toastrService.success(
@@ -389,6 +398,14 @@ export class AccountSettingsComponent implements OnInit {
 
   }
 
+
+  getUserContact(id : string)
+  {
+    this._accountSettingsService.getUserContact(id).subscribe(respone=>{
+      this.contacts = respone.resultObj;
+    })
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -400,10 +417,8 @@ export class AccountSettingsComponent implements OnInit {
 
     this.data = (JSON.parse(localStorage.getItem("currentUser")));
 
-    this._accountSettingsService.getUserContact(this.data.user.id).subscribe(respone=>{
-      this.contacts = respone.resultObj;
-    })
 
+    this.getUserContact(this.data.user.id);
 
 
     // content header

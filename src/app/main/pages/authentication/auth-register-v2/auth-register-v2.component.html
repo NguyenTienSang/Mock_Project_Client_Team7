@@ -117,6 +117,85 @@
               <small class="form-text text-danger" *ngIf="passwordRef.errors.required">Password is required!</small>
             </span>
           </div>
+
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label for="login-password">Confirm Password</label>
+            </div>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+              class="form-control form-control-merge"
+              id="register-password"
+              [type]="passwordTextType ? 'text' : 'password'"
+              name="register-confirmpassword"
+              placeholder="············"
+              aria-describedby="register-confirmpassword"
+              tabindex="3"
+              [(ngModel)]="confirmpasswordVar"
+              #confirmpasswordRef="ngModel"
+              [class.error]="authForm.submitted && confirmpasswordRef.invalid"
+              required
+              />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"
+                  >
+                  <i
+                    class="feather font-small-4"
+                    [ngClass]="{
+                      'icon-eye-off': !passwordTextType,
+                      'icon-eye': passwordTextType
+                    }"
+                    (click)="togglePasswordTextType()"
+                  ></i
+                >
+              </span>
+              </div>
+            </div>
+            <span *ngIf="authForm.submitted && confirmpasswordRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="confirmpasswordRef.errors.required">Confirm Password is required!</small>
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-address">Address</label>
+            <input
+              class="form-control"
+              id="register-address"
+              type="text"
+              name="register-address"
+              placeholder="Enter your address"
+              aria-describedby="register-address"
+              autofocus=""
+              tabindex="1"
+              [class.error]="authForm.submitted && addressRef.invalid"
+              [(ngModel)]="addressVar"
+              #addressRef="ngModel"
+              required
+            />
+            <span *ngIf="authForm.submitted && addressRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="addressRef.errors.required">Address is required!</small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="register-username">Phonenumber</label>
+            <input
+              class="form-control"
+              id="register-phonenumber"
+              type="text"
+              name="register-phonenumber"
+              placeholder="Enter your phonenumber"
+              aria-describedby="register-address"
+              autofocus=""
+              tabindex="1"
+              [class.error]="authForm.submitted && phoneNumberRef.invalid"
+              [(ngModel)]="phoneNumberVar"
+              #phoneNumberRef="ngModel"
+              required
+            />
+            <span *ngIf="authForm.submitted && phoneNumberRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="phoneNumberRef.errors.required">Phonenumber is required!</small>
+            </span>
+          </div>
           <!-- <div class="form-group">
             <div class="custom-control custom-checkbox">
               <input class="custom-control-input" id="register-privacy-policy" type="checkbox" tabindex="4" />
