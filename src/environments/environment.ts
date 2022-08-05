@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
+  hmr: false;
+=======
   hmr: false,
+>>>>>>> Develop
   apiUrl: 'https://localhost:44350'
   // apiUrl: 'https://localhost:5001'
 };

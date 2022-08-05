@@ -1,0 +1,105 @@
+<div class="content-wrapper">
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+  <div class="row">
+    <div class="col-md-2 col-12"></div>
+    <div class="col-md-4 col-12">
+      <div class="d-flex justify-content-between align-items-center m-1">
+        <label class="d-flex align-items-center"
+          >Show
+          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          entries</label
+        >
+      </div>
+    </div>
+
+<div class="col-md-4 col-12 d-flex justify-content-start justify-content-md-end">
+  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+    <label class="d-flex align-items-center ml-1 ml-md-0">Search:<input type="search" class="form-control ml-25" [(ngModel)]="searchText" (keyup)="filterUpdate($event)" /></label>
+    <button class="btn btn-primary ml-1" (click)="openCreate(content)">
+      <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i>
+      <span>Add New Brand</span>
+    </button>
+  </div>
+</div>
+<div class="col-md-2 col-12"></div>
+</div>
+
+<div class="body-table">
+  <table class="table table-striped table-hover" id="table-category">
+    <thead>
+      <tr>
+          <th>Stt</th>
+          <th>Name</th>
+          <th>categoryList/th>
+          <th>Action</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of brandList;let i=index">
+        <th>{{i+1}}</th>
+        <th>{{item.name}}</th>
+        <th>{{item.category.name}}</th>
+        <th>
+          <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+            <button class="btn btn-primary ml-1" title="Settings" data-toggle="tooltip" (click)="openUpdate(content, item)"><i class="material-icons">&#xE8B8;</i></button>
+            <button class="btn btn-primary ml-1" title="Delete" data-toggle="tooltip" (click)="DeleteBrand(item.id)"><i class="material-icons">&#xE5C9;</i></button>
+          </div>
+        </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{typeAction}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #AddCategoryForm="ngForm" class="form-validate" (ngSubmit)="typeAction == 'Add brand' ? AddBrand() : UpdateBrand()">
+      <div class="mb-3">
+        <label for="account-Name">Name</label>
+        <input
+          type="text"
+          [(ngModel)]="brandName"
+          class="form-control"
+          #categoryNameRef="ngModel"
+          id="account-Name"
+          name="Name"
+          placeholder="Name"
+          [class.error]="AddCategoryForm.submitted && categoryNameRef.invalid"
+          required
+        />
+        <span *ngIf="AddCategoryForm.submitted || categoryNameRef.touched" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="categoryNameRef.errors?.required">Name is required!</small>
+        </span>
+      </div>
+
+      <div class="mb-3">
+        <label for="category">Category</label>
+                            <select id="categoryId" name="categoryId" class="form-control" [(ngModel)]="categoryId" required>
+                          <option name="categoryId" *ngFor="let c of categoryList" value ="{{c.id}}" [selected]="c.id==categoryId"
+                          >{{c.name}}</option>
+                        </select>
+      </div>
+      <!-- <ngb-alert type={{typealertContact}} [dismissible]="false">
+        <div class="alert-body">
+          <p>{{ messageContact }}</p>
+        </div>
+      </ngb-alert> -->
+        <div class="modal-footer">
+          <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+    </form>
+  </div>
+</ng-template>
