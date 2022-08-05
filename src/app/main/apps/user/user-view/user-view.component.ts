@@ -66,7 +66,7 @@ export class UserViewComponent implements OnInit {
           {
             Swal.fire("Success", respone.message, "success");
 
-            window.location.href = "/apps/user/user-list";
+            window.location.href = "/apps/user/user-delete";
 
 
           }

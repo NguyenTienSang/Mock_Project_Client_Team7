@@ -60,19 +60,11 @@ export class UserListDeletedService implements Resolve<any> {
   // }
 
   getDataTableRows(): Observable<any> {
-
-    // return new Promise((resolve, reject) => {
-        //  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        //   const headers = new HttpHeaders({
-        //     'Content-Type': 'application/json',
-        //     // 'Authorization': `Bearer ${auth_token}`
-        //     'Authorization': `Bearer ` + currentUser.resultObj
-        //   })
-      return  this._httpClient.get(`${environment.apiUrl}/api/User/all-delete`);
+      return  this._httpClient.get<any>(`${environment.apiUrl}/api/User/all-delete`);
   }
 
   //Restore User
-  restoreUser(id: string):Observable<any>{
+  restoreUser(id: string){
     return this._httpClient.put<any>(`${environment.apiUrl}/api/User/restore/${id}`, id)
   }
 }

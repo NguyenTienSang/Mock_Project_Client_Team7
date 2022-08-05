@@ -83,6 +83,7 @@ export class EcommerceAddComponent implements OnInit {
           console.log("Create product", respone)
           if(respone.isSuccessed)
           {
+            this._ecommerceManagerService.getDataTableRows();
             let formData = new FormData();
             formData.append('fileInput',this.image);
             this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
