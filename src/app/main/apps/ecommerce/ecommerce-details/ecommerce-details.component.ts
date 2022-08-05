@@ -105,7 +105,7 @@ export class EcommerceDetailsComponent implements OnInit {
           console.log("delete",respone);
           if(respone.isSuccessed){
             Swal.fire("Success",respone.message,"success")
-            window.location.href = "http://localhost:4200/apps/e-commerce/shop";
+            window.location.href = "/apps/e-commerce/product-delete";
           }
           else{
             Swal.fire("Error",respone.message,"error")

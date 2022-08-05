@@ -70,6 +70,7 @@ export class UserListComponent implements OnInit {
           console.log("delete user", respone);
           if(respone.isSuccessed)
           {
+            this._userListService.getDataTableRows();
             Swal.fire("Success", respone.message, "success");
             window.location.reload();
             // this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {

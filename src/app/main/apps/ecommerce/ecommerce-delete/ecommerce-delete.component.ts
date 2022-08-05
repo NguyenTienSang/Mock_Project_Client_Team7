@@ -8,6 +8,7 @@ import Swal  from 'sweetalert2/dist/sweetalert2.js';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EcommerceDeleteService } from './ecommerce-delete.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-ecommerce-delete',
@@ -67,8 +68,9 @@ export class EcommerceDeleteComponent implements OnInit {
         this._ecommerceDeleteService.restoreProduct(id).subscribe(respone=>{
           console.log("delete",respone);
           if(respone.isSuccessed){
+            this._ecommerceDeleteService.getDataTableRows();
             Swal.fire("Success",respone.message,"success")
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             Swal.fire("Error",respone.message,"error")
@@ -103,8 +105,9 @@ export class EcommerceDeleteComponent implements OnInit {
         this._ecommerceDeleteService.deletePermanentlyProduct(id).subscribe(respone=>{
           console.log("delete",respone);
           if(respone.isSuccessed){
+            this._ecommerceDeleteService.getDataTableRows();
             Swal.fire("Success",respone.message,"success")
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             Swal.fire("Error",respone.message,"error")

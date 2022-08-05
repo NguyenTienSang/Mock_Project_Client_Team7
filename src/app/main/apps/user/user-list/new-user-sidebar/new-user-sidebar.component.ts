@@ -94,6 +94,7 @@ export class NewUserSidebarComponent implements OnInit {
         console.log("respone",respone);
         if(respone.isSuccessed)
         {
+          this._userListService.getDataTableRows();
           console.log(1);
           Swal.fire("Success",respone.message,"success")
           form.reset();
