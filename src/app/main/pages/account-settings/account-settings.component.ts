@@ -166,6 +166,8 @@ export class AccountSettingsComponent implements OnInit {
       this.message = response.message;
     },(err) =>{
       console.log(err);
+      this.typealert = "danger";
+      this.message = err.message;
     })
 
 

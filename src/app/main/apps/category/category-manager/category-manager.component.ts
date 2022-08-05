@@ -70,7 +70,6 @@ export class CategoryManagerComponent implements OnInit {
     this.typeAction ="Update Category";
     this.categoryName=item.name;
     this.categoryId=item.id;
-    // console.log('txt : ',type);
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -107,6 +106,7 @@ export class CategoryManagerComponent implements OnInit {
       else
         Swal.fire("Error",response.message,"error")
     }))
+    this.GetAllCategory();
   }
 
   UpdateCategory(){
@@ -126,6 +126,7 @@ export class CategoryManagerComponent implements OnInit {
       else
         Swal.fire("Error",response.message,"error")
     });
+    this.GetAllCategory();
   }
 
   DeleteCategory(value){
@@ -139,6 +140,7 @@ export class CategoryManagerComponent implements OnInit {
       else
         Swal.fire("Error",response.message,"error")
     });
+    this.GetAllCategory();
   }
 
 
