@@ -71,7 +71,7 @@ export class UserListComponent implements OnInit {
           if(respone.isSuccessed)
           {
             Swal.fire("Success", respone.message, "success");
-            //window.location.reload();
+            window.location.reload();
             // this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             //   this.rows = response;
             //   this.tempData = this.rows;

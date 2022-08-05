@@ -323,19 +323,20 @@
                         <div class="mb-3">
                           <label for="account-Phonenumber">Phone number</label>
                           <input
-                            type="number"
+                            type="text"
                             [(ngModel)]="PhoneNumberContactEdit"
                             class="form-control"
                             id="Phonenumber"
                             name="Phonenumber"
                             placeholder="Phonenumber"
                             formControlName="Phonenumber"
+                            pattern="[0-9 ]{10}"
                           />
                           <div *ngIf="!phonenumber?.valid && (phonenumber?.dirty
                           || phonenumber?.touched)"
                             class="alert">
                           <div [hidden]="!phonenumber.errors?.required">  <p style="color: red">Phonenumber is required</p></div>
-
+                          <div [hidden]="!phonenumber.errors?.pattern"><p style="color: red">Invalid phone number</p></div>
                         </div>
                         </div>
 
