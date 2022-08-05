@@ -8,13 +8,13 @@ import Swal  from 'sweetalert2/dist/sweetalert2.js';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-// import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 
-// declare var require: any;
-// import * as pdfMake from "pdfmake/build/pdfmake";
-// import * as pdfFonts from "pdfmake/build/vfs_fonts";
-// const htmlToPdfmake = require("html-to-pdfmake");
-// (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+declare var require: any;
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+const htmlToPdfmake = require("html-to-pdfmake");
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
@@ -137,36 +137,36 @@ export class EcommerceManagerComponent implements OnInit {
     }
   }
 
-  // exportExcel(): void {
-  //   if(this.startDay == null || this.endDay == null){
-  //     Swal.fire('Warning', 'Please select a start and end date');
-  //       return;
-  //   }
-  //   var fileName = this.currentDate.toString()+'_ReportProduct.xlsx';
-  //   /* pass here the table id */
-  //   let element = document.getElementById('excel-table');
-  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+  exportExcel(): void {
+    if(this.startDay == null || this.endDay == null){
+      Swal.fire('Warning', 'Please select a start and end date');
+        return;
+    }
+    var fileName = this.currentDate.toString()+'_ReportProduct.xlsx';
+    /* pass here the table id */
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-  //   /* generate workbook and add the worksheet */
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  //   /* save to file */
-  //   XLSX.writeFile(wb, fileName);
-  // }
+    /* save to file */
+    XLSX.writeFile(wb, fileName);
+  }
 
-  // @ViewChild('content') pdfTable: ElementRef;
-  // exportPDF():void{
-  //   if(this.startDay == null || this.endDay == null){
-  //     Swal.fire('Warning', 'Please select a start and end date');
-  //       return;
-  //   }
-  //   var fileName = this.currentDate.toString()+'_ReportProduct';
-  //   const pdfTable = this.pdfTable.nativeElement;
-  //   var html = htmlToPdfmake(pdfTable.innerHTML);
-  //   const documentDefinition = { content: html };
-  //   pdfMake.createPdf(documentDefinition).download(fileName);
-  // }
+  @ViewChild('content') pdfTable: ElementRef;
+  exportPDF():void{
+    if(this.startDay == null || this.endDay == null){
+      Swal.fire('Warning', 'Please select a start and end date');
+        return;
+    }
+    var fileName = this.currentDate.toString()+'_ReportProduct';
+    const pdfTable = this.pdfTable.nativeElement;
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).download(fileName);
+  }
 
   ngOnInit(): void {
     this.contentHeader = {
