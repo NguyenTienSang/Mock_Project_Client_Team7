@@ -32,6 +32,8 @@ export class EcommerceAddComponent implements OnInit {
 
   public categoryName;
 
+  public categoryIdInAddBrand;
+
  // quantityPtn = '^[1-9]+$';
   quantityPtn = '^[1-9][0-9]*$';
   //pricePtn = '^([0]{1}\.{1}[0-9]+|[1-9]{1}[0-9]*\.{1}[0-9]+|[1-9]+)$';
@@ -40,6 +42,7 @@ export class EcommerceAddComponent implements OnInit {
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
   transformDate= this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+
   public brandtemp;
   public categories;
   public brands;
@@ -48,6 +51,7 @@ export class EcommerceAddComponent implements OnInit {
     console.log(e.target.value);
     this.getBrandByCategoryId(e.target.value);
     this.categoryId = e.target.value;
+    // console.log("date", this.transformDate);
   }
 
   onChangeBrand(ev){
@@ -77,12 +81,18 @@ export class EcommerceAddComponent implements OnInit {
       "description": this.description,
       //"image": this.image
     }
+
+console.log(form.value.expire);
+console.log(this.transformDate.substring(0,10));
+
+
     try{
-      if(form.valid){
+      if(form.valid && form.value.expire >= this.transformDate.substring(0,10)){
         this._ecommerceManagerService.createProduct(product).subscribe(respone=>{
           console.log("Create product", respone)
           if(respone.isSuccessed)
           {
+            this._ecommerceManagerService.getDataTableRows();
             let formData = new FormData();
             formData.append('fileInput',this.image);
             this._ecommerceManagerService.onUploadAvatar(respone.resultObj.id, formData).subscribe(res=>{
@@ -136,9 +146,15 @@ export class EcommerceAddComponent implements OnInit {
       this.categories = respone.resultObj;
     });
 
+    //this.categoryId = this.categories[0].id;
+
     this._ecommerceManagerService.getBrand().subscribe(respone=>{
       this.brands = respone.resultObj;
     });
+
+    this.expire = this.transformDate.substring(0,10);
+    // console.log(this.transformDate.substring(0,10));
+    
 
     //Swal.fire("Success","respone.message","success")
   }
@@ -177,7 +193,7 @@ export class EcommerceAddComponent implements OnInit {
     let categoryForCreate= {
       name: this.categoryName,
       createdBy: this.currentUser,
-      updatedDate: this.transformDate,
+      // updatedDate: this.transformDate,
       updatedBy: this.currentUser
     }
     this._ecommerceManagerService.addCategory(categoryForCreate).subscribe((response =>{

@@ -170,8 +170,6 @@ export class AccountSettingsComponent implements OnInit {
 
 
   }
-
-
   addContact(){
     if(!this.ContactForm.value.Name || !this.ContactForm.value.Address || !this.ContactForm.value.Phonenumber)
     {
@@ -199,10 +197,7 @@ export class AccountSettingsComponent implements OnInit {
       },(err) =>{
         console.log(err);
       })
-
     }
-
-
   }
 
   editContact(id : string){
@@ -252,17 +247,6 @@ export class AccountSettingsComponent implements OnInit {
         this.getUserContact(this.data.user.id);
         // getContact(content,type,id);
         Swal.fire("Success",response.message,"success")
-        //setTimeout(() => {
-          // this._toastrService.success(
-          //   ' '+respone.message+' ',
-          //   'Create user',
-          //   { toastClass: 'toast ngx-toastr', closeButton: true }
-          // );
-       // }, 2000);
-        // let formData = new FormData();
-        // formData.append('formFile',this.fileToUpload);
-        // this._userListService.onUploadAvatar(this.username, formData).subscribe();
-
       }
       else{
         Swal.fire("Error",response.message,"error")
