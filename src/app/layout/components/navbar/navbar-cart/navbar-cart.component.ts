@@ -53,7 +53,8 @@ export class NavbarCartComponent implements OnInit {
     this._ecommerceService.getProducts();
 
     // Get Cart List
-    this._ecommerceService.getCartList();
+    this._ecommerceService.getInitialCartList();
+    // this._ecommerceService.getInitialCartList();
 
     // Subscribe to Cart List
     this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {

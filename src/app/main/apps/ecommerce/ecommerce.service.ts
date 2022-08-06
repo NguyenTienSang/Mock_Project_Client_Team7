@@ -72,7 +72,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
+      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getInitialCartList(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -106,15 +106,6 @@ export class EcommerceService implements Resolve<any> {
     });
   }
 
-// getProducts(): Promise<any[]> {
-//     return new Promise((resolve, reject) => {
-//       this._httpClient.get('api/ecommerce-products').subscribe((response: any) => {
-//         this.productList = response;
-//         this.sortProduct('featured'); // Default shorting
-//         resolve(this.productList);
-//       }, reject);
-//     });
-//   }
   /**
    * Get Wishlist
    */
@@ -131,14 +122,34 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get CartList
    */
+  //Call api Get Cart
   getCartList(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
+      // this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
+        this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
         this.cartList = response;
-
+        // this.cartList = [];
+        //When cart list change
         this.onCartListChange.next(this.cartList);
         resolve(this.cartList);
       }, reject);
+    });
+  }
+
+  getInitialCartList(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      // this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
+      //   this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
+      //   // this.cartList = response;
+      //   this.cartList = [];
+      //   //When cart list change
+      //   this.onCartListChange.next(this.cartList);
+      //   resolve(this.cartList);
+      // }, reject);
+
+      this.cartList = [];
+      this.onCartListChange.next(this.cartList);
+      resolve(this.cartList);
     });
   }
 
@@ -264,17 +275,6 @@ export class EcommerceService implements Resolve<any> {
   }
 
   // Get list Category
-  // GetListCategory():Promise<any[]>{
-  //   return new Promise((resolve, reject) => {
-  //     this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
-  //       this.categoryList = response.resultObj;
-
-  //       console.log('response : ',response);
-
-  //       resolve(this.categoryList);
-  //   },  reject);
-  // });
-  // }
   getListCategory(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {

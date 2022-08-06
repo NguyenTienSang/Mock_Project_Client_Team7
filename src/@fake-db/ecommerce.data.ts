@@ -431,9 +431,9 @@ export class EcommerceFakeData {
   ];
   public static userCart = [
     { id: 0, productId: 27, qty: 1 },
-    { id: 1, productId: 21, qty: 1 },
-    { id: 2, productId: 26, qty: 1 },
-    { id: 3, productId: 25, qty: 1 },
-    { id: 4, productId: 23, qty: 1 }
+    // { id: 1, productId: 21, qty: 1 },
+    // { id: 2, productId: 26, qty: 1 },
+    // { id: 3, productId: 25, qty: 1 },
+    // { id: 4, productId: 23, qty: 1 }
   ];
 }
