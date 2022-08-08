@@ -31,6 +31,8 @@ export class AuthRegisterV2Component implements OnInit {
   public submitted = false;
   public loading = false;
 
+  public phoneNumberPtn = '(03|05|07|08|09)+([0-9]{8})'
+
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -88,6 +90,8 @@ get f() {
   }
 
   onSubmit() {
+    console.log(this.phoneNumberVar);
+    
     this.submitted = true;
 
     // stop here if form is invalid

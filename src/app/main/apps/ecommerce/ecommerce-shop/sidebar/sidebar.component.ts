@@ -64,6 +64,8 @@ export class EcommerceSidebarComponent implements OnInit {
     this.idCategory=idCategory;
     this._e.products=this.products;
     this._e.products=this._e.products.filter(x=>x.categoryId===Number(idCategory));
+    this._e.productsTemp = this._e.products;
+
     this.brands=this.brandList.filter(x=>x.categoryId===Number(idCategory));
     console.log(this.brands);
 
@@ -76,22 +78,27 @@ export class EcommerceSidebarComponent implements OnInit {
         break;
       case "priceRange1":{
         this._e.products=this._e.products.filter(x=>x.price<=10);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceRange2":{
         this._e.products=this._e.products.filter(x=>x.price<100 && x.price>=10);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceARange3":{
         this._e.products=this._e.products.filter(x=>x.price<500 && x.price>=100);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceRange4":{
         this._e.products=this._e.products.filter(x=>x.price>=500);
+        this._e.productsTemp = this._e.products;
         break;
       }
       default:{
         this._e.products=this.products;
+        this._e.productsTemp = this.products;
       }
     }
  }
@@ -120,11 +127,14 @@ export class EcommerceSidebarComponent implements OnInit {
     if(radioCategry.checked){
       this._e.products=this.products;
       this._e.products=this._e.products.filter(x=>x.categoryId===Number(this.idCategory));
+      this._e.productsTemp = this._e.products;
+
       this.brands=this.brandList.filter(x=>x.categoryId===Number(this.idCategory));
     }
   }
 
   this.productNew=this._e.products;
+
   console.log(this._e.products);
   this.idBrandList.forEach((element,index)=>{
     if(index==0){
@@ -135,7 +145,7 @@ export class EcommerceSidebarComponent implements OnInit {
     }
   });
   this._e.products=this.productNew;
-
+  this._e.productsTemp = this.productNew;
   const radioPrice=document.getElementById(this.idPrice) as HTMLInputElement | null;
 
   if(radioPrice!=null)
@@ -145,22 +155,27 @@ export class EcommerceSidebarComponent implements OnInit {
         break;
       case "priceRange1":{
         this._e.products=this._e.products.filter(x=>x.price<=10);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceRange2":{
         this._e.products=this._e.products.filter(x=>x.price<100 && x.price>=10);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceARange3":{
         this._e.products=this._e.products.filter(x=>x.price<500 && x.price>=100);
+        this._e.productsTemp = this._e.products;
         break;
       }
       case "priceRange4":{
         this._e.products=this._e.products.filter(x=>x.price>=500);
+        this._e.productsTemp = this._e.products;
         break;
       }
       default:{
         this._e.products=this.products;
+        this._e.productsTemp = this.products;
       }
   }
 
@@ -190,9 +205,11 @@ onItemChangePrice(value){
         }
       });
       this._e.products=this.productNew;
+      this._e.productsTemp = this.productNew;
     }
     else{
       this._e.products=this.products;
+      this._e.productsTemp = this.products;
     }
   }
   else{
@@ -200,6 +217,7 @@ onItemChangePrice(value){
       this._e.products=this.products;
       this._e.products=this._e.products.filter(x=>x.categoryId===Number(this.idCategory));
       this.brands=this.brandList.filter(x=>x.categoryId===Number(this.idCategory));
+      this._e.productsTemp = this._e.products;
     }
     else{
       this._e.products=this.products;
@@ -217,6 +235,7 @@ onItemChangePrice(value){
         }
       });
       this._e.products=this.productNew;
+      this._e.productsTemp = this.productNew;
     }
   }
 
@@ -225,22 +244,27 @@ onItemChangePrice(value){
       break;
     case "priceRange1":{
       this._e.products=this._e.products.filter(x=>x.price<=10);
+      this._e.productsTemp = this._e.products;
       break;
     }
     case "priceRange2":{
       this._e.products=this._e.products.filter(x=>x.price<100 && x.price>=10);
+      this._e.productsTemp = this._e.products;
       break;
     }
     case "priceARange3":{
       this._e.products=this._e.products.filter(x=>x.price<500 && x.price>=100);
+      this._e.productsTemp = this._e.products;
       break;
     }
     case "priceRange4":{
       this._e.products=this._e.products.filter(x=>x.price>=500);
+      this._e.productsTemp = this._e.products;
       break;
     }
     default:{
       this._e.products=this.products;
+      this._e.productsTemp = this.products;
     }
   }
 }
@@ -265,6 +289,7 @@ onItemChangePrice(value){
 
     this.brands=this.brandList;
     this._e.products=this.products;
+    this._e.productsTemp = this.products;
     this.idBrand=null;
     this.idCategory=null;
   }
