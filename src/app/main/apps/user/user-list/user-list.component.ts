@@ -72,7 +72,7 @@ export class UserListComponent implements OnInit {
           {
             this._userListService.getDataTableRows();
             Swal.fire("Success", respone.message, "success");
-            //window.location.reload();
+            window.location.reload();
             // this._userListService.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
             //   this.rows = response;
             //   this.tempData = this.rows;
