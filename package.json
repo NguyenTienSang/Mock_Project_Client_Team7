@@ -64,6 +64,7 @@
     "ng2-file-upload": "1.4.0",
     "ng2-flatpickr": "9.0.0",
     "ng2-nouislider": "1.8.2",
+    "ng2-search-filter": "^0.5.1",
     "ngx-bootstrap": "^9.0.0",
     "ngx-bootstrap-confirm": "^4.0.3",
     "ngx-highlightjs": "4.1.3",

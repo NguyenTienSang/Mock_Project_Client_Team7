@@ -18,6 +18,7 @@ const htmlToPdfmake = require("html-to-pdfmake");
 
 
 import { EcommerceManagerService } from 'app/main/apps/ecommerce/ecommerce-manager/ecommerce-manager.service';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 @Component({
   selector: 'app-ecommerce-manager',
   templateUrl: './ecommerce-manager.component.html',
@@ -116,15 +117,24 @@ export class EcommerceManagerComponent implements OnInit {
   }
 
   loadListReport() {
+    if (this.startDay == null && this.endDay == null) {
+      this.startDay="01/01/1970";
+      this.endDay="01/01/2038";
+    }
+    else if(this.startDay==null){
+      this.startDay="01/01/1970";
+    }
+    else if(this.endDay==null){
+      this.endDay="01/01/2038";
+    }
+
     console.log(this.startDay);
     console.log(this.endDay);
-    if (this.startDay != null && this.endDay != null) {
-      if (this.startDay > this.endDay) {
-        Swal.fire('Warning', 'Start date must be less than end date');
-        return;
-      }
-      else{
-      var startDay = Math.round(Date.parse(this.startDay) / 1000);
+    if(this.startDay>this.endDay){
+      Swal.fire("Success","Start day must be less than End day");
+    }
+
+    var startDay = Math.round(Date.parse(this.startDay) / 1000);
       console.log(this.startDay);
       var endDay = Math.round(Date.parse(this.endDay) / 1000);
       this._ecommerceManagerService
@@ -133,14 +143,11 @@ export class EcommerceManagerComponent implements OnInit {
           console.log(reponse);
           this.listReport = reponse.resultObj;
         });
-      }
-    }
   }
 
   exportExcel(): void {
-    if(this.startDay == null || this.endDay == null){
-      Swal.fire('Warning', 'Please select a start and end date');
-        return;
+    if(this.startDay == null && this.endDay == null){
+      this.loadListReport();
     }
     var fileName = this.currentDate.toString()+'_ReportProduct.xlsx';
     /* pass here the table id */
@@ -157,9 +164,8 @@ export class EcommerceManagerComponent implements OnInit {
 
   @ViewChild('content') pdfTable: ElementRef;
   exportPDF():void{
-    if(this.startDay == null || this.endDay == null){
-      Swal.fire('Warning', 'Please select a start and end date');
-        return;
+    if(this.startDay == null && this.endDay == null){
+      this.loadListReport();
     }
     var fileName = this.currentDate.toString()+'_ReportProduct';
     const pdfTable = this.pdfTable.nativeElement;

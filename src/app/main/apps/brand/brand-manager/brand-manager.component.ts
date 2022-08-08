@@ -15,11 +15,14 @@ export class BrandManagerComponent implements OnInit {
   public contentHeader: object;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
-  public searchText;
+  searchText;
   private tempData = [];
 
   public brandList;
   public categoryList;
+
+  public page = 1;
+  public pageSize = 10;
 
   typeAction: any;
   closeResult: string;
@@ -37,14 +40,6 @@ export class BrandManagerComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem("currentUser")).user.userName;
 
   constructor(private _brandService: BrandService, private modalService:NgbModal, private _categoryService: CategoryService) { }
-  filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-  }
 
   openCreate(content){
     //If add contact then reset null dat
@@ -138,6 +133,11 @@ export class BrandManagerComponent implements OnInit {
     this._brandService.getBrand().subscribe(reponse=>{
       this.brandList= reponse.resultObj;
     })
+  }
+
+  SetPageSize(value){
+    this.pageSize=value;
+    console.log(this.pageSize);
   }
 
   ngOnInit(): void {
