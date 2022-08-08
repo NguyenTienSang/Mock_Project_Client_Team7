@@ -7,7 +7,7 @@
       <div class="d-flex justify-content-between align-items-center m-1">
         <label class="d-flex align-items-center"
           >Show
-          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+          <select class="form-control mx-25" [(ngModel)]="selectedOption" (change)="SetPageSize($event.target.value)">
             <option value="10">10</option>
             <option value="25">25</option>
             <option value="50">50</option>
@@ -20,7 +20,7 @@
 
     <div class="col-md-4 col-12 d-flex justify-content-start justify-content-md-end">
       <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-        <label class="d-flex align-items-center ml-1 ml-md-0">Search:<input type="search" class="form-control ml-25" [(ngModel)]="searchText" (keyup)="filterUpdate($event)" /></label>
+        <label class="d-flex align-items-center ml-1 ml-md-0">Search:<input type="search" class="form-control ml-25" [(ngModel)]="searchText"/></label>
         <button class="btn btn-primary ml-1" (click)="openCreate(content)">
           <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i>
           <span>Add New Category</span>
@@ -40,8 +40,8 @@
         </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of categoryList">
-          <th>{{item.id}}</th>
+      <tr *ngFor="let item of categoryList|filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;let i=index">
+          <th>{{i+1}}</th>
           <th>{{item.name}}</th>
           <th>
             <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
@@ -52,8 +52,39 @@
       </tr>
       </tbody>
     </table>
-  </div>
 
+    <section id="ecommerce-pagination">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="d-flex justify-content-center">
+            <ngb-pagination
+              [collectionSize]="(categoryList | filter: searchText:'name').length"
+              [(page)]="page"
+              [maxSize]="5"
+              [rotate]="true"
+              [ellipses]="false"
+              [boundaryLinks]="true"
+            >
+              <!-- Custom pagination icons -->
+              <ng-template ngbPaginationPrevious
+                ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"> </span>
+              </ng-template>
+              <ng-template ngbPaginationFirst
+                ><span [data-feather]="'chevrons-left'" [class]="'font-weight-bolder'"></span>
+              </ng-template>
+              <ng-template ngbPaginationNext
+                ><span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span
+              ></ng-template>
+              <ng-template ngbPaginationLast
+                ><span [data-feather]="'chevrons-right'" [class]="'font-weight-bolder'"></span>
+              </ng-template>
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </div>
 
 <ng-template #content let-modal>

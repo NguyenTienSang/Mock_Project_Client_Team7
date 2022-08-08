@@ -27,6 +27,9 @@ export class CategoryManagerComponent implements OnInit {
   public categoryList;
   public searchText;
 
+  public page = 1;
+  public pageSize = 10;
+
   public categoryName;
   public categories;
 
@@ -141,8 +144,10 @@ export class CategoryManagerComponent implements OnInit {
     });
   }
 
-
-
+  SetPageSize(value){
+    this.pageSize=value;
+    console.log(this.pageSize);
+  }
   private GetAllCategory(){
     this._categoryService.getCategory().subscribe(reponse=>{
       this.categoryList= reponse.resultObj;
