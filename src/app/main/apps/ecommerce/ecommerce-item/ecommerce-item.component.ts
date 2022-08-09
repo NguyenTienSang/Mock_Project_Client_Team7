@@ -16,7 +16,7 @@ export class EcommerceItemComponent implements OnInit {
 
   // Public
   public isInCart = false;
-
+  // public totalPrice = 0;
   /**
    *
    * @param {EcommerceService} _ecommerceService
@@ -51,8 +51,12 @@ export class EcommerceItemComponent implements OnInit {
   addToCart(product) {
     this._ecommerceService.addToCart(product.id).then(res => {
       product.isInCart = true;
+      // this.totalPrice+= product.price;
     });
   }
+
+
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------

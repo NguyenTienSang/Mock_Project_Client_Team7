@@ -88,6 +88,7 @@ export class EcommerceDetailsComponent implements OnInit {
   addToCart(selectedProduct) {
     this._ecommerceService.addToCart(selectedProduct.id).then(res => {
       selectedProduct.isInCart = true;
+
     });
   }
   deleteProduct(id: number){
@@ -135,9 +136,9 @@ export class EcommerceDetailsComponent implements OnInit {
     if(this.currentUser != null){
       let roleUser = this.currentUser.user.role;
       if(roleUser == "Master" || roleUser == "Mod")
-        this.role = true;  
+        this.role = true;
     }
-    
+
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];

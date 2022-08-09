@@ -14,7 +14,7 @@ export class NavbarCartComponent implements OnInit {
   public products = [];
   public cartList = [];
   public cartListLength;
-
+  public totalPrice = 0;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -42,24 +42,42 @@ export class NavbarCartComponent implements OnInit {
     }
   }
 
+
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
   /**
    * On init
    */
-  ngOnInit(): void {
+   ngOnInit(): void {
     // Get Products
     this._ecommerceService.getProducts();
 
     // Get Cart List
-    this._ecommerceService.getInitialCartList();
-    // this._ecommerceService.getInitialCartList();
+    this._ecommerceService.getCartList();
 
     // Subscribe to Cart List
-    this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+    // this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
+      this._ecommerceService.onCartListChange.subscribe(res => {
       this.cartList = res;
       this.cartListLength = this.cartList.length;
+      this.totalPrice = 0;
+      console.log('cart change');
+      console.log('this.cartList : ',this.cartList);
+
+      if(this.cartList.length > 0)
+      {
+
+
+        this.products.forEach(product => {
+          product.isIncart = this.cartList?.some(p => p.productId === product.id);
+            if(product.isIncart)
+            {
+              this.totalPrice+= product.price;
+            }
+      })
+      }
     });
 
     // Subscribe to ProductList change
@@ -67,6 +85,7 @@ export class NavbarCartComponent implements OnInit {
       this.products = res;
 
       if (this.products.length) {
+        console.log('this.products 2 : ',this.products);
         // update product is in CartList : Boolean
         this.products.forEach(product => {
           product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
