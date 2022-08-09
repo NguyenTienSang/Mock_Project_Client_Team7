@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import Swal  from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-ecommerce-checkout-item',
@@ -43,9 +44,14 @@ export class EcommerceCheckoutItemComponent implements OnInit {
         product.isInWishlist = false;
       });
     } else {
-      this._ecommerceService.addToWishlist(product.id).then(res => {
-        product.isInWishlist = true;
-      });
+      this._ecommerceService.addToWishlist(product.id).subscribe(res => {
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+      })
     }
   }
 

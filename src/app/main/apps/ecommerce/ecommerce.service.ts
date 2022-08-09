@@ -32,6 +32,8 @@ export class EcommerceService implements Resolve<any> {
   private idHandel;
   private productId;
 
+  private currentId= JSON.parse(localStorage.getItem("currentUser")).user.id;
+
 
   private sortRef = key => (a, b) => {
     const fieldA = a[key];
@@ -85,7 +87,6 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
         this.productList = response.resultObj;
-        console.log('response : ',response);
 
         this.sortProduct('featured'); // Default shorting
         resolve(this.productList);
@@ -99,7 +100,6 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
         this.brandList=response.resultObj;
-        console.log('response : ',response);
 
         resolve(this.cartList);
       }, reject);
@@ -120,12 +120,16 @@ export class EcommerceService implements Resolve<any> {
    */
   getWishlist(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-userWishlist').subscribe((response: any) => {
-        this.wishlist = response;
+      this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
+        this.wishlist = response.resultObj;
         this.onWishlistChange.next(this.wishlist);
         resolve(this.wishlist);
       }, reject);
     });
+  }
+
+  getWishlists(): Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
   }
 
   /**
@@ -201,16 +205,10 @@ export class EcommerceService implements Resolve<any> {
    *
    * @param id
    */
-  addToWishlist(id) {
-    return new Promise<void>((resolve, reject) => {
-      const lengthRef = this.wishlist.length + 1;
-      const wishRef = { id: lengthRef, productId: id };
 
-      this._httpClient.post('api/ecommerce-userWishlist/' + lengthRef, { ...wishRef }).subscribe(response => {
-        this.getWishlist();
-        resolve();
-      }, reject);
-    });
+  addToWishlist(id):Observable<any> {
+    console.log(this.currentId);
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/Wishlist/add/${id}`,null);
   }
 
   /**
@@ -218,11 +216,12 @@ export class EcommerceService implements Resolve<any> {
    *
    * @param id
    */
+
   removeFromWishlist(id) {
     const indexRef = this.wishlist.findIndex(wishlistRef => wishlistRef.productId === id); // Get the index ref
     const indexId = this.wishlist[indexRef].id; // Get the product wishlist id from indexRef
     return new Promise<void>((resolve, reject) => {
-      this._httpClient.delete('api/ecommerce-userWishlist/' + indexId).subscribe((response: any) => {
+      this._httpClient.delete(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`).subscribe((response: any) => {
         this.getWishlist();
         resolve();
       }, reject);
@@ -279,7 +278,6 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
         this.categoryList = response.resultObj;
-        console.log('response : ',response);
         resolve(this.categoryList);
       }, reject);
     });
@@ -288,7 +286,7 @@ export class EcommerceService implements Resolve<any> {
   deleteProduct(id: number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
   }
-
+  
   addRating(ratingCreateViewModel: any):Observable<any>{
     return this._httpClient.post<any>(`${environment.apiUrl}/api/Rating/addRating`, ratingCreateViewModel)
   }
@@ -296,4 +294,5 @@ export class EcommerceService implements Resolve<any> {
   getRating(productId: any):Observable<any>{
     return this._httpClient.get(`${environment.apiUrl}/api/Rating/getRating/${productId}`)
   }
+
 }

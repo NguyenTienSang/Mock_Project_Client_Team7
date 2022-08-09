@@ -97,12 +97,17 @@ export class EcommerceDetailsComponent implements OnInit {
   toggleWishlist(selectedProduct) {
     if (selectedProduct.isInWishlist === true) {
       this._ecommerceService.removeFromWishlist(selectedProduct.id).then(res => {
-        selectedProduct.isInWishlist = false;
+        selectedProduct.id.isInWishlist = false;
       });
     } else {
-      this._ecommerceService.addToWishlist(selectedProduct.id).then(res => {
-        selectedProduct.isInWishlist = true;
-      });
+      this._ecommerceService.addToWishlist(selectedProduct.id).subscribe(res => {
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+      })
     }
   }
 
@@ -166,9 +171,9 @@ export class EcommerceDetailsComponent implements OnInit {
     if(this.currentUser != null){
       let roleUser = this.currentUser.user.role;
       if(roleUser == "Master" || roleUser == "Mod")
-        this.role = true;  
+        this.role = true;
     }
-    
+
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];

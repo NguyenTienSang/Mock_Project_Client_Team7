@@ -18,6 +18,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BrandManagerComponent } from './brand-manager/brand-manager.component';
 import { BrandService } from './brand.service';
 
+
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true
@@ -46,7 +48,7 @@ const routes: Routes = [
     Ng2FlatpickrModule,
     NgxDatatableModule,
     NouisliderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {
