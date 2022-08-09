@@ -1,15 +1,32 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import Swal  from 'sweetalert2/dist/sweetalert2.js';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ecommerce-details',
   templateUrl: './ecommerce-details.component.html',
   styleUrls: ['./ecommerce-details.component.scss'],
+  styles: [`
+    .star {
+      position: relative;
+      display: inline-block;
+      font-size: 1.3rem;
+    }
+    .full {}
+    .half {
+      position: absolute;
+      display: inline-block;
+      overflow: hidden;
+    }
+    .text-warning {
+      color: #ff902b !important;
+    }
+  `],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
@@ -24,6 +41,15 @@ export class EcommerceDetailsComponent implements OnInit {
   public selectedProduct;
   public role: boolean;
   currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  public ratingProduct ;
+  public rating;
+  public notificationRating;
+
+  datePipe: DatePipe = new DatePipe('en-US');
+  currentDate = new Date();
+  transformDate= this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+
 
   // Swiper
   public swiperResponsive: SwiperConfigInterface = {
@@ -136,6 +162,11 @@ export class EcommerceDetailsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.ratingProduct = 3.5
+    this.rating = 0;
+
+    let Id;
+
     this.role = false;
     if(this.currentUser != null){
       let roleUser = this.currentUser.user.role;
@@ -146,8 +177,10 @@ export class EcommerceDetailsComponent implements OnInit {
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];
+      
     });
 
+    
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
@@ -164,11 +197,30 @@ export class EcommerceDetailsComponent implements OnInit {
         this._ecommerceService.getSelectedProduct(this.productId)
           .subscribe((respone)=>{
             this.selectedProduct = respone.resultObj;
+            Id = this.selectedProduct.id;
+            console.log("id", Id);
+            
+            this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
+              if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
+              {
+                this.rating = res.resultObj.rate;
+                if(res.resultObj.updatedDate!= null)
+                  this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
+                else
+                  this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+              }
+              else{
+                this.rating = 0;
+                this.notificationRating = null;
+              }
+            }))
           })
       }
     });
     this.selectedProduct.isInWishlist = this.wishlist.findIndex(p => p.productId === this.selectedProduct.id) > -1;
     this.selectedProduct.isInCart = this.cartList.findIndex(p => p.productId === this.selectedProduct.id) > -1;
+
+    
 
     // content header
     this.contentHeader = {
@@ -199,5 +251,40 @@ export class EcommerceDetailsComponent implements OnInit {
         ]
       }
     };
+  }
+
+  SaveRating(productId){
+    let ratingCreateViewModel = {
+      productId: productId,
+      userId: this.currentUser.user.id,
+      rate: this.rating,
+      createdDate: this.transformDate,
+      createdBy: this.currentUser.user.userName
+    }
+    console.log("rating: ", ratingCreateViewModel);
+
+    this._ecommerceService.addRating(ratingCreateViewModel).subscribe((res=>{
+      console.log("response: ", res);
+      if(res.isSuccessed)
+      {
+        Swal.fire("Success", res.message, "success");
+        this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
+          if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
+          {
+            this.rating = res.resultObj.rate;
+            if(res.resultObj.updatedDate!= null)
+              this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
+            else
+              this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+          }
+          else{
+            this.rating = 0;
+            this.notificationRating = null;
+          }
+        }))
+      }
+      else
+        Swal.fire("Error", res.message, "error");
+    }))
   }
 }

@@ -282,7 +282,17 @@ export class EcommerceService implements Resolve<any> {
       }, reject);
     });
   }
+
   deleteProduct(id: number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
   }
+  
+  addRating(ratingCreateViewModel: any):Observable<any>{
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/Rating/addRating`, ratingCreateViewModel)
+  }
+
+  getRating(productId: any):Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/Rating/getRating/${productId}`)
+  }
+
 }
