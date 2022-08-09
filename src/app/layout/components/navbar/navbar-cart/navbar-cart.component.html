@@ -35,9 +35,10 @@
                 </h6>
                 <small class="cart-item-by">{{ product.name }}</small>
               </div>
+              <!-- <h1>{{product.quantityCart}}h111</h1> -->
               <div class="cart-item-qty">
                 <div class="input-group touchspin-cart">
-                  <core-touchspin [numberValue]="1" [stepValue]="1" [minValue]="1" [maxValue]="10"></core-touchspin>
+                  <core-touchspin  [product]="product" [numberValue]="1" [stepValue]="1" [minValue]="1" [maxValue]="10"></core-touchspin>
                 </div>
               </div>
               <h5 class="cart-item-price">${{ product.price }}</h5>

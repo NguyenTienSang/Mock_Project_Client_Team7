@@ -20,11 +20,22 @@
               <div class="ecommerce-details-price d-flex flex-wrap mt-1">
                 <h4 class="item-price mr-1">${{ selectedProduct.price }}</h4>
                 <div class="rating rating-sm pl-1 border-left mb-1">
-                  <ngb-rating [rate]="selectedProduct.rating" [readonly]="true" [max]="5" class="outline-none">
-                    <ng-template let-fill="fill" let-index="index"
-                      ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
-                    ></ng-template>
+                  <!-- <ngb-rating [(rate)]="rating" [max]="5" class="outline-none">
+                    <ng-template let-fill="fill" let-index="index">
+                      <span class="fa fa-star-o mr-25" [class.fa-star]="fill ===100">
+                      </span>
+                    </ng-template> 
                   </ngb-rating>
+                  {{rating}}<br/> -->
+
+                  <ng-template #t let-fill="fill">
+                    <span class="star" [class.full]="fill === 100">
+                      <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
+                    </span>
+                  </ng-template>
+                  
+                  <ngb-rating [(rate)]="selectedProduct.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                  <span style="font-size: medium;">  {{selectedProduct.rating}}/5</span>
                 </div>
               </div>
               <p class="card-text">Available - <span class="text-success">{{ selectedProduct.quantity }}</span></p>
@@ -119,11 +130,55 @@
                   <span >Delete</span>
                 </a>
               </div>
+              <div class="d-flex flex-column flex-sm-row pt-1">
+                <div class="col-6">
+                  <img src="{{selectedProduct.qrCode}}"  style="width: 200px; height:200px" class="img-thumbnail"/>
+                </div>
+                <div class="col-6">
+                  <div class="card-text">
+                    <!-- Comment Star Rating -->
+                    <div class="commentBox">
+                      <!-- <div class="form-horizontal"> -->
+                      <div class="form-group">
+                          <label>
+                              Your rating <span style="font-weight:normal;">(1 start is bad, 5 star is good)</span>
+                          </label>
+                          <span *ngIf="notificationRating !== null" class="invalid-form">
+                            <small class="form-text text-primary">{{notificationRating}}</small>
+                          </span>
+                          <div>
+                            <ng-template #rate let-fill="fill">
+                              <span class="star" [class.full]="fill === 100">
+                                <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
+                              </span>
+                            </ng-template>
+                            
+                            <ngb-rating [(rate)]="rating" [starTemplate]="rate" [readonly]="false" max="5"></ngb-rating>
+                            <!-- {{rating}} -->
+                          </div>
+                      </div>
+                      <!-- <div class="form-group">
+                          <div class="col-md-8">
+                              <textarea name="Comment" id="Comment" required rows="5" style="width:100%;" class="form-control"></textarea>
+                          </div>
+                      </div> -->
+                      <div class="form-group">
+                          <div>
+                              <input type="submit" id="rating" name="rating" value="Save" class="btn btn-primary" (click)="SaveRating(selectedProduct.id)"/>
+                          </div>
+                      <!-- </div> -->
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
         <!-- Product Details ends -->
 
+        
         <!-- Item features starts -->
         <div class="item-features">
           <div class="row text-center">

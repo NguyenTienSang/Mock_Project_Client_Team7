@@ -16,14 +16,14 @@ export class NavbarCartComponent implements OnInit {
   public cartListLength;
   public totalPrice = 0;
   // Private
-  private _unsubscribeAll: Subject<any>;
+  // private _unsubscribeAll: Subject<any>;
 
   /**
    *
    * @param {EcommerceService} _ecommerceService
    */
   constructor(public _ecommerceService: EcommerceService) {
-    this._unsubscribeAll = new Subject();
+    // this._unsubscribeAll = new Subject();
   }
 
   // Public Methods
@@ -57,40 +57,75 @@ export class NavbarCartComponent implements OnInit {
     // Get Cart List
     this._ecommerceService.getCartList();
 
+
+  // Subscribe to ProductList change
+  this._ecommerceService.onProductListChange.subscribe(res => {
+    this.products = res;
+  });
+
+
+
     // Subscribe to Cart List
     // this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this._ecommerceService.onCartListChange.subscribe(res => {
       this.cartList = res;
       this.cartListLength = this.cartList.length;
-      this.totalPrice = 0;
+
       console.log('cart change');
       console.log('this.cartList : ',this.cartList);
-
-      if(this.cartList.length > 0)
+      this.totalPrice = 0;
+   if(this.cartList.length > 0)
       {
-
-
         this.products.forEach(product => {
-          product.isIncart = this.cartList?.some(p => p.productId === product.id);
-            if(product.isIncart)
-            {
-              this.totalPrice+= product.price;
-            }
+
+          this.cartList.forEach(itemCart => {
+                if(itemCart.productId == product.id)
+                {
+                  product.isIncart = true;
+                  product.quantityCart = itemCart.quantity;
+
+
+                  // console.log('product.quantityCart : ',product.quantityCart);
+
+                }
+          })
+
+          // product.isIncart = this.cartList?.some(p => p.productId === product.id);
+
+          // product.quantityCart =
+
+          // if(product.isIncart)
+          //   {
+          //     this.totalPrice+= product.price;
+          //   }
       })
       }
+
     });
 
-    // Subscribe to ProductList change
-    this._ecommerceService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
-      this.products = res;
+    // if (this.products.length) {
+      // console.log('this.products 2 : ',this.products);
+      // update product is in CartList : Boolean
+      this.products.forEach(product => {
+        product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+        console.log('product : ',product);
 
-      if (this.products.length) {
-        console.log('this.products 2 : ',this.products);
-        // update product is in CartList : Boolean
-        this.products.forEach(product => {
-          product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
-        });
-      }
-    });
+      });
+    // }
+
+
+
+    // // Subscribe to ProductList change
+    // this._ecommerceService.onProductListChange.subscribe(res => {
+    //   this.products = res;
+
+    //   if (this.products.length) {
+    //     console.log('this.products 2 : ',this.products);
+    //     // update product is in CartList : Boolean
+    //     this.products.forEach(product => {
+    //       product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+    //     });
+    //   }
+    // });
   }
 }

@@ -1,5 +1,11 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
+import {NavbarCartComponent} from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
+
+import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+
+
+
 @Component({
   selector: 'core-touchspin',
   templateUrl: './core-touchspin.component.html',
@@ -17,10 +23,12 @@ export class CoreTouchspinComponent implements OnInit {
   @Input('maxValue') maxValue: number = 9999;
   @Input('minValue') minValue: number = 0;
 
+  @Input() product;
+
   public disabledValueIncrement = false;
   public disabledValueDecrement = false;
 
-  constructor() {}
+  constructor(public _navbarCartComponent : NavbarCartComponent,public _ecommerceService: EcommerceService) {}
 
   inputChange(inputValue: number) {
     if (inputValue == this.maxValue || inputValue > this.maxValue) {
@@ -35,7 +43,15 @@ export class CoreTouchspinComponent implements OnInit {
     }
   }
 
-  increment() {
+  increment(product) {
+    console.log('product',product);
+      console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
+
+      this._navbarCartComponent.totalPrice+= product.price;
+
+
+
+
     if (this.stepValue == undefined) {
       this.numberValue += 1;
     } else {
@@ -54,9 +70,20 @@ export class CoreTouchspinComponent implements OnInit {
         this.disabledValueDecrement = true;
       }
     }
+
+    this._ecommerceService.updateCart(product.id,this.numberValue);
+
+    console.log('increase');
+
+
   }
 
-  decrement() {
+  decrement(product) {
+    console.log('product',product);
+    this._navbarCartComponent.totalPrice-= product.price;
+
+    console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
+
     if (this.stepValue == undefined) {
       this.numberValue -= 1;
     } else {
@@ -75,6 +102,12 @@ export class CoreTouchspinComponent implements OnInit {
         this.disabledValueIncrement = true;
       }
     }
+
+    this._ecommerceService.updateCart(product.id,this.numberValue);
+
+
+    console.log('decrease');
+
   }
 
   ngOnInit(): void {

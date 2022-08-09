@@ -1,7 +1,7 @@
 <div class="btn-group touchspin-wrapper" [ngClass]="{ 'touchspin-sm': size == 'sm', 'touchspin-lg': size == 'lg' }">
   <button
     class="btn btn-sm btn-primary btn-touchspin btn-touchspin-down"
-    (click)="decrement()"
+    (click)="decrement(product)"
     [disabled]="disabledValueDecrement"
     [ngClass]="{
       'btn-info': color == 'info',
@@ -28,7 +28,7 @@
   />
   <button
     class="btn btn-sm btn-primary btn-touchspin btn-touchspin-up"
-    (click)="increment()"
+    (click)="increment(product)"
     [disabled]="disabledValueIncrement"
     [ngClass]="{
       'btn-info': color == 'info',
