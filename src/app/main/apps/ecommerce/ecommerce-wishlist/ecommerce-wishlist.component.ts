@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ecommerce-wishlist',
@@ -31,11 +32,13 @@ export class EcommerceWishlistComponent implements OnInit {
     // Subscribe to ProductList change
     this._ecommerceService.onProductListChange.subscribe(res => {
       this.products = res;
+      console.log(this.products);
     });
 
     // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
-
+    this._ecommerceService.onWishlistChange.subscribe(res => {
+      this.wishlist = res;
+    });
     // update product is in Wishlist : Boolean
     this.products.forEach(product => {
       product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
