@@ -140,6 +140,7 @@ export class EcommerceDetailsComponent implements OnInit {
   addToCart(selectedProduct) {
     this._ecommerceService.addToCart(selectedProduct.id).then(res => {
       selectedProduct.isInCart = true;
+
     });
   }
   deleteProduct(id: number){

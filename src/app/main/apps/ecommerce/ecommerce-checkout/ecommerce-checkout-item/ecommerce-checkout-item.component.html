@@ -32,11 +32,13 @@
     <div class="item-quantity">
       <span class="quantity-title">Qty:</span>
       <div class="quantity-counter-wrapper">
-        <core-touchspin [numberValue]="1" [stepValue]="1" [minValue]="1" [maxValue]="product.quantity"></core-touchspin>
+
+        <core-touchspin  [product]="product" [numberValue]="product.quantityInCart" [stepValue]="1" [minValue]="1" [maxValue]="10"></core-touchspin>
+
       </div>
     </div>
-    <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>
-    <span class="text-success">17% off 4 offers Available</span>
+    <!-- <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>
+    <span class="text-success">17% off 4 offers Available</span> -->
   </div>
   <div class="item-options text-center">
     <div class="item-wrapper">
