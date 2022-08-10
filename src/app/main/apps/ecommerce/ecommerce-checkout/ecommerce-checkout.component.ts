@@ -81,6 +81,7 @@ export class EcommerceCheckoutComponent implements OnInit {
 
     // Subscribe to Cartlist change
     this._ecommerceService.onCartListChange.subscribe(res => (this.cartLists = res));
+      console.log('this.cartLists : ',this.cartLists);
 
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
@@ -89,6 +90,11 @@ export class EcommerceCheckoutComponent implements OnInit {
     this.products.forEach(product => {
       product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
       product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
+      if(product.isInCart)
+      {
+        console.log('product ; ',product);
+
+      }
     });
 
     this.checkoutStepper = new Stepper(document.querySelector('#checkoutStepper'), {

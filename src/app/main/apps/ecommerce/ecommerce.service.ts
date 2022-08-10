@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 // import { environment } from './../../../../environments/environment.hmr';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -18,6 +19,9 @@ export class EcommerceService implements Resolve<any> {
   public selectedProduct;
   public relatedProducts;
   public categoryList: Array<any>;
+  public totalPriceCart = 0;
+
+
 
   public onProductListChange: BehaviorSubject<any>;
   public onCategoryListChange: BehaviorSubject<any>;
@@ -87,6 +91,7 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Products/GetAllProduct`).subscribe((response: any) => {
         this.productList = response.resultObj;
+        // console.log('response : ',response);
 
         this.sortProduct('featured'); // Default shorting
         resolve(this.productList);
@@ -100,21 +105,13 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
         this.brandList=response.resultObj;
+        // console.log('response : ',response);
 
         resolve(this.cartList);
       }, reject);
     });
   }
 
-// getProducts(): Promise<any[]> {
-//     return new Promise((resolve, reject) => {
-//       this._httpClient.get('api/ecommerce-products').subscribe((response: any) => {
-//         this.productList = response;
-//         this.sortProduct('featured'); // Default shorting
-//         resolve(this.productList);
-//       }, reject);
-//     });
-//   }
   /**
    * Get Wishlist
    */
@@ -135,16 +132,55 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get CartList
    */
+  //Call api Get Cart
+
   getCartList(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/ecommerce-userCart').subscribe((response: any) => {
-        this.cartList = response;
+      this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
+        this.cartList = response.resultObj;
 
+        // resolve(this.getToTalPrice());
+        // this.getToTalPrice();
         this.onCartListChange.next(this.cartList);
+
+        console.log('test 2');
+
+        // resolve(this.getToTalPrice());
+
         resolve(this.cartList);
-      }, reject);
+
+      },reject);
     });
+
+
+      // if(this.currentId)
+      // {
+      //   return new Promise((resolve, reject) => {
+      //     this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
+      //       this.cartList = response.resultObj;
+      //       this.onCartListChange.next(this.cartList);
+      //       resolve(this.cartList);
+      //     },reject);
+      //   });
+      // }
+      // else {
+      //   return new Promise((resolve, reject) => {
+      //     const dataCart = sessionStorage.getItem('cart');
+      //     if(dataCart != null)
+      //     {
+      //       this.cartList = JSON.parse(dataCart);
+      //     }
+      //     else {
+      //       this.cartList = [];
+      //     }
+      //      //When cart list change
+      //     this.onCartListChange.next(this.cartList);
+      //     resolve(this.cartList);
+      //   });
+      // }
   }
+
+
 
   /**
    * Get Selected Product
@@ -228,21 +264,83 @@ export class EcommerceService implements Resolve<any> {
     });
   }
 
+
+  getToTalPrice(){
+  // let totalPrice = 0
+  this.totalPriceCart = 0
+  console.log('this.cartList : ',this.cartList);
+
+          this.productList.forEach(product => {
+            product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+            if(product.isInCart)
+            {
+              this.totalPriceCart+=product.price;
+            }
+          })
+          console.log('this.totalPriceCart : ',this.totalPriceCart);
+
+          console.log('test 1');
+          return <any> this.totalPriceCart;
+  }
+
+
+
   /**
    * Add In Cart
    *
    * @param id
    */
-  addToCart(id) {
-    return new Promise<void>((resolve, reject) => {
-      const lengthRef = this.cartList.length + 1;
-      const cartRef = { id: lengthRef, productId: id, qty: 1 };
 
-      this._httpClient.post('api/ecommerce-userCart/' + lengthRef, { ...cartRef }).subscribe(response => {
-        this.getCartList();
-        resolve();
-      }, reject);
-    });
+
+  addToCart(id) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if(currentUser)
+    {
+      return new Promise<void>((resolve, reject) => {
+        this._httpClient.post(`${environment.apiUrl}/api/Cart/add/${id}`,{
+          id
+        }).subscribe((response: any) => {
+          this.getToTalPrice();
+          this.getCartList();
+          resolve();
+        }, reject);
+      });
+    }
+    else {
+      return new Promise<void>((resolve, reject) => {
+        const dataCart = sessionStorage.getItem('cart');
+    //Have cart in sessionStorage
+        if(dataCart != null)
+            {
+
+              const lengthRef = JSON.parse(dataCart).length + 1;
+              const cartRef = { id: lengthRef, productId: id, qty: 1 };
+              const cart = JSON.parse(dataCart);
+              const found = cart.find(item => item.productId == cartRef.productId);
+              if(found != null)
+              {
+                //if found item then increase quantity item cart
+                console.log('found item');
+              }
+              else
+              {
+                cart.push(cartRef);
+                console.log('not found item');
+              }
+                sessionStorage.setItem('cart',JSON.stringify(cart));
+            }
+        //Haven't cart in sessionStorage
+            else {
+              // const lengthRef = JSON.parse(dataCart).length + 1;
+              const cartRef = { id: 1, productId: id, qty: 1 };
+              const cart = [];//Create new array cart empty
+              cart.push(cartRef);
+              sessionStorage.setItem('cart',JSON.stringify(cart));
+            }
+            this.getCartList();
+            resolve();
+      });
+    }
   }
 
   /**
@@ -251,33 +349,64 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
   removeFromCart(id) {
-    const indexRef = this.cartList.findIndex(cartListRef => cartListRef.productId === id); // Get the index ref
-    const indexId = this.cartList[indexRef].id; // Get the product wishlist id from indexRef
-
     return new Promise<void>((resolve, reject) => {
-      this._httpClient.delete('api/ecommerce-userCart/' + indexId).subscribe((response: any) => {
+      this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
+        this.getCartList();
+        this.getToTalPrice();
+        resolve();
+      }, reject);
+    });
+
+
+
+
+
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // if(currentUser)
+    // {
+    //   return new Promise<void>((resolve, reject) => {
+    //     this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
+    //       this.getCartList();
+    //       resolve();
+    //     }, reject);
+    //   });
+    // }
+    // else {
+    //   return new Promise<void>((resolve, reject) => {
+    //     const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+    //     this.cartList = dataCart.filter((item) => item.productId != id)
+    //     sessionStorage.setItem('cart',JSON.stringify(this.cartList));
+    //           this.getCartList();
+    //           resolve();
+    //       });
+    // }
+
+  }
+
+
+  updateCart(productId : string,quantity : number){
+    // console.log(quantity);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return new Promise<void>((resolve, reject) => {
+      this._httpClient.put<any>(`${environment.apiUrl}/api/Cart/cart-update`,{
+        "productId" : productId,
+        "userId" : this.currentId,
+        "quantity" :  quantity
+      }).subscribe((response: any) => {
         this.getCartList();
         resolve();
       }, reject);
     });
   }
 
+
+
   // Get list Category
-  // GetListCategory():Promise<any[]>{
-  //   return new Promise((resolve, reject) => {
-  //     this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
-  //       this.categoryList = response.resultObj;
-
-  //       console.log('response : ',response);
-
-  //       resolve(this.categoryList);
-  //   },  reject);
-  // });
-  // }
   getListCategory(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Category/GetAllCategory`).subscribe((response: any) => {
         this.categoryList = response.resultObj;
+        // console.log('response : ',response);
         resolve(this.categoryList);
       }, reject);
     });
@@ -286,7 +415,7 @@ export class EcommerceService implements Resolve<any> {
   deleteProduct(id: number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Products/DeleteProduct/${id}`)
   }
-  
+
   addRating(ratingCreateViewModel: any):Observable<any>{
     return this._httpClient.post<any>(`${environment.apiUrl}/api/Rating/addRating`, ratingCreateViewModel)
   }

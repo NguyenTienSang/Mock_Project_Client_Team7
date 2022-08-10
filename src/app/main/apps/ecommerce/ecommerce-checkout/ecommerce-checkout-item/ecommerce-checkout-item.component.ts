@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import Swal  from 'sweetalert2/dist/sweetalert2.js';
 
@@ -13,12 +16,17 @@ export class EcommerceCheckoutItemComponent implements OnInit {
   // Input Decorator
   @Input() product;
 
+  // Private
+  private _unsubscribeAll: Subject<any>;
+
   /**
    * Constructor
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(private _ecommerceService: EcommerceService) {
+    this._unsubscribeAll = new Subject();
+  }
 
   /**
    * Remove From Cart
@@ -43,7 +51,8 @@ export class EcommerceCheckoutItemComponent implements OnInit {
       this._ecommerceService.removeFromWishlist(product.id).then(res => {
         product.isInWishlist = false;
       });
-    } else {
+    }
+     else {
       this._ecommerceService.addToWishlist(product.id).subscribe(res => {
         if(res.isSuccessed){
           Swal.fire("Success",res.message,"success");

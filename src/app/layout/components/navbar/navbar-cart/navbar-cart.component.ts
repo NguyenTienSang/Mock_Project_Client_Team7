@@ -14,7 +14,7 @@ export class NavbarCartComponent implements OnInit {
   public products = [];
   public cartList = [];
   public cartListLength;
-
+  public totalPrice = 0;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -36,11 +36,22 @@ export class NavbarCartComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
-      this._ecommerceService.removeFromCart(product.id).then(res => {
+      this._ecommerceService.removeFromCart(product.id).then<any>(res => {
         product.isInCart = false;
+
+        // this.getTotalPrice();
+    //  this.totalPrice = this.getTotalPrice();
+    //     console.log('this.totalPrice : ',this.totalPrice);
+
       });
     }
   }
+
+  // getTotalPrice()
+  // {
+  //   return this._ecommerceService.getToTalPrice();
+  // }
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -58,16 +69,31 @@ export class NavbarCartComponent implements OnInit {
     // Subscribe to Cart List
     this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.cartList = res;
-      this.cartListLength = this.cartList.length;
+      this.cartListLength = this.cartList?.length;
+      this.totalPrice = this._ecommerceService.totalPriceCart;
+      // console.log('onCartListChange : ');
     });
 
     // Subscribe to ProductList change
     this._ecommerceService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.products = res;
 
+
       if (this.products.length) {
         // update product is in CartList : Boolean
+        this.totalPrice = 0;
         this.products.forEach(product => {
+          this.cartList.forEach(p => {
+              if(p.productId === product.id)
+              {
+                // console.log('product : ',product);
+
+                product.isInCart = true;
+                product.quantityInCart = p.quantity;
+                this.totalPrice+=product.price;
+              }
+          })
+
           product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
       }
