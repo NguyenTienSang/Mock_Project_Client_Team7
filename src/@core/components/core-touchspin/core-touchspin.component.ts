@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
-import {NavbarCartComponent} from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
+// import {NavbarCartComponent} from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 
@@ -21,14 +21,15 @@ export class CoreTouchspinComponent implements OnInit {
   @Input('color') color: string = '';
   @Input('stepValue') stepValue: number;
   @Input('maxValue') maxValue: number = 9999;
-  @Input('minValue') minValue: number = 0;
+  @Input('minValue') minValue: number = 1;
 
   @Input() product;
 
   public disabledValueIncrement = false;
   public disabledValueDecrement = false;
 
-  constructor(public _navbarCartComponent : NavbarCartComponent,public _ecommerceService: EcommerceService) {}
+  // constructor(public _navbarCartComponent : NavbarCartComponent,public _ecommerceService: EcommerceService) {}
+  constructor(public _ecommerceService: EcommerceService) {}
 
   inputChange(inputValue: number) {
     if (inputValue == this.maxValue || inputValue > this.maxValue) {
@@ -45,9 +46,9 @@ export class CoreTouchspinComponent implements OnInit {
 
   increment(product) {
     console.log('product',product);
-      console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
+      // console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
 
-      this._navbarCartComponent.totalPrice+= product.price;
+      // this._navbarCartComponent.totalPrice+= product.price;
 
 
 
@@ -80,9 +81,9 @@ export class CoreTouchspinComponent implements OnInit {
 
   decrement(product) {
     console.log('product',product);
-    this._navbarCartComponent.totalPrice-= product.price;
+    // this._navbarCartComponent.totalPrice-= product.price;
 
-    console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
+    // console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
 
     if (this.stepValue == undefined) {
       this.numberValue -= 1;
@@ -111,7 +112,14 @@ export class CoreTouchspinComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.disabledValueIncrement = this.disabledValue;
+    // this.disabledValueDecrement = this.disabledValue;
     this.disabledValueIncrement = this.disabledValue;
-    this.disabledValueDecrement = this.disabledValue;
+
+    if(this.numberValue == this.minValue)
+    {
+      this.disabledValueDecrement = true;
+    }
+
   }
 }

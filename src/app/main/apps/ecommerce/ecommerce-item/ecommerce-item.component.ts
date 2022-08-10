@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
-
 import Swal  from 'sweetalert2';
 
 @Component({
@@ -57,8 +56,12 @@ export class EcommerceItemComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
+    console.log('product : ',product);
+
     this._ecommerceService.addToCart(product.id).then(res => {
       product.isInCart = true;
+      product.quantityInCart = 1;
+      // this._navbarCartComponent.totalPrice+= product.price;
       // this.totalPrice+= product.price;
     });
   }

@@ -19,6 +19,8 @@ export class EcommerceService implements Resolve<any> {
   public selectedProduct;
   public relatedProducts;
   public categoryList: Array<any>;
+  public totalPriceCart = 0;
+
 
 
   public onProductListChange: BehaviorSubject<any>;
@@ -133,14 +135,24 @@ export class EcommerceService implements Resolve<any> {
   //Call api Get Cart
 
   getCartList(): Promise<any[]> {
-
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
         this.cartList = response.resultObj;
+
+        // resolve(this.getToTalPrice());
+        // this.getToTalPrice();
         this.onCartListChange.next(this.cartList);
+
+        console.log('test 2');
+
+        // resolve(this.getToTalPrice());
+
         resolve(this.cartList);
+
       },reject);
     });
+
+
       // if(this.currentId)
       // {
       //   return new Promise((resolve, reject) => {
@@ -252,11 +264,34 @@ export class EcommerceService implements Resolve<any> {
     });
   }
 
+
+  getToTalPrice(){
+  // let totalPrice = 0
+  this.totalPriceCart = 0
+  console.log('this.cartList : ',this.cartList);
+
+          this.productList.forEach(product => {
+            product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+            if(product.isInCart)
+            {
+              this.totalPriceCart+=product.price;
+            }
+          })
+          console.log('this.totalPriceCart : ',this.totalPriceCart);
+
+          console.log('test 1');
+          return <any> this.totalPriceCart;
+  }
+
+
+
   /**
    * Add In Cart
    *
    * @param id
    */
+
+
   addToCart(id) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if(currentUser)
@@ -265,11 +300,9 @@ export class EcommerceService implements Resolve<any> {
         this._httpClient.post(`${environment.apiUrl}/api/Cart/add/${id}`,{
           id
         }).subscribe((response: any) => {
+          this.getToTalPrice();
           this.getCartList();
           resolve();
-          // this.cartList = response.resultObj;
-          // this.onCartListChange.next(this.cartList);
-          // resolve(this.cartList);
         }, reject);
       });
     }
@@ -319,6 +352,7 @@ export class EcommerceService implements Resolve<any> {
     return new Promise<void>((resolve, reject) => {
       this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
         this.getCartList();
+        this.getToTalPrice();
         resolve();
       }, reject);
     });
