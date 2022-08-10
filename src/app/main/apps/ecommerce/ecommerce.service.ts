@@ -74,7 +74,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
+      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlists(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -118,15 +118,15 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get Wishlist
    */
-  getWishlist(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
-        this.wishlist = response.resultObj;
-        this.onWishlistChange.next(this.wishlist);
-        resolve(this.wishlist);
-      }, reject);
-    });
-  }
+  // getWishlist(): Promise<any[]> {
+  //   return new Promise((resolve, reject) => {
+  //     this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
+  //       this.wishlist = response.resultObj;
+  //       this.onWishlistChange.next(this.wishlist);
+  //       resolve(this.wishlist);
+  //     }, reject);
+  //   });
+  // }
 
   getWishlists(): Observable<any>{
     return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
@@ -217,17 +217,10 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
 
-  removeFromWishlist(id) {
-    const indexRef = this.wishlist.findIndex(wishlistRef => wishlistRef.productId === id); // Get the index ref
-    const indexId = this.wishlist[indexRef].id; // Get the product wishlist id from indexRef
-    return new Promise<void>((resolve, reject) => {
-      this._httpClient.delete(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`).subscribe((response: any) => {
-        this.getWishlist();
-        resolve();
-      }, reject);
-    });
+  removeFromWishlist(id):Observable<any> {
+    //const indexRef = this.wishlist.findIndex(wishlistRef => wishlistRef.productId === id); // Get the index ref
+    return this._httpClient.delete<any>(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`)
   }
-
   /**
    * Add In Cart
    *
