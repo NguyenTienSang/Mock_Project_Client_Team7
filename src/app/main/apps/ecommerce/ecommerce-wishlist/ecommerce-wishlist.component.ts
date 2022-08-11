@@ -30,19 +30,25 @@ export class EcommerceWishlistComponent implements OnInit {
    */
   ngOnInit(): void {
     // Subscribe to ProductList change
-    this._ecommerceService.onProductListChange.subscribe(res => {
-      this.products = res;
-      console.log(this.products);
-    });
+    // this._ecommerceService.onProductListChange.subscribe(res => {
+    //   this.products = res;
+    //   console.log(this.products);
+    // });
 
     // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => {
-      this.wishlist = res;
+    this._ecommerceService.getWishlists().subscribe(res => {
+      this.products = res.resultObj;
+      console.log("wishlist", this.products);
     });
     // update product is in Wishlist : Boolean
-    this.products.forEach(product => {
-      product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
-    });
+    // this.products.forEach(product => {
+    //   product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
+    // });
+    
+    // this.wl = this.products.forEach(product => {
+    //   console.log("test", product);
+    //   product.isInWishlist = this.wishlist.find(p => p.productId === product.id) != null;
+    // });
 
     // content header
     this.contentHeader = {

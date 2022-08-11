@@ -32,7 +32,7 @@
             </span>
             </div>
             <div  class="container">
-              <button type="button" style="margin-left:295px ;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Category')" >
+              <button type="button" style="float: right ;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Category')" >
                 <i data-feather="plus-square" class="mr-25"></i>Add Category</button>
             </div>
           </div>
@@ -47,7 +47,7 @@
             </span>
             </div>
             <div  class="container">
-              <button type="button" style="margin-left:295px ;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Brand')" >
+              <button type="button" style="float: right;" class="btn btn-sm btn-outline-primary" (click)="open(content,'Add Brand')" >
                 <i data-feather="plus-square" class="mr-25"></i>Add Brand</button>
             </div>
           </div>
@@ -97,7 +97,7 @@
               </span>
             </div>
           </div>
-          <div class="col-12 col-sm-6">
+          <!-- <div class="col-12 col-sm-6">
             <div class="form-group">
               <label for="expire">Expire</label>
               <input
@@ -111,11 +111,32 @@
                 required
                 [value]="expire"
               />
-              <!-- <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
+              <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="expireRef.errors?.required">Expire is required!</small>
-              </span> -->
+              </span>
               <span *ngIf="newProductForm.submitted || expireRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="expire < transformDate.substring(0,10)">Expire is greater date now!</small>
+              </span>
+            </div>
+          </div> -->
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="accountTextarea">Image</label>
+              <input
+                type="file"
+
+                class="form-control"
+                (change)="upload($event)"
+                id="file"
+                placeholder="Choose Image"
+                name="file"
+                [(ngModel)]="image"
+                [class.error]="newProductForm.submitted && imageRef.invalid"
+                #imageRef="ngModel" accept=".png, .jpg, .jpeg"
+                required
+              />
+              <span *ngIf="newProductForm.submitted || imageRef.touched" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="imageRef.errors?.required">Image is required!</small>
               </span>
             </div>
           </div>
@@ -135,27 +156,6 @@
               ></textarea>
               <span *ngIf="newProductForm.submitted || descriptionRef.touched" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="descriptionRef.errors?.required">Description is required!</small>
-              </span>
-            </div>
-          </div>
-          <div class="col-12 col-sm-6">
-            <div class="form-group">
-              <label for="accountTextarea">Image</label>
-              <input
-                type="file"
-
-                class="form-control"
-                (change)="upload($event)"
-                id="file"
-                placeholder="Choose Image"
-                name="file"
-                [(ngModel)]="image"
-                [class.error]="newProductForm.submitted && imageRef.invalid"
-                #imageRef="ngModel" accept=".png, .jpg, .jpeg"
-                required
-              />
-              <span *ngIf="newProductForm.submitted || imageRef.touched" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="imageRef.errors?.required">Image is required!</small>
               </span>
             </div>
           </div>

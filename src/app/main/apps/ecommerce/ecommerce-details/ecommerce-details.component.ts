@@ -41,7 +41,7 @@ export class EcommerceDetailsComponent implements OnInit {
   public selectedProduct;
   public role: boolean;
   currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+  public isRating;
   public ratingProduct ;
   public rating;
   public notificationRating;
@@ -96,9 +96,30 @@ export class EcommerceDetailsComponent implements OnInit {
    */
   toggleWishlist(selectedProduct) {
     if (selectedProduct.isInWishlist === true) {
-      this._ecommerceService.removeFromWishlist(selectedProduct.id).then(res => {
-        selectedProduct.id.isInWishlist = false;
-      });
+      Swal.fire({
+        title: 'Are you sure want to remove?',
+        text: 'You will not be able to recover this file!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result.value) {
+          this._ecommerceService.removeFromWishlist(selectedProduct.id).subscribe((res=>{
+            if(res.isSuccessed){
+              Swal.fire("Success",res.message,"success");
+              window.location.reload();
+            }
+            else{
+              Swal.fire("Warning",res.message,"warning");
+            }
+          }),
+          (error=>{
+            Swal.fire("Error",error,"error");
+          })
+          );
+        } 
+      })
     } else {
       this._ecommerceService.addToWishlist(selectedProduct.id).subscribe(res => {
         if(res.isSuccessed){
@@ -163,6 +184,15 @@ export class EcommerceDetailsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    if(this.currentUser.user.role == "Master" || this.currentUser.user.role == "Mod")
+    {
+      this.isRating = false;
+    }
+    else
+    {
+      this.isRating = true;
+    }
+
     this.ratingProduct = 3.5
     this.rating = 0;
 
@@ -269,20 +299,46 @@ export class EcommerceDetailsComponent implements OnInit {
       if(res.isSuccessed)
       {
         Swal.fire("Success", res.message, "success");
-        this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
-          if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
-          {
-            this.rating = res.resultObj.rate;
-            if(res.resultObj.updatedDate!= null)
-              this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
-            else
-              this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+        this.route.paramMap.subscribe((params)=>{
+          this.productId = params.get('id');
+          if(this.productId){
+            this._ecommerceService.getSelectedProduct(this.productId)
+              .subscribe((respone)=>{
+                this.selectedProduct = respone.resultObj;
+                let Id = this.selectedProduct.id;
+                console.log("id", Id);
+                
+                this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
+                  if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
+                  {
+                    this.rating = res.resultObj.rate;
+                    if(res.resultObj.updatedDate!= null)
+                      this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
+                    else
+                      this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+                  }
+                  else{
+                    this.rating = 0;
+                    this.notificationRating = null;
+                  }
+                }))
+              })
           }
-          else{
-            this.rating = 0;
-            this.notificationRating = null;
-          }
-        }))
+        });
+        // this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
+        //   if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
+        //   {
+        //     this.rating = res.resultObj.rate;
+        //     if(res.resultObj.updatedDate!= null)
+        //       this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
+        //     else
+        //       this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+        //   }
+        //   else{
+        //     this.rating = 0;
+        //     this.notificationRating = null;
+        //   }
+        // }))
       }
       else
         Swal.fire("Error", res.message, "error");
