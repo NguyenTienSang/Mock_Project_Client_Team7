@@ -40,11 +40,7 @@
         </tr>
     </thead>
     <tbody>
-<<<<<<< HEAD
       <tr *ngFor="let item of categoryList|filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;let i=index">
-=======
-      <tr *ngFor="let item of categoryList; let i = index">
->>>>>>> Develop
           <th>{{i+1}}</th>
           <th>{{item.name}}</th>
           <th>

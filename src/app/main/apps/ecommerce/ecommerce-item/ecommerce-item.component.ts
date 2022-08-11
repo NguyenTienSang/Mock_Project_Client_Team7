@@ -49,8 +49,8 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param product
    */
-  toggleWishlist(product, isRM) {
-    if (isRM === 'rm') {
+  toggleWishlist(product) {
+    if (product.isInWishlist) {
       Swal.fire({
         title: 'Are you sure want to remove?',
         text: 'You will not be able to recover this file!',
