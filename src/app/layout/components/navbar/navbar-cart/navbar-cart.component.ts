@@ -97,6 +97,7 @@ export class NavbarCartComponent implements OnInit {
 
           product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
+        this.totalPrice = Number(this.totalPrice.toFixed(2));
         this._ecommerceService.totalPriceCart = this.totalPrice;
       }
     });
