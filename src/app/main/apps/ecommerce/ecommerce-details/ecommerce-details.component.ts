@@ -138,9 +138,11 @@ export class EcommerceDetailsComponent implements OnInit {
    * @param product
    */
   addToCart(selectedProduct) {
+    console.log('test');
+
+    this._ecommerceService.totalPriceCart += selectedProduct.price;
     this._ecommerceService.addToCart(selectedProduct.id).then(res => {
       selectedProduct.isInCart = true;
-
     });
   }
   deleteProduct(id: number){
@@ -208,10 +210,10 @@ export class EcommerceDetailsComponent implements OnInit {
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];
-      
+
     });
 
-    
+
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
@@ -230,7 +232,7 @@ export class EcommerceDetailsComponent implements OnInit {
             this.selectedProduct = respone.resultObj;
             Id = this.selectedProduct.id;
             console.log("id", Id);
-            
+
             this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
               if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
               {
@@ -251,7 +253,7 @@ export class EcommerceDetailsComponent implements OnInit {
     this.selectedProduct.isInWishlist = this.wishlist.findIndex(p => p.productId === this.selectedProduct.id) > -1;
     this.selectedProduct.isInCart = this.cartList.findIndex(p => p.productId === this.selectedProduct.id) > -1;
 
-    
+
 
     // content header
     this.contentHeader = {

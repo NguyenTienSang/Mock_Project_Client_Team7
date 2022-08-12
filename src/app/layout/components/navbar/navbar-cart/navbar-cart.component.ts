@@ -36,13 +36,13 @@ export class NavbarCartComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
+
+      this._ecommerceService.totalPriceCart -=  product.price;
+      this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
+      this.totalPrice = this._ecommerceService.totalPriceCart;
       this._ecommerceService.removeFromCart(product.id).then<any>(res => {
         product.isInCart = false;
-
-        // this.getTotalPrice();
-    //  this.totalPrice = this.getTotalPrice();
-    //     console.log('this.totalPrice : ',this.totalPrice);
-
       });
     }
   }
@@ -71,6 +71,7 @@ export class NavbarCartComponent implements OnInit {
       this.cartList = res;
       this.cartListLength = this.cartList?.length;
       this.totalPrice = this._ecommerceService.totalPriceCart;
+
       // console.log('onCartListChange : ');
     });
 
@@ -96,6 +97,8 @@ export class NavbarCartComponent implements OnInit {
 
           product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
+        this.totalPrice = Number(this.totalPrice.toFixed(2));
+        this._ecommerceService.totalPriceCart = this.totalPrice;
       }
     });
   }

@@ -32,7 +32,7 @@
         <div class="line">
           <i data-feather="chevron-right" class="font-medium-2"></i>
         </div>
-        <div class="step" data-target="#step-payment">
+        <!-- <div class="step" data-target="#step-payment">
           <button type="button" class="step-trigger">
             <span class="bs-stepper-box">
               <i data-feather="credit-card" class="font-medium-3"></i>
@@ -42,7 +42,7 @@
               <span class="bs-stepper-subtitle">Select Payment Method</span>
             </span>
           </button>
-        </div>
+        </div> -->
       </div>
       <!-- Wizard ends -->
 
@@ -110,14 +110,24 @@
                         <div class="detail-amt font-weight-bolder">$574</div>
                       </li>
                     </ul>
-                    <button
+                    <!-- <button
                       type="button"
                       class="btn btn-primary btn-block btn-next place-order"
                       (click)="nextStep()"
                       rippleEffect
                     >
                       Place Order
-                    </button>
+                    </button> -->
+
+                    <button
+                    type="button"
+                    class="btn btn-primary btn-block btn-next place-order"
+                    (click)="createOrder()"
+                    rippleEffect
+                  >
+                    Place Order
+                  </button>
+
                   </div>
                 </div>
               </div>
@@ -153,7 +163,7 @@
                         class="form-control"
                         [class.error]="addressForm.submitted && fullNameRef.invalid"
                         name="fullname"
-                        placeholder="John Doe"
+                        placeholder="Please enter fullname"
                         [(ngModel)]="address.fullNameVar"
                         #fullNameRef="ngModel"
                         required
@@ -169,12 +179,12 @@
                     <div class="form-group mb-2">
                       <label for="checkout-number">Mobile Number:</label>
                       <input
-                        type="number"
+                        type="text"
                         id="checkout-number"
                         class="form-control"
                         [class.error]="addressForm.submitted && numberRef.invalid"
                         name="mnumber"
-                        placeholder="0123456789"
+                        placeholder="Please enter phonenumber"
                         [(ngModel)]="address.numberVar"
                         #numberRef="ngModel"
                         required
@@ -188,15 +198,15 @@
                   </div>
                   <div class="col-md-6 col-sm-12">
                     <div class="form-group mb-2">
-                      <label for="checkout-apt-number">Flat, House No:</label>
+                      <label for="checkout-apt-number">Address:</label>
                       <input
-                        type="number"
+                        type="text"
                         id="checkout-apt-number"
                         class="form-control"
                         [class.error]="addressForm.submitted && flatRef.invalid"
                         name="apt-number"
-                        placeholder="9447 Glen Eagles Drive"
-                        [(ngModel)]="address.flatVar"
+                        placeholder="Please enter address"
+                        [(ngModel)]="address.addressVar"
                         #flatRef="ngModel"
                         required
                       />
@@ -207,7 +217,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-md-6 col-sm-12">
+                  <!-- <div class="col-md-6 col-sm-12">
                     <div class="form-group mb-2">
                       <label for="checkout-landmark">Landmark e.g. near apollo hospital:</label>
                       <input
@@ -299,7 +309,7 @@
                         <option>Work</option>
                       </select>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-12">
                     <button
                       type="submit"
@@ -343,7 +353,7 @@
         <!-- Checkout Customer Address Ends -->
 
         <!-- Checkout Payment Starts -->
-        <div id="step-payment" class="content">
+        <!-- <div id="step-payment" class="content">
           <form id="checkout-payment" class="list-view product-checkout" onsubmit="return false;">
             <div class="payment-type">
               <div class="card">
@@ -445,7 +455,7 @@
               </div>
             </div>
           </form>
-        </div>
+        </div> -->
         <!-- Checkout Payment Ends -->
       </div>
     </div>

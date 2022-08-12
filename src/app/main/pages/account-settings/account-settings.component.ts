@@ -179,6 +179,9 @@ export class AccountSettingsComponent implements OnInit {
       this.messageContact = "Please enter full field";
     }
     else {
+      console.log(  this.ContactForm.value.Name,);
+      console.log(  this.ContactForm.value.fullName,);
+
       this._accountSettingsService.addContact(
         this.ContactForm.value.Name,
         this.ContactForm.value.Address,

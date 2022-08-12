@@ -32,6 +32,9 @@ import { EcommerceEditService } from './ecommerce-edit/ecommerce-edit.service';
 import { EcommerceDeleteComponent } from './ecommerce-delete/ecommerce-delete.component';
 import { EcommerceDeleteService } from './ecommerce-delete/ecommerce-delete.service';
 
+import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
+import { AccountSettingsComponent } from 'app/main/pages/account-settings/account-settings.component';
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true
@@ -148,7 +151,8 @@ const routes: Routes = [
       useValue: DEFAULT_SWIPER_CONFIG
     },
     EcommerceManagerService,
-    EcommerceEditService
+    EcommerceEditService,
+    AccountSettingsService
   ]
 })
 export class EcommerceModule {}

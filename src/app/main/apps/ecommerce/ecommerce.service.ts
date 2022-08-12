@@ -6,6 +6,8 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CategoryUI } from './ui-models/Categories/CategoryUI';
+import {tap} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -289,13 +291,12 @@ export class EcommerceService implements Resolve<any> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if(currentUser)
     {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this._httpClient.post(`${environment.apiUrl}/api/Cart/add/${id}`,{
           id
         }).subscribe((response: any) => {
-          this.getToTalPrice();
-          this.getCartList();
-          resolve();
+          resolve(this.getCartList());
+          // resolve(this.getToTalPrice());
         }, reject);
       });
     }
@@ -342,11 +343,10 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
   removeFromCart(id) {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
-        this.getCartList();
-        this.getToTalPrice();
-        resolve();
+        resolve( this.getCartList());
+        // resolve(this.getToTalPrice());
       }, reject);
     });
 
@@ -393,6 +393,28 @@ export class EcommerceService implements Resolve<any> {
   }
 
 
+  // deleteListCartUser():Observable<any>{
+  //   return this._httpClient.delete(`${environment.apiUrl}/api/Cart/delete-all-cart-user`).subscribe((response: any) => {
+  //       this.getCartList();
+  //       this.getToTalPrice();
+
+  //     });
+
+  // }
+
+  deleteListCartUser():Observable<any> {
+
+    return this._httpClient.delete<any>(`${environment.apiUrl}/api/Cart/delete-all-cart-user`).pipe(
+      tap(()=>{
+
+        this.getCartList();
+        this.getToTalPrice();
+      }
+    ));
+  }
+
+
+
 
   // Get list Category
   getListCategory(): Promise<any[]> {
@@ -417,4 +439,37 @@ export class EcommerceService implements Resolve<any> {
     return this._httpClient.get(`${environment.apiUrl}/api/Rating/getRating/${productId}`)
   }
 
+  //Create Order
+  createOrder(createOrderViewModel : any):Observable<any>{
+
+    // console.log('createdByViewModel 2 : ',createOrderViewModel);
+
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/Order/CreateOrder`, createOrderViewModel)
+  }
+
+  createOrderDetail(createOrderDetailViewModel : any, product : any):Observable<any>{
+
+
+    console.log('View product before : ',product);
+    // product.isInCart = false;
+    return this._httpClient.post<any>(`${environment.apiUrl}/api/OrderDetail/CreateOrderDetail`, createOrderDetailViewModel).pipe(tap(response =>{
+
+    }))
+  }
+
+
+  // createOrderDetail(createOrderDetailViewModel : any, product : any): Promise<any[]> {
+  //   return new Promise((resolve, reject) => {
+  //     this._httpClient.post(`${environment.apiUrl}/api/Category/GetAllCategory`, createOrderDetailViewModel).pipe(tap(response =>{
+  //       resolve(this.categoryList);
+  //     }, reject))
+  //   });
+  // }
+
+
+
+
+
+
 }
+
