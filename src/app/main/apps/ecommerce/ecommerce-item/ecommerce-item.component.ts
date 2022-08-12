@@ -2,11 +2,28 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import Swal  from 'sweetalert2';
+import { EcommerceWishlistComponent } from '../ecommerce-wishlist/ecommerce-wishlist.component';
 
 @Component({
   selector: 'app-ecommerce-item',
   templateUrl: './ecommerce-item.component.html',
   styleUrls: ['./ecommerce-item.component.scss'],
+  styles: [`
+  .star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.3rem;
+  }
+  .full {}
+  .half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .text-warning {
+    color: #ff902b !important;
+  }
+`],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
@@ -32,13 +49,34 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param product
    */
-  toggleWishlist(product) {
-    if (product.isInWishlist === true) {
-      this._ecommerceService.removeFromWishlist(product.id).then(res => {
-        product.isInWishlist = false;
-        console.log(res);
-      });
+  toggleWishlist(product, isRM) {
+    if (isRM === 'rm') {
+      Swal.fire({
+        title: 'Are you sure want to remove?',
+        text: 'You will not be able to recover this file!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result.value) {
+          this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
+            if(res.isSuccessed){
+              Swal.fire("Success",res.message,"success");
+              window.location.reload();
+            }
+            else{
+              Swal.fire("Warning",res.message,"warning");
+            }
+          }),
+          (error=>{
+            Swal.fire("Error",error,"error");
+          })
+          );
+        } 
+      })
     } else {
+      product.isInWishlist = true;
       this._ecommerceService.addToWishlist(product.id).subscribe(res => {
         if(res.isSuccessed){
           Swal.fire("Success",res.message,"success");

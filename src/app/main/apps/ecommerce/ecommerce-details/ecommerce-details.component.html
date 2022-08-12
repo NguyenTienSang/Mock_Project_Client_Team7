@@ -35,7 +35,7 @@
                   </ng-template>
                   
                   <ngb-rating [(rate)]="selectedProduct.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
-                  <span style="font-size: medium;">  {{selectedProduct.rating}}/5</span>
+                  <span style="font-size: medium;">  {{selectedProduct.rating}}/5 - {{selectedProduct.amountRating}} rating- {{selectedProduct.view}} viewers</span>
                 </div>
               </div>
               <p class="card-text">Available - <span class="text-success">{{ selectedProduct.quantity }}</span></p>
@@ -131,15 +131,16 @@
                 </a>
               </div>
               <div class="d-flex flex-column flex-sm-row pt-1">
-                <div class="col-6">
+                <div class="col-5">
                   <img src="{{selectedProduct.qrCode}}"  style="width: 200px; height:200px" class="img-thumbnail"/>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                   <div class="card-text">
                     <!-- Comment Star Rating -->
-                    <div class="commentBox">
+                    <div class="commentBox" *ngIf="isRating">
                       <!-- <div class="form-horizontal"> -->
                       <div class="form-group">
+                        <div class="col-12">
                           <label>
                               Your rating <span style="font-weight:normal;">(1 start is bad, 5 star is good)</span>
                           </label>
@@ -156,18 +157,19 @@
                             <ngb-rating [(rate)]="rating" [starTemplate]="rate" [readonly]="false" max="5"></ngb-rating>
                             <!-- {{rating}} -->
                           </div>
+                        </div>
                       </div>
-                      <!-- <div class="form-group">
-                          <div class="col-md-8">
+                      <div class="form-group">
+                          <div class="col-12">
                               <textarea name="Comment" id="Comment" required rows="5" style="width:100%;" class="form-control"></textarea>
                           </div>
-                      </div> -->
+                      </div>
                       <div class="form-group">
-                          <div>
-                              <input type="submit" id="rating" name="rating" value="Save" class="btn btn-primary" (click)="SaveRating(selectedProduct.id)"/>
+                          <div class="col-12" >
+                              <input type="submit" id="rating" name="rating" value="Save" class="btn btn-primary" (click)="SaveRating(selectedProduct.id)" style="float: right" />
                           </div>
                       <!-- </div> -->
-                    </div>
+                      </div>
                     </div>
                   </div>
                 </div>

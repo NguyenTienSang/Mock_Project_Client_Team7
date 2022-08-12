@@ -14,19 +14,27 @@
       >
       <div class="item-rating">
         <div class="rating rating-sm">
-          <ngb-rating [rate]="product.rating" [readonly]="true" [max]="5" class="outline-none">
+          <!-- <ngb-rating [rate]="product.rating" [readonly]="true" [max]="5" class="outline-none">
             <ng-template let-fill="fill" let-index="index"
               ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
             ></ng-template>
-          </ngb-rating>
+          </ngb-rating> -->
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.full]="fill === 100">
+              <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
+            </span>
+          </ng-template>
+          <ngb-rating [(rate)]="product.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
         </div>
       </div>
     </div>
-    <span class="text-success mb-1">In Stock</span>
+    <span class="text-success mb-1">In Stock: {{product.quantity}}</span>
     <div class="item-quantity">
       <span class="quantity-title">Qty:</span>
       <div class="quantity-counter-wrapper">
+
         <core-touchspin  [product]="product" [numberValue]="product.quantityInCart" [stepValue]="1" [minValue]="1" [maxValue]="10"></core-touchspin>
+
       </div>
     </div>
     <!-- <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>

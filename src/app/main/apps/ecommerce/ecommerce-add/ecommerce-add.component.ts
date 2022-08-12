@@ -77,17 +77,17 @@ export class EcommerceAddComponent implements OnInit {
       "brandId": this.brandId,
       "price": this.price,
       "quantity": this.quantity,
-      "expire": this.expire,
+      //"expire": this.expire,
       "description": this.description,
       //"image": this.image
     }
 
-console.log(form.value.expire);
-console.log(this.transformDate.substring(0,10));
+//console.log(form.value.expire);
+//console.log(this.transformDate.substring(0,10));
 
 
     try{
-      if(form.valid && form.value.expire >= this.transformDate.substring(0,10)){
+      if(form.valid){
         this._ecommerceManagerService.createProduct(product).subscribe(respone=>{
           console.log("Create product", respone)
           if(respone.isSuccessed)
