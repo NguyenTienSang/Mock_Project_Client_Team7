@@ -123,7 +123,9 @@ export class AuthenticationService {
   .post<any>(`${environment.apiUrl}/api/Authenticate/register`, {
   UserName ,
   Email ,
-  Password
+  Password,
+  Address,
+  PhoneNumber
 }).pipe(map(
   response => {
 
