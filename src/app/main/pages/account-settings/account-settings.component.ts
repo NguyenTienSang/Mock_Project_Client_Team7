@@ -172,6 +172,7 @@ export class AccountSettingsComponent implements OnInit {
 
 
   }
+
   addContact(){
     if(!this.ContactForm.value.Name || !this.ContactForm.value.Address || !this.ContactForm.value.Phonenumber)
     {
@@ -308,7 +309,16 @@ export class AccountSettingsComponent implements OnInit {
 
   }
 
+  setDefaultContact(id : string){
+    this._accountSettingsService.setDefaultContact(
+      id
+    ).subscribe((response)=>{
+        console.log('response : ',response);
 
+    },(err) =>{
+      console.log(err);
+    })
+  }
 
   fileToUpload: any;
 //Show image when select

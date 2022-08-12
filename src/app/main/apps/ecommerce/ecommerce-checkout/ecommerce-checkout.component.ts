@@ -16,16 +16,16 @@ export class EcommerceCheckoutComponent implements OnInit {
   public products;
   public cartLists;
   public wishlist;
+  private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
+  public contacts;
+  public totalPrice = 0;
+  public disableOrder = false;
 
 
   public address = {
     fullNameVar: '',
     numberVar: '',
     addressVar: '',
-    // landmarkVar: '',
-    // cityVar: '',
-    // pincodeVar: '',
-    // stateVar: ''
   };
 
   // Private
@@ -150,6 +150,14 @@ export class EcommerceCheckoutComponent implements OnInit {
     })
   }
 
+  // getUserContact(id : string)
+  // {
+  //   this._accountSettingsService.getUserContact(id).subscribe(respone=>{
+  //     this.contacts = respone.resultObj;
+  //   })
+  // }
+
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -162,19 +170,28 @@ export class EcommerceCheckoutComponent implements OnInit {
     this.address.addressVar = "Địa chỉ nè";
     this.address.fullNameVar = "Tên nè";
     this.address.numberVar = "SĐT nè";
-    const userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
 
-    console.log('userID  :',userID);
+
+    console.log('userID  :',this.userID);
 
     this._accountSettingsService.getUserContact(
-      userID
+      this.userID
     ).subscribe((response)=>{
       // this.contactEdit = response.resultObj;
-      console.log('response.resultObj[0] : ',response.resultObj[0]);
+      this.contacts = response.resultObj;
+      this.contacts.forEach(itemContact => {
+          if(itemContact.default)
+          {
+            this.address.fullNameVar = itemContact.fullName;
+            this.address.addressVar = itemContact.address;
+            this.address.numberVar = itemContact.phoneNumber;
+          }
+      });
+      // console.log('response.resultObj[0] : ',response.resultObj[0]);
 
-      this.address.fullNameVar = response.resultObj[0].fullName;
-      this.address.addressVar = response.resultObj[0].address;
-      this.address.numberVar = response.resultObj[0].phoneNumber;
+      // this.address.fullNameVar = response.resultObj[0].fullName;
+      // this.address.addressVar = response.resultObj[0].address;
+      // this.address.numberVar = response.resultObj[0].phoneNumber;
     },(err) =>{
       console.log(err);
     })
@@ -189,8 +206,36 @@ export class EcommerceCheckoutComponent implements OnInit {
     });
 
     // Subscribe to Cartlist change
-    this._ecommerceService.onCartListChange.subscribe(res => (this.cartLists = res));
+    this._ecommerceService.onCartListChange.subscribe(res => {
+      this.cartLists = res;
+      if(this.cartLists.length)
+      {
+        this.disableOrder = false;
+      }
+      else {
+        this.disableOrder = true;
+      }
+    });
       console.log('this.cartLists : ',this.cartLists);
+
+
+
+      if(this.cartLists.length)
+      {
+        this.disableOrder = false;
+      }
+      else {
+        this.disableOrder = true;
+      }
+
+      // this._ecommerceService.onCartListChange.subscribe(res => {
+      //   this.cartLists = res;
+      //   this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
+
+      // });
+
+
 
     // Subscribe to Wishlist change
     this._ecommerceService.getWishlists().subscribe(res => {
@@ -215,6 +260,12 @@ export class EcommerceCheckoutComponent implements OnInit {
 
       }
     });
+
+    // this.totalPrice = Number(this.totalPrice.toFixed(2));
+    // this._ecommerceService.totalPriceCart = this.totalPrice;
+
+    // this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
 
     this.checkoutStepper = new Stepper(document.querySelector('#checkoutStepper'), {
       linear: false,

@@ -240,6 +240,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
                             <th scope="col">Phone number</th>
+                            <th scope="col">Default</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                           </tr>
@@ -250,6 +251,11 @@
                             <td>{{contact.fullName}}</td>
                             <td>{{contact.address}}</td>
                             <td>{{contact.phoneNumber}}</td>
+                            <td>
+                              <!-- {{contact.default ? 'YES' : 'NO'}} -->
+                              <input type="radio" id="html" name="fav_language" value="HTML" [checked]="contact.default" (click)="setDefaultContact(contact.id)">
+
+                            </td>
                             <td>
                               <!-- <button class="btn btn-sm btn-info">
                                 <i class="fa fa-search"></i>Details</button> -->
