@@ -14,11 +14,7 @@
       >
       <div class="item-rating">
         <div class="rating rating-sm">
-          <!-- <ngb-rating [rate]="product.rating" [readonly]="true" [max]="5" class="outline-none">
-            <ng-template let-fill="fill" let-index="index"
-              ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
-            ></ng-template>
-          </ngb-rating> -->
+
           <ng-template #t let-fill="fill">
             <span class="star" [class.full]="fill === 100">
               <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
@@ -37,8 +33,7 @@
 
       </div>
     </div>
-    <!-- <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>
-    <span class="text-success">17% off 4 offers Available</span> -->
+
   </div>
   <div class="item-options text-center">
     <div class="item-wrapper">
@@ -56,7 +51,7 @@
     <button type="button" class="btn btn-primary btn-cart move-cart" (click)="toggleWishlist(product)" rippleEffect>
       <i
         class="align-middle fa mr-25"
-        [ngClass]="product.isInWishlist === true ? 'fa-heart text-white' : 'fa-heart-o'"
+        [ngClass]="product.isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"
       ></i>
       <span class="text-truncate">Add to Wishlist</span>
     </button>

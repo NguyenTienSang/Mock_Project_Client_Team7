@@ -193,11 +193,21 @@ export class EcommerceCheckoutComponent implements OnInit {
       console.log('this.cartLists : ',this.cartLists);
 
     // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
+    this._ecommerceService.getWishlists().subscribe(res => {
+
+      this.wishlist = res.resultObj;
+
+      this.products.forEach(product => {
+
+        product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+
+      });
+
+    });
 
     // update product is in Wishlist & is in CartList : Boolean
     this.products.forEach(product => {
-      product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
+      // product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
       product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
       if(product.isInCart)
       {

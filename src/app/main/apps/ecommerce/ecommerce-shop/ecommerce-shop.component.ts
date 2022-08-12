@@ -122,9 +122,6 @@ export class EcommerceShopComponent implements OnInit {
       product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
     });
 
-    this.products.forEach(product => {
-      product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
-    });
 
     // content header
     this.contentHeader = {
