@@ -217,6 +217,23 @@ export const menu: CoreMenu[] = [
             url: 'apps/brand/manager'
           },
         ]
+      },
+      {
+        id: 'order',
+        title: 'Order',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'list',
+            title: 'Manage Order',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: '/apps/order-management/manager'
+          },
+        ]
       }
     ]
   },

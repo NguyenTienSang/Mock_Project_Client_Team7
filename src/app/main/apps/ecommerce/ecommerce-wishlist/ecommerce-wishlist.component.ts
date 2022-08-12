@@ -39,16 +39,18 @@ export class EcommerceWishlistComponent implements OnInit {
     this._ecommerceService.getWishlists().subscribe(res => {
       this.products = res.resultObj;
       console.log("wishlist", this.products);
+      this.products.forEach(product => {
+        
+        product.isInWishlist = true;
+        console.log("test", product);
+      });
     });
     // update product is in Wishlist : Boolean
     // this.products.forEach(product => {
     //   product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
     // });
     
-    // this.wl = this.products.forEach(product => {
-    //   console.log("test", product);
-    //   product.isInWishlist = this.wishlist.find(p => p.productId === product.id) != null;
-    // });
+    
 
     // content header
     this.contentHeader = {

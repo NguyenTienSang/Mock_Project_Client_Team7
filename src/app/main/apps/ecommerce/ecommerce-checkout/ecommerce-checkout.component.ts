@@ -7,6 +7,56 @@ import { AccountSettingsService } from 'app/main/pages/account-settings/account-
   selector: 'app-ecommerce-checkout',
   templateUrl: './ecommerce-checkout.component.html',
   styleUrls: ['./ecommerce-checkout.component.scss'],
+//   styles: [`
+//   h3 {
+//     font-family: Lato;
+//     text-align: center;
+//     color:	#0080ff;
+//   }
+  
+//   .circles{
+//     height: 0.938em;
+//     width: 0.938em;
+//     border: 0.188em solid #000;
+//     border-radius: 50%;
+//     display: inline-block;
+//   }
+  
+//   .active{
+//       background-color:#ffa500;
+//   }
+  
+//   .circle-desc-active{
+//   font-weight: bold;
+//   }
+  
+//   .bar{
+//     width: 16%;
+//     height: 0.063em;
+//     margin-bottom:0.469em;
+//     border: 0.031em solid #000;
+//     color:#000;
+//     background-color:#000;
+//     display: inline-block;
+//     text-align:center;
+//     margin:"0 auto";
+//   }
+  
+//   .container{
+//     min-width:320px;
+//     margin: "0px auto";
+//     text-align: center;
+//   }
+  
+//   .circle-desc{
+//    position: absolute;
+//    top:47.0em;
+//    font-size: 1.125em;
+//    width: auto;
+//    max-width:9.375em;
+//    margin-left:-0.750em;
+//   }
+// `],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
@@ -246,4 +296,17 @@ export class EcommerceCheckoutComponent implements OnInit {
       }
     };
   }
+
+  // //progress bar
+  // name = 'Progress Bar';
+
+  // //Demo purpose only, Data might come from Api calls/service
+  // public counts = [
+  //   'Recieved',
+  //   'In Progress',
+  //   'Ready for Billing',
+  //   'Billed',
+  //   'Order Closed',
+  // ];
+  // public orderStatus = 'Order Closed';
 }
