@@ -57,7 +57,10 @@ export class EcommerceItemComponent implements OnInit {
    */
   addToCart(product) {
     console.log('product : ',product);
+    console.log('test');
 
+    this._ecommerceService.totalPriceCart += product.price;
+    this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
     this._ecommerceService.addToCart(product.id).then(res => {
       product.isInCart = true;
       product.quantityInCart = 1;

@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import Stepper from 'bs-stepper';
-
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
-
+import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 @Component({
   selector: 'app-ecommerce-checkout',
   templateUrl: './ecommerce-checkout.component.html',
@@ -18,14 +17,15 @@ export class EcommerceCheckoutComponent implements OnInit {
   public cartLists;
   public wishlist;
 
+
   public address = {
     fullNameVar: '',
     numberVar: '',
-    flatVar: '',
-    landmarkVar: '',
-    cityVar: '',
-    pincodeVar: '',
-    stateVar: ''
+    addressVar: '',
+    // landmarkVar: '',
+    // cityVar: '',
+    // pincodeVar: '',
+    // stateVar: ''
   };
 
   // Private
@@ -36,7 +36,9 @@ export class EcommerceCheckoutComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {}
+  constructor(private _accountSettingsService: AccountSettingsService,private _ecommerceService: EcommerceService) {
+
+  }
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -65,6 +67,90 @@ export class EcommerceCheckoutComponent implements OnInit {
     }
   }
 
+  createOrder(){
+    const createdBy = JSON.parse(localStorage.getItem('currentUser')).user.id;
+    var today = new Date();
+    const orderDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' +  String(today.getDate()).padStart(2, '0');
+
+    let createOrderViewModel = {
+      name : this.address.fullNameVar,
+      createdBy : createdBy,
+      updatedDate : orderDate,
+      updatedBy : createdBy,
+      status : "Awaiting Accept Order",
+      shipAddress : this.address.addressVar,
+      shipPhoneNumber : this.address.numberVar,
+      // orderDate : orderDate
+    }
+
+    this._ecommerceService.createOrder(createOrderViewModel).subscribe(res => {
+        console.log('res : ',res);
+        if(res.isSuccessed)
+        {
+          let createOrderDetailViewModel = {
+            orderId: res.resultObj.id,
+            productId: "",
+            price: 0,
+            quantity: 1,
+            discount: 0,
+            createdBy: res.resultObj.createdBy,
+            updatedDate: res.resultObj.updatedDate,
+            updatedBy: res.resultObj.updatedBy
+          }
+
+          let countOrderDetail = true;
+
+          this.products.forEach(product => {
+
+            this.cartLists.forEach(itemCart => {
+                if(itemCart.productId === product.id)
+                {
+
+                  createOrderDetailViewModel.productId = itemCart.productId;
+                  createOrderDetailViewModel.price = product.price;
+                  createOrderDetailViewModel.quantity = itemCart.quantity;
+
+                  this._ecommerceService.createOrderDetail(createOrderDetailViewModel, product).subscribe(res => {
+
+                    console.log('Show response createOrderDetail : ',res);
+
+                    console.log('View product after : ',product);
+                    if(res.isSuccessed) {
+                      product.isInCart = false;
+                      console.log('set cart false');
+                    }
+                    else if(!res.isSuccessed)
+                      {
+                        countOrderDetail = false;
+                        console.log('set countOrderDetail = false');
+                      }
+                  })
+                }
+            })
+          });
+
+          if(countOrderDetail)
+          {
+              console.log('countOrderDetail : ',countOrderDetail);
+
+                console.log('Order successfull and remove cart');
+                this._ecommerceService.deleteListCartUser().subscribe(res => {
+                  console.log('res deleteListCartUser',res);
+
+                  if(!res.isSuccessed)
+                  {
+                    countOrderDetail = false;
+                  }
+              })
+          }
+          else {
+            console.log('Order fail please rollback order');
+          }
+        }
+    })
+  }
+
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -72,6 +158,29 @@ export class EcommerceCheckoutComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+
+    this.address.addressVar = "Địa chỉ nè";
+    this.address.fullNameVar = "Tên nè";
+    this.address.numberVar = "SĐT nè";
+    const userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
+
+    console.log('userID  :',userID);
+
+    this._accountSettingsService.getUserContact(
+      userID
+    ).subscribe((response)=>{
+      // this.contactEdit = response.resultObj;
+      console.log('response.resultObj[0] : ',response.resultObj[0]);
+
+      this.address.fullNameVar = response.resultObj[0].fullName;
+      this.address.addressVar = response.resultObj[0].address;
+      this.address.numberVar = response.resultObj[0].phoneNumber;
+    },(err) =>{
+      console.log(err);
+    })
+
+
+
     // Subscribe to ProductList change
     this._ecommerceService.onProductListChange.subscribe(res => {
       this.products = res;
