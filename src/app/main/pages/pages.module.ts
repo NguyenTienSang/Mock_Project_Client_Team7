@@ -17,9 +17,11 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { AccountSettingsModule } from './account-settings/account-settings.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { UserOrderManagementComponent } from './user-order/user-order-management/user-order-management.component';
+import { UserOrderManagementItemComponent } from './user-order/user-order-management-item/user-order-management-item.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent],
   imports: [
     CommonModule,
     CoreCommonModule,

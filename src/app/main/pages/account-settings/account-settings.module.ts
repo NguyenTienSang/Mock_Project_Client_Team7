@@ -10,6 +10,7 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 
 import { AccountSettingsComponent } from 'app/main/pages/account-settings/account-settings.component';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
+import { UserOrderManagementComponent } from '../user-order/user-order-management/user-order-management.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,14 @@ const routes: Routes = [
     resolve: {
       accountSetting: AccountSettingsService
     }
+  },
+  {
+    path: 'user-order-manage',
+    component: UserOrderManagementComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
   },
   // {
   //   path: 'account-settings1',

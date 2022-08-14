@@ -110,5 +110,12 @@ export class AccountSettingsService implements Resolve<any> {
     }))
   }
 
+  setDefaultContact(id : string){
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/User/contact/setdefault/${id}`,id).pipe(map(
+      response => {
+      return response;
+    }))
+  }
+
 
 }
