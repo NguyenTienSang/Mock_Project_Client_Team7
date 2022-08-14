@@ -223,7 +223,7 @@ export const menu: CoreMenu[] = [
         title: 'Order',
         translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
         type: 'collapsible',
-        icon: 'shopping-cart',
+        icon: 'truck',
         children: [
           {
             id: 'list',

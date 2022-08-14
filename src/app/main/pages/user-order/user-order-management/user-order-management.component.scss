@@ -1,0 +1,51 @@
+.list-unstyled .price-detail {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.list-unstyled .price-detail {
+  color: #7367f0;
+}
+
+
+
+.item-detail-order {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.item-child-detail-order {
+  margin-right: 20px;
+  font-weight: 600;
+  color: #7367f0;
+}
+.item-child-detail-order .name-product {
+  color: #202020;
+}
+
+.item-child-detail-order:last-child {
+  margin-right: 0px;
+}
+
+.total-price-order {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 50px;
+  font-weight: 600;
+}
+
+.disabled-copy {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}

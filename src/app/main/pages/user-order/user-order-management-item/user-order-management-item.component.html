@@ -1,0 +1,19 @@
+  <ng-container *ngFor="let orderDetailItem of listOrderDetails">
+   <div class="item-detail-order">
+    <div class="item-child-detail-order">
+      <img src="{{orderDetailItem.product.image}}" width="200px" height="200px">
+    </div>
+    <div class="item-child-detail-order">
+      <p class="name-product">{{orderDetailItem.product.name}}</p>
+      <p>X{{orderDetailItem.quantity}}</p>
+    </div>
+    <div class="item-child-detail-order">
+      <p></p>
+      <p>${{orderDetailItem.price}}</p>
+    </div>
+    <div class="item-child-detail-order">
+      <p></p>
+      <p>Total : ${{orderDetailItem.quantity * orderDetailItem.price}}</p>
+    </div>
+   </div>
+  </ng-container>
