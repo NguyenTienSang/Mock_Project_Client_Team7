@@ -4,6 +4,7 @@ import Stepper from 'bs-stepper';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 import {UserOrderManagementService} from 'app/main/pages/user-order/user-order-management/user-order-management.service';
+import { UserOrderManagementItemComponent } from '../user-order-management-item/user-order-management-item.component';
 
 @Component({
   selector: 'app-user-order-management',
@@ -19,7 +20,7 @@ export class UserOrderManagementComponent implements OnInit {
 
   private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
   public listOrderUsers;
-  public totalPrice = 0;
+  // public totalPrice = 0;
   public disableOrder = false;
 
   public listOrder;
@@ -39,6 +40,17 @@ export class UserOrderManagementComponent implements OnInit {
 
     this._userOrderManagementService.getOrderUser(this.userID).subscribe(respone=>{
       this.listOrderUsers = respone.resultObj;
+      console.log('respone : ',respone);
+      if(respone.isSuccessed)
+      {
+        // console.log('this._userOrderManagementItemComponent.totalPriceOrder : ',this._userOrderManagementItemComponent.totalPriceOrder);
+
+        // this.totalPrice+=this._userOrderManagementItemComponent.totalPriceOrder;
+        // console.log('this.totalPrice : ',this.totalPrice);
+      }
+
+
+
     })
 
 

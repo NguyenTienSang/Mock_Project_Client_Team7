@@ -38,7 +38,7 @@ export class EcommerceService implements Resolve<any> {
   private idHandel;
   private productId;
 
-  private currentId= JSON.parse(localStorage.getItem("currentUser")).user.id;
+  private currentId= JSON.parse(localStorage.getItem("currentUser"))?.user?.id;
 
 
   private sortRef = key => (a, b) => {
@@ -103,11 +103,12 @@ export class EcommerceService implements Resolve<any> {
   updateProduct(productId: string, productList: any): Observable<any>{
     return this._httpClient.put<any>(`${environment.apiUrl}/api/Products/UpdateProduct/` + productId, productList);
   }
+
+
   getBrandLists():Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
         this.brandList=response.resultObj;
-        // console.log('response : ',response);
 
         resolve(this.cartList);
       }, reject);
@@ -128,7 +129,16 @@ export class EcommerceService implements Resolve<any> {
   // }
 
   getWishlists(): Observable<any>{
-    return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
+    // if(this.currentId)
+    // {
+    //   return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
+    // }
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser)
+    {
+      return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${currentUser.user.id}`);
+    }
   }
 
   /**
@@ -137,49 +147,34 @@ export class EcommerceService implements Resolve<any> {
   //Call api Get Cart
 
   getCartList(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
-        this.cartList = response.resultObj;
+    this.currentId= JSON.parse(localStorage.getItem("currentUser"))?.user?.id;
+    if(this.currentId)
+    {
+      return new Promise((resolve, reject) => {
+        this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
 
-        // resolve(this.getToTalPrice());
-        // this.getToTalPrice();
-        this.onCartListChange.next(this.cartList);
+          this.cartList = response.resultObj;
+          this.onCartListChange.next(this.cartList);
 
-        console.log('test 2');
+          resolve(this.cartList);
 
-        // resolve(this.getToTalPrice());
-
-        resolve(this.cartList);
-
-      },reject);
-    });
-
-
-      // if(this.currentId)
-      // {
-      //   return new Promise((resolve, reject) => {
-      //     this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
-      //       this.cartList = response.resultObj;
-      //       this.onCartListChange.next(this.cartList);
-      //       resolve(this.cartList);
-      //     },reject);
-      //   });
-      // }
-      // else {
-      //   return new Promise((resolve, reject) => {
-      //     const dataCart = sessionStorage.getItem('cart');
-      //     if(dataCart != null)
-      //     {
-      //       this.cartList = JSON.parse(dataCart);
-      //     }
-      //     else {
-      //       this.cartList = [];
-      //     }
-      //      //When cart list change
-      //     this.onCartListChange.next(this.cartList);
-      //     resolve(this.cartList);
-      //   });
-      // }
+        },reject);
+      });
+    }
+    else {
+      const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+    //Have cart in sessionStorage
+      if(dataCart != null)
+      {
+        this.cartList = dataCart;
+      }
+    //Haven't cart in sessionStorage
+      else {
+    // const lengthRef = JSON.parse(dataCart).length + 1;
+        this.cartList = [];
+      }
+      this.onCartListChange.next(this.cartList);
+    }
   }
 
 
@@ -245,7 +240,6 @@ export class EcommerceService implements Resolve<any> {
    */
 
   addToWishlist(id):Observable<any> {
-    console.log(this.currentId);
     return this._httpClient.post<any>(`${environment.apiUrl}/api/Wishlist/add/${id}`,null);
   }
 
@@ -261,24 +255,6 @@ export class EcommerceService implements Resolve<any> {
   }
 
 
-  getToTalPrice(){
-  // let totalPrice = 0
-  this.totalPriceCart = 0
-  console.log('this.cartList : ',this.cartList);
-
-          this.productList.forEach(product => {
-            product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
-            if(product.isInCart)
-            {
-              this.totalPriceCart+=product.price;
-            }
-          })
-          console.log('this.totalPriceCart : ',this.totalPriceCart);
-
-          console.log('test 1');
-          return <any> this.totalPriceCart;
-  }
-
 
   /**
    * Add In Cart
@@ -289,6 +265,7 @@ export class EcommerceService implements Resolve<any> {
 
   addToCart(id) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    //If login with account
     if(currentUser)
     {
       return new Promise((resolve, reject) => {
@@ -296,20 +273,19 @@ export class EcommerceService implements Resolve<any> {
           id
         }).subscribe((response: any) => {
           resolve(this.getCartList());
-          // resolve(this.getToTalPrice());
         }, reject);
       });
     }
+    //If not login account
     else {
-      return new Promise<void>((resolve, reject) => {
-        const dataCart = sessionStorage.getItem('cart');
-    //Have cart in sessionStorage
+      return new Promise((resolve, reject) => {
+        const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+      //Have cart in sessionStorage
         if(dataCart != null)
             {
-
-              const lengthRef = JSON.parse(dataCart).length + 1;
-              const cartRef = { id: lengthRef, productId: id, qty: 1 };
-              const cart = JSON.parse(dataCart);
+              const lengthRef = dataCart.length + 1;
+              const cartRef = { id: lengthRef, productId: id, quantity: 1 };
+              const cart = dataCart;
               const found = cart.find(item => item.productId == cartRef.productId);
               if(found != null)
               {
@@ -320,19 +296,21 @@ export class EcommerceService implements Resolve<any> {
               {
                 cart.push(cartRef);
                 console.log('not found item');
+                // this.cartList.push(cartRef);
               }
                 sessionStorage.setItem('cart',JSON.stringify(cart));
             }
-        //Haven't cart in sessionStorage
+      //Haven't cart in sessionStorage
             else {
-              // const lengthRef = JSON.parse(dataCart).length + 1;
-              const cartRef = { id: 1, productId: id, qty: 1 };
+              this.cartList = [];
+              const cartRef = { id: 1, productId: id, quantity: 1 };
               const cart = [];//Create new array cart empty
               cart.push(cartRef);
               sessionStorage.setItem('cart',JSON.stringify(cart));
             }
-            this.getCartList();
-            resolve();
+
+            // this.getCartList();
+            resolve(this.getCartList());
       });
     }
   }
@@ -343,12 +321,25 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
   removeFromCart(id) {
-    return new Promise((resolve, reject) => {
-      this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
-        resolve( this.getCartList());
-        // resolve(this.getToTalPrice());
-      }, reject);
-    });
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if(currentUser){
+      return new Promise((resolve, reject) => {
+        this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
+          resolve( this.getCartList());
+        }, reject);
+      });
+    }
+    else {
+        return new Promise<void>((resolve, reject) => {
+        const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+        this.cartList = dataCart.filter((item) => item.productId != id)
+        sessionStorage.setItem('cart',JSON.stringify(this.cartList));
+              this.getCartList();
+              resolve();
+          });
+    }
+
 
 
 
@@ -378,18 +369,34 @@ export class EcommerceService implements Resolve<any> {
 
 
   updateCart(productId : string,quantity : number){
-    // console.log(quantity);
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return new Promise<void>((resolve, reject) => {
-      this._httpClient.put<any>(`${environment.apiUrl}/api/Cart/cart-update`,{
-        "productId" : productId,
-        "userId" : this.currentId,
-        "quantity" :  quantity
-      }).subscribe((response: any) => {
-        this.getCartList();
-        resolve();
-      }, reject);
-    });
+
+    if(currentUser){
+      return new Promise<void>((resolve, reject) => {
+        this._httpClient.put<any>(`${environment.apiUrl}/api/Cart/cart-update`,{
+          "productId" : productId,
+          "userId" : this.currentId,
+          "quantity" :  quantity
+        }).subscribe((response: any) => {
+          this.getCartList();
+          resolve();
+        }, reject);
+      });
+    }
+    else {
+      const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+        dataCart.forEach(p => {
+            if(p.productId === productId)
+            {
+              p.quantity = quantity;
+            }
+        })
+
+      // product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+
+      this.getCartList();
+      sessionStorage.setItem('cart',JSON.stringify(dataCart));
+    }
   }
 
 
@@ -408,7 +415,8 @@ export class EcommerceService implements Resolve<any> {
       tap(()=>{
 
         this.getCartList();
-        this.getToTalPrice();
+        // this.getToTalPrice();
+        this.totalPriceCart = 0;
       }
     ));
   }
@@ -448,10 +456,7 @@ export class EcommerceService implements Resolve<any> {
   }
 
   createOrderDetail(createOrderDetailViewModel : any, product : any):Observable<any>{
-
-
-    console.log('View product before : ',product);
-    // product.isInCart = false;
+   // product.isInCart = false;
     return this._httpClient.post<any>(`${environment.apiUrl}/api/OrderDetail/CreateOrderDetail`, createOrderDetailViewModel).pipe(tap(response =>{
 
     }))

@@ -1,0 +1,197 @@
+<div class="content-wrapper">
+  <div class="content-body">
+    <!-- content-header component -->
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <!-- account setting page -->
+    <section id="page-account-settings">
+      <div class="row nav-vertical d-flex">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <ul ngbNav #navVertical="ngbNav" class="nav nav-pills flex-column nav-left">
+
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="account-pill-password"
+                data-toggle="pill"
+                href="#account-vertical-password"
+                aria-expanded="false"
+              >
+                <i data-feather="home" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Contact</span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="card">
+                  <div class="card-body">
+                    <!-- <button style="font-weight: 800" class="btn btn-md btn-outline-primary" (click)="open(content)">Add contact</button> -->
+                    <div class="border">
+                      <button class="btn btn-md btn-outline-primary" (click)="open(content,'Add Contact')">
+                        <i class="fa fa-user"></i>New Contact</button>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                      <table class="table table-striped">
+
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Default</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let contact of contacts">
+                            <!-- <td>{{contact.id}}</td> -->
+                            <td>{{contact.fullName}}</td>
+                            <td>{{contact.address}}</td>
+                            <td>{{contact.phoneNumber}}</td>
+                            <td>
+                              <!-- {{contact.default ? 'YES' : 'NO'}} -->
+                              <input type="radio" id="html" name="fav_language" value="HTML" [checked]="contact.default" (click)="setDefaultContact(contact.id)">
+
+                            </td>
+                            <td>
+                              <!-- <button class="btn btn-sm btn-info">
+                                <i class="fa fa-search"></i>Details</button> -->
+                              <button class="btn btn-sm btn-warning" (click)="getContact(content,'Edit Contact',contact.id)">
+                                <i class="fa fa-edit"></i>Edit</button>
+
+                            </td>
+                            <td> <button class="btn btn-sm btn-danger" (click)="deleteContact(contact.id)">
+                              <i class="fa fa-remove"></i>Delete</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                  <ng-template #content let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">{{typeAction}}</h4>
+                      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="ContactForm" class="form-validate" (ngSubmit)="typeAction == 'Add Contact' ? addContact() : editContact(contactEdit.id)">
+                      <!-- <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()"> -->
+
+                        <div class="mb-3">
+                          <label for="account-Name">Name</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="NameContactEdit"
+                            class="form-control"
+                            id="account-Name"
+                            name="Name"
+                            placeholder="Name"
+                            formControlName="Name"
+                          />
+                          <div *ngIf="!name?.valid && (name?.dirty
+                          || name?.touched)"
+                            class="alert">
+                          <div [hidden]="!name.errors?.required">  <p style="color: red">Name is required</p></div>
+                        </div>
+                        </div>
+
+
+
+                        <div class="mb-3">
+                          <label for="account-Address">Address</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="AddressContactEdit"
+                            class="form-control"
+                            id="account-Address"
+                            name="username"
+                            placeholder="Address"
+                            formControlName="Address"
+                          />
+                          <div *ngIf="!address?.valid && (address?.dirty
+                          || address?.touched)"
+                            class="alert">
+                          <div [hidden]="!address.errors?.required">  <p style="color: red">Address is required</p></div>
+
+                        </div>
+                        </div>
+
+
+
+                        <div class="mb-3">
+                          <label for="account-Phonenumber">Phone number</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="PhoneNumberContactEdit"
+                            class="form-control"
+                            id="Phonenumber"
+                            name="Phonenumber"
+                            placeholder="Phonenumber"
+                            formControlName="Phonenumber"
+                            pattern="[0-9 ]{10}"
+                          />
+                          <div *ngIf="!phonenumber?.valid && (phonenumber?.dirty
+                          || phonenumber?.touched)"
+                            class="alert">
+                          <div [hidden]="!phonenumber.errors?.required">  <p style="color: red">Phonenumber is required</p></div>
+                          <div [hidden]="!phonenumber.errors?.pattern"><p style="color: red">Invalid phone number</p></div>
+                        </div>
+                        </div>
+
+
+                          <!-- <h2>{{phonenumber.errors?.required}}</h2> -->
+
+                        <ngb-alert [hidden]="!showAlert"  type={{typealertContact}} [dismissible]="false">
+                          <div class="alert-body">
+                            <p>{{ messageContact }}</p>
+                          </div>
+                        </ngb-alert>
+                        <!-- <div class="mb-3">
+                          <label for="account-username">Firstname</label>
+                          <input
+                            type="text"
+                            [(ngModel)]="data.user.firstName"
+                            class="form-control"
+                            id="account-firstname"
+                            name="firstname"
+                            placeholder="Firstname"
+                            formControlName="firstname"
+                          />
+                        </div> -->
+                        <!-- <div class="border text-center">
+                          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+                          </div> -->
+                          <div class="modal-footer">
+                            <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button>
+                            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+                          </div>
+                      </form>
+                    </div>
+
+
+                  </ng-template>
+
+
+
+
+
+
+
+
+              </ng-template>
+            </li>
+
+
+          </ul>
+        </div>
+        <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>
+      </div>
+    </section>
+    <!--/ account setting page -->
+  </div>
+</div>

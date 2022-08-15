@@ -56,13 +56,7 @@ export class UserOrderManagementService  {
 
 
   constructor(private _httpClient: HttpClient) {
-    this.onProductListChange = new BehaviorSubject({});
-    this.onCategoryListChange = new BehaviorSubject({});
-    this.onBrandListChange= new BehaviorSubject({});
-    this.onSelectedProductChange = new BehaviorSubject({});
-    this.onRelatedProductsChange = new BehaviorSubject({});
-    this.onWishlistChange = new BehaviorSubject({});
-    this.onCartListChange = new BehaviorSubject({});
+
   }
 
 
@@ -72,10 +66,6 @@ export class UserOrderManagementService  {
   getOrderUser(idUser: string): Observable<any> {
     return this._httpClient.get<any>(`${environment.apiUrl}/api/Order/GetOrderUser/${idUser}`)
   };
-
-
-
-
 
 
 }

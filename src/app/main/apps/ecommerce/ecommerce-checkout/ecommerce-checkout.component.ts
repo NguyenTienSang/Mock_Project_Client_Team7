@@ -3,60 +3,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import Stepper from 'bs-stepper';
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
+
+import Swal  from 'sweetalert2';
 @Component({
   selector: 'app-ecommerce-checkout',
   templateUrl: './ecommerce-checkout.component.html',
   styleUrls: ['./ecommerce-checkout.component.scss'],
-//   styles: [`
-//   h3 {
-//     font-family: Lato;
-//     text-align: center;
-//     color:	#0080ff;
-//   }
-  
-//   .circles{
-//     height: 0.938em;
-//     width: 0.938em;
-//     border: 0.188em solid #000;
-//     border-radius: 50%;
-//     display: inline-block;
-//   }
-  
-//   .active{
-//       background-color:#ffa500;
-//   }
-  
-//   .circle-desc-active{
-//   font-weight: bold;
-//   }
-  
-//   .bar{
-//     width: 16%;
-//     height: 0.063em;
-//     margin-bottom:0.469em;
-//     border: 0.031em solid #000;
-//     color:#000;
-//     background-color:#000;
-//     display: inline-block;
-//     text-align:center;
-//     margin:"0 auto";
-//   }
-  
-//   .container{
-//     min-width:320px;
-//     margin: "0px auto";
-//     text-align: center;
-//   }
-  
-//   .circle-desc{
-//    position: absolute;
-//    top:47.0em;
-//    font-size: 1.125em;
-//    width: auto;
-//    max-width:9.375em;
-//    margin-left:-0.750em;
-//   }
-// `],
+
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
@@ -66,7 +19,7 @@ export class EcommerceCheckoutComponent implements OnInit {
   public products;
   public cartLists;
   public wishlist;
-  private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
+  private userID = JSON.parse(localStorage.getItem('currentUser'))?.user?.id;
   public contacts;
   public totalPrice = 0;
   public disableOrder = false;
@@ -162,17 +115,13 @@ export class EcommerceCheckoutComponent implements OnInit {
 
                   this._ecommerceService.createOrderDetail(createOrderDetailViewModel, product).subscribe(res => {
 
-                    console.log('Show response createOrderDetail : ',res);
 
-                    console.log('View product after : ',product);
                     if(res.isSuccessed) {
                       product.isInCart = false;
-                      console.log('set cart false');
                     }
                     else if(!res.isSuccessed)
                       {
                         countOrderDetail = false;
-                        console.log('set countOrderDetail = false');
                       }
                   })
                 }
@@ -187,8 +136,11 @@ export class EcommerceCheckoutComponent implements OnInit {
                 this._ecommerceService.deleteListCartUser().subscribe(res => {
                   console.log('res deleteListCartUser',res);
 
-                  if(!res.isSuccessed)
+                  if(res.isSuccessed)
                   {
+                    Swal.fire("Success","Order created successfully","success")
+                  }
+                  else {
                     countOrderDetail = false;
                   }
               })
@@ -196,6 +148,9 @@ export class EcommerceCheckoutComponent implements OnInit {
           else {
             console.log('Order fail please rollback order');
           }
+        }
+        else{
+          Swal.fire("Error",res.message,"error")
         }
     })
   }
@@ -217,41 +172,28 @@ export class EcommerceCheckoutComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    this.address.addressVar = "Địa chỉ nè";
-    this.address.fullNameVar = "Tên nè";
-    this.address.numberVar = "SĐT nè";
-
-
-    console.log('userID  :',this.userID);
-
-    this._accountSettingsService.getUserContact(
-      this.userID
-    ).subscribe((response)=>{
-      // this.contactEdit = response.resultObj;
-      this.contacts = response.resultObj;
-      this.contacts.forEach(itemContact => {
-          if(itemContact.default)
-          {
-            this.address.fullNameVar = itemContact.fullName;
-            this.address.addressVar = itemContact.address;
-            this.address.numberVar = itemContact.phoneNumber;
-          }
-      });
-      // console.log('response.resultObj[0] : ',response.resultObj[0]);
-
-      // this.address.fullNameVar = response.resultObj[0].fullName;
-      // this.address.addressVar = response.resultObj[0].address;
-      // this.address.numberVar = response.resultObj[0].phoneNumber;
-    },(err) =>{
-      console.log(err);
-    })
-
+    if(this.userID){
+      this._accountSettingsService.getUserContact(
+        this.userID
+      ).subscribe((response)=>{
+        this.contacts = response.resultObj;
+        this.contacts.forEach(itemContact => {
+            if(itemContact.default)
+            {
+              this.address.fullNameVar = itemContact.fullName;
+              this.address.addressVar = itemContact.address;
+              this.address.numberVar = itemContact.phoneNumber;
+            }
+        });
+      },(err) =>{
+        console.log(err);
+      })
+    }
 
 
     // Subscribe to ProductList change
     this._ecommerceService.onProductListChange.subscribe(res => {
       this.products = res;
-
       this.products.isInWishlist = false;
     });
 
@@ -265,10 +207,8 @@ export class EcommerceCheckoutComponent implements OnInit {
       else {
         this.disableOrder = true;
       }
+      this.totalPrice = this._ecommerceService.totalPriceCart;
     });
-      console.log('this.cartLists : ',this.cartLists);
-
-
 
       if(this.cartLists.length)
       {
@@ -278,43 +218,51 @@ export class EcommerceCheckoutComponent implements OnInit {
         this.disableOrder = true;
       }
 
-      // this._ecommerceService.onCartListChange.subscribe(res => {
-      //   this.cartLists = res;
-      //   this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if(currentUser)
+      {
+        this._ecommerceService.getWishlists().subscribe(res => {
 
-      // });
+          this.wishlist = res.resultObj;
+
+          this.products.forEach(product => {
+
+            product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+
+          });
+
+        });
+      }
 
 
 
     // Subscribe to Wishlist change
-    this._ecommerceService.getWishlists().subscribe(res => {
+    // this._ecommerceService.getWishlists().subscribe(res => {
 
-      this.wishlist = res.resultObj;
+    //   this.wishlist = res.resultObj;
 
-      this.products.forEach(product => {
+    //   this.products.forEach(product => {
 
-        product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+    //     product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
 
-      });
+    //   });
 
-    });
+    // });
 
     // update product is in Wishlist & is in CartList : Boolean
+
     this.products.forEach(product => {
-      // product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
       product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
       if(product.isInCart)
       {
         console.log('product ; ',product);
-
+        this.totalPrice = this._ecommerceService.totalPriceCart ;
+        // this.totalPrice+=product.price * product.quantityInCart;
       }
+      // this.totalPrice = Number(this.totalPrice.toFixed(2));
+      // this._ecommerceService.totalPriceCart = this.totalPrice;
     });
-
-    // this.totalPrice = Number(this.totalPrice.toFixed(2));
-    // this._ecommerceService.totalPriceCart = this.totalPrice;
-
-    // this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
 
     this.checkoutStepper = new Stepper(document.querySelector('#checkoutStepper'), {
