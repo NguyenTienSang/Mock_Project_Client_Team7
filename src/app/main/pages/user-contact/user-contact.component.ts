@@ -289,8 +289,10 @@ export class UserContactComponent implements OnInit {
     this._accountSettingsService.getUserDetailContact(
       id
     ).subscribe((response)=>{
+      // console.log('response.resultObj ; ',response.resultObj);
+
       this.contactEdit = response.resultObj;
-      this.NameContactEdit = response.resultObj.name;
+      this.NameContactEdit = response.resultObj.fullName;
       this.AddressContactEdit = response.resultObj.address;
       this.PhoneNumberContactEdit = response.resultObj.phoneNumber;
     },(err) =>{

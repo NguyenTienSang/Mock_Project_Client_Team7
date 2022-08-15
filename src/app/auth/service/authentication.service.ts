@@ -70,11 +70,8 @@ export class AuthenticationService {
   // .post<any>(`${environment.apiUrl}/users/authenticate`, {email : "admin@demo.com" , password : "admin" })
     .pipe(
       map(response => {
-        // console.log('Test');
-        console.log("user : ",response);
+        // console.log("user : ",response);
         //const decodedToken = helper.decodeToken(response.resultObj);
-        //console.log("decodedToken : ",decodedToken);
-
 
         // login successful if there's a jwt token in the response
         if (response && response.resultObj) {

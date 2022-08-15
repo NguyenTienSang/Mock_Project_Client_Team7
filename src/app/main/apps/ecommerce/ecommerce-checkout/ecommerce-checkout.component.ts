@@ -19,7 +19,7 @@ export class EcommerceCheckoutComponent implements OnInit {
   public products;
   public cartLists;
   public wishlist;
-  private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
+  private userID = JSON.parse(localStorage.getItem('currentUser'))?.user?.id;
   public contacts;
   public totalPrice = 0;
   public disableOrder = false;
@@ -171,22 +171,24 @@ export class EcommerceCheckoutComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this._accountSettingsService.getUserContact(
-      this.userID
-    ).subscribe((response)=>{
-      this.contacts = response.resultObj;
-      this.contacts.forEach(itemContact => {
-          if(itemContact.default)
-          {
-            this.address.fullNameVar = itemContact.fullName;
-            this.address.addressVar = itemContact.address;
-            this.address.numberVar = itemContact.phoneNumber;
-          }
-      });
-    },(err) =>{
-      console.log(err);
-    })
 
+    if(this.userID){
+      this._accountSettingsService.getUserContact(
+        this.userID
+      ).subscribe((response)=>{
+        this.contacts = response.resultObj;
+        this.contacts.forEach(itemContact => {
+            if(itemContact.default)
+            {
+              this.address.fullNameVar = itemContact.fullName;
+              this.address.addressVar = itemContact.address;
+              this.address.numberVar = itemContact.phoneNumber;
+            }
+        });
+      },(err) =>{
+        console.log(err);
+      })
+    }
 
 
     // Subscribe to ProductList change
@@ -217,20 +219,36 @@ export class EcommerceCheckoutComponent implements OnInit {
       }
 
 
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if(currentUser)
+      {
+        this._ecommerceService.getWishlists().subscribe(res => {
+
+          this.wishlist = res.resultObj;
+
+          this.products.forEach(product => {
+
+            product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+
+          });
+
+        });
+      }
+
 
 
     // Subscribe to Wishlist change
-    this._ecommerceService.getWishlists().subscribe(res => {
+    // this._ecommerceService.getWishlists().subscribe(res => {
 
-      this.wishlist = res.resultObj;
+    //   this.wishlist = res.resultObj;
 
-      this.products.forEach(product => {
+    //   this.products.forEach(product => {
 
-        product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+    //     product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
 
-      });
+    //   });
 
-    });
+    // });
 
     // update product is in Wishlist & is in CartList : Boolean
 

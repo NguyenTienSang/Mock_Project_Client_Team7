@@ -79,6 +79,8 @@ export class NavbarCartComponent implements OnInit {
     this._ecommerceService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.products = res;
 
+      console.log('this.cartList : ',this.cartList);
+
 
       if (this.products.length) {
         // update product is in CartList : Boolean
@@ -89,13 +91,20 @@ export class NavbarCartComponent implements OnInit {
               {
                 product.isInCart = true;
                 product.quantityInCart = p.quantity;
+                console.log('product.price : ',product.price);
+                console.log('product.quantityInCart : ',product.quantityInCart);
+
                 this.totalPrice+=product.price * product.quantityInCart;
               }
           })
 
         product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
+        console.log('This test : ',this.totalPrice);
+
         this.totalPrice = Number(this.totalPrice.toFixed(2));
+        console.log(' this.totalPrice  : ', typeof(this.totalPrice) );
+
         this._ecommerceService.totalPriceCart = this.totalPrice;
       }
     });
