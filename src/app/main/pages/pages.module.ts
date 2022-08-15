@@ -20,8 +20,10 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { UserOrderManagementComponent } from './user-order/user-order-management/user-order-management.component';
 import { UserOrderManagementItemComponent } from './user-order/user-order-management-item/user-order-management-item.component';
 
+import { UserContactComponent } from './user-contact/user-contact.component';
+
 @NgModule({
-  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent],
+  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent],
   imports: [
     CommonModule,
     CoreCommonModule,
@@ -40,6 +42,9 @@ import { UserOrderManagementItemComponent } from './user-order/user-order-manage
     AccountSettingsModule
   ],
 
-  providers: []
+  providers: [
+    UserOrderManagementComponent,
+    UserOrderManagementItemComponent
+  ]
 })
 export class PagesModule {}

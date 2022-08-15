@@ -37,7 +37,7 @@ export class NavbarCartComponent implements OnInit {
   removeFromCart(product) {
     if (product.isInCart === true) {
 
-      this._ecommerceService.totalPriceCart -=  product.price;
+      this._ecommerceService.totalPriceCart -=  product.price*product.quantityInCart;
       this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
       this.totalPrice = this._ecommerceService.totalPriceCart;
@@ -87,15 +87,13 @@ export class NavbarCartComponent implements OnInit {
           this.cartList.forEach(p => {
               if(p.productId === product.id)
               {
-                // console.log('product : ',product);
-
                 product.isInCart = true;
                 product.quantityInCart = p.quantity;
-                this.totalPrice+=product.price;
+                this.totalPrice+=product.price * product.quantityInCart;
               }
           })
 
-          product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+        product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
         this.totalPrice = Number(this.totalPrice.toFixed(2));
         this._ecommerceService.totalPriceCart = this.totalPrice;

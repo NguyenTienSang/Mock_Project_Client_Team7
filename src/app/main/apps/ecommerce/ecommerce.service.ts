@@ -103,11 +103,12 @@ export class EcommerceService implements Resolve<any> {
   updateProduct(productId: string, productList: any): Observable<any>{
     return this._httpClient.put<any>(`${environment.apiUrl}/api/Products/UpdateProduct/` + productId, productList);
   }
+
+
   getBrandLists():Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Brand/GetAllBrand`).subscribe((response: any) => {
         this.brandList=response.resultObj;
-        // console.log('response : ',response);
 
         resolve(this.cartList);
       }, reject);
@@ -141,13 +142,9 @@ export class EcommerceService implements Resolve<any> {
       this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
         this.cartList = response.resultObj;
 
-        // resolve(this.getToTalPrice());
-        // this.getToTalPrice();
         this.onCartListChange.next(this.cartList);
 
-        console.log('test 2');
 
-        // resolve(this.getToTalPrice());
 
         resolve(this.cartList);
 
@@ -245,7 +242,6 @@ export class EcommerceService implements Resolve<any> {
    */
 
   addToWishlist(id):Observable<any> {
-    console.log(this.currentId);
     return this._httpClient.post<any>(`${environment.apiUrl}/api/Wishlist/add/${id}`,null);
   }
 
@@ -261,23 +257,23 @@ export class EcommerceService implements Resolve<any> {
   }
 
 
-  getToTalPrice(){
-  // let totalPrice = 0
-  this.totalPriceCart = 0
-  console.log('this.cartList : ',this.cartList);
+  // getToTalPrice(){
+  // // let totalPrice = 0
+  // this.totalPriceCart = 0
+  // console.log('this.cartList : ',this.cartList);
 
-          this.productList.forEach(product => {
-            product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
-            if(product.isInCart)
-            {
-              this.totalPriceCart+=product.price;
-            }
-          })
-          console.log('this.totalPriceCart : ',this.totalPriceCart);
+  //         this.productList.forEach(product => {
+  //           product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+  //           if(product.isInCart)
+  //           {
+  //             this.totalPriceCart+=product.price;
+  //           }
+  //         })
+  //         console.log('this.totalPriceCart : ',this.totalPriceCart);
 
-          console.log('test 1');
-          return <any> this.totalPriceCart;
-  }
+  //         console.log('test 1');
+  //         return <any> this.totalPriceCart;
+  // }
 
 
   /**
@@ -296,7 +292,6 @@ export class EcommerceService implements Resolve<any> {
           id
         }).subscribe((response: any) => {
           resolve(this.getCartList());
-          // resolve(this.getToTalPrice());
         }, reject);
       });
     }
@@ -346,7 +341,6 @@ export class EcommerceService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.delete(`${environment.apiUrl}/api/Cart/cart-delete/${id}`).subscribe((response: any) => {
         resolve( this.getCartList());
-        // resolve(this.getToTalPrice());
       }, reject);
     });
 
@@ -408,7 +402,8 @@ export class EcommerceService implements Resolve<any> {
       tap(()=>{
 
         this.getCartList();
-        this.getToTalPrice();
+        // this.getToTalPrice();
+        this.totalPriceCart = 0;
       }
     ));
   }

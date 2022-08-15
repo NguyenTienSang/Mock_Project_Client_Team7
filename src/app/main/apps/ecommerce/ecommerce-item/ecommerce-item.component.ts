@@ -73,7 +73,7 @@ export class EcommerceItemComponent implements OnInit {
             Swal.fire("Error",error,"error");
           })
           );
-        } 
+        }
       })
     } else {
       product.isInWishlist = true;
@@ -94,9 +94,6 @@ export class EcommerceItemComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
-    console.log('product : ',product);
-    console.log('test');
-
     this._ecommerceService.totalPriceCart += product.price;
     this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
     this._ecommerceService.addToCart(product.id).then(res => {

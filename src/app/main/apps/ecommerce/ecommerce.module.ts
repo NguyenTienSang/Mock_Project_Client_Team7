@@ -35,6 +35,9 @@ import { EcommerceDeleteService } from './ecommerce-delete/ecommerce-delete.serv
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 import { AccountSettingsComponent } from 'app/main/pages/account-settings/account-settings.component';
 
+
+
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true

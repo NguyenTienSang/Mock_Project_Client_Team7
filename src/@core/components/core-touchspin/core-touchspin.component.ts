@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
-// import {NavbarCartComponent} from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
+import {NavbarCartComponent} from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 
@@ -50,6 +50,8 @@ export class CoreTouchspinComponent implements OnInit {
 
       // this._navbarCartComponent.totalPrice+= product.price;
 
+      this._ecommerceService.totalPriceCart +=  product.price;
+      this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
 
 
@@ -75,15 +77,11 @@ export class CoreTouchspinComponent implements OnInit {
     this._ecommerceService.updateCart(product.id,this.numberValue);
 
     console.log('increase');
-
-
   }
 
   decrement(product) {
-    console.log('product',product);
-    // this._navbarCartComponent.totalPrice-= product.price;
-
-    // console.log('this._navbarCartComponent.totalPrice : ',this._navbarCartComponent.totalPrice);
+    this._ecommerceService.totalPriceCart -=  product.price;
+    this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
     if (this.stepValue == undefined) {
       this.numberValue -= 1;
