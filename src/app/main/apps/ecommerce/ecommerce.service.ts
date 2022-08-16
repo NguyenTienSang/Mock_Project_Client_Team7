@@ -6,12 +6,9 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CategoryUI } from './ui-models/Categories/CategoryUI';
-<<<<<<< HEAD
 import Swal  from 'sweetalert2';
-=======
 import {tap} from 'rxjs/operators';
 import { map } from 'rxjs/operators';
->>>>>>> Develop
 
 @Injectable({
   providedIn: 'root'
@@ -122,7 +119,6 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get Wishlist
    */
-<<<<<<< HEAD
   getWishlist(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
@@ -131,7 +127,7 @@ export class EcommerceService implements Resolve<any> {
         resolve(this.wishlist);
       }, reject);
     });
-=======
+  }
   // getWishlist(): Promise<any[]> {
   //   return new Promise((resolve, reject) => {
   //     this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
@@ -141,21 +137,6 @@ export class EcommerceService implements Resolve<any> {
   //     }, reject);
   //   });
   // }
-
-  getWishlists(): Observable<any>{
-    // if(this.currentId)
-    // {
-    //   return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
-    // }
-
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if(currentUser)
-    {
-      return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${currentUser.user.id}`);
-    }
->>>>>>> Develop
-  }
-
   /**
    * Get CartList
    */

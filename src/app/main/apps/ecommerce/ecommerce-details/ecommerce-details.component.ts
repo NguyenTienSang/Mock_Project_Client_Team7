@@ -95,40 +95,31 @@ export class EcommerceDetailsComponent implements OnInit {
    * @param product
    */
   toggleWishlist(selectedProduct) {
-    if (selectedProduct.isInWishlist === true) {
-      // Swal.fire({
-      //   title: 'Are you sure want to remove?',
-      //   text: 'You will not be able to recover this file!',
-      //   icon: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonText: 'Yes, delete it!',
-      //   cancelButtonText: 'No, keep it'
-      // }).then((result) => {
-      //   if (result.value) {
-      //     this._ecommerceService.removeFromWishlist(selectedProduct.id).subscribe((res=>{
-      //       if(res.isSuccessed){
-      //         Swal.fire("Success",res.message,"success");
-      //         window.location.reload();
-      //       }
-      //       else{
-      //         Swal.fire("Warning",res.message,"warning");
-      //       }
-      //     }),
-      //     (error=>{
-      //       Swal.fire("Error",error,"error");
-      //     })
-      //     );
-      //   }
-      // })
+    if (selectedProduct.isInWishlist) {
+      Swal.fire({
+        title: 'Are you sure want to remove?',
+        text: 'You will not be able to recover this file!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result.value) {
+          this._ecommerceService.removeFromWishlist(selectedProduct.id).then((res=>{
+            selectedProduct.isInWishlist = false;
+            console.log(res);
+          }),
+          (error=>{
+            Swal.fire("Error",error,"error");
+          })
+          );
+        }
+      })
     } else {
-      // this._ecommerceService.addToWishlist(selectedProduct.id).subscribe(res => {
-      //   if(res.isSuccessed){
-      //     Swal.fire("Success",res.message,"success");
-      //   }
-      //   else{
-      //     Swal.fire("Warning",res.message,"warning");
-      //   }
-      // })
+      this._ecommerceService.addToWishlist(selectedProduct.id).then(res => {
+        selectedProduct.isInWishlist = true;
+        console.log(res);
+      })
     }
   }
 
