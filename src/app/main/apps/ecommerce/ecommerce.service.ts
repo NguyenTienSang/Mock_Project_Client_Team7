@@ -120,6 +120,9 @@ export class EcommerceService implements Resolve<any> {
    * Get Wishlist
    */
   getWishlist(): Promise<any[]> {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser)
+    {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
         this.wishlist = response.resultObj;
@@ -127,6 +130,7 @@ export class EcommerceService implements Resolve<any> {
         resolve(this.wishlist);
       }, reject);
     });
+  }
   }
   // getWishlist(): Promise<any[]> {
   //   return new Promise((resolve, reject) => {
