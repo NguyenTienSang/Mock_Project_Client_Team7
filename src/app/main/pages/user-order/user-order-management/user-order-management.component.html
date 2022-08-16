@@ -9,8 +9,7 @@
           <div id="place-order" class="list-view product-checkout">
             <div class="checkout-options">
               <ng-container *ngFor="let listOrderUser of listOrderUsers">
-              <div class="card">
-
+              <div class="card" routerLink="/pages/user-order-detail/{{listOrderUser.id}}">
                   <div class="card-body">
                     <ul class="list-unstyled">
                       <li class="price-detail infor-order disabled-copy">
