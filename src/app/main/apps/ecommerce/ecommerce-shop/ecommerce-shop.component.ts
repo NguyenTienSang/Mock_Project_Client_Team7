@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
@@ -26,6 +26,7 @@ export class EcommerceShopComponent implements OnInit {
   public searchText = '';
   public search = '';
   public productsTemp;
+  isLoginValue=false;
   /**
    *
    * @param {CoreSidebarService} _coreSidebarService
@@ -112,6 +113,12 @@ export class EcommerceShopComponent implements OnInit {
       //product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
       product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
     });
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser){
+      this.isLoginValue=true;
+      console.log(this.isLoginValue);
+    }
 
 
     // content header
