@@ -66,8 +66,7 @@ export class EcommerceCheckoutItemComponent implements OnInit {
    * @param product
    */
   toggleWishlist(product) {
-    if (product.isInWishlist === true) {
-
+    if (product.isInWishlist) {
       Swal.fire({
         title: 'Are you sure want to remove?',
         text: 'You will not be able to recover this file!',
@@ -77,14 +76,9 @@ export class EcommerceCheckoutItemComponent implements OnInit {
         cancelButtonText: 'No, keep it'
       }).then((result) => {
         if (result.value) {
-          this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
-            if(res.isSuccessed){
-              Swal.fire("Success",res.message,"success");
-              window.location.reload();
-            }
-            else{
-              Swal.fire("Warning",res.message,"warning");
-            }
+          this._ecommerceService.removeFromWishlist(product.id).then((res=>{
+            product.isInWishlist = false;
+            console.log(res);
           }),
           (error=>{
             Swal.fire("Error",error,"error");
@@ -93,17 +87,12 @@ export class EcommerceCheckoutItemComponent implements OnInit {
         }
       })
     } else {
-
-      this._ecommerceService.addToWishlist(product.id).subscribe(res => {
-        if(res.isSuccessed){
-          Swal.fire("Success",res.message,"success");
-        }
-        else{
-          Swal.fire("Warning",res.message,"warning");
-        }
+      this._ecommerceService.addToWishlist(product.id).then(res => {
+        product.isInWishlist = true;
+        console.log(res);
       })
     }
-  }
+}
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------

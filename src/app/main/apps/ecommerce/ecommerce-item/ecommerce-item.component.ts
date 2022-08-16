@@ -2,8 +2,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import Swal  from 'sweetalert2';
-import { EcommerceWishlistComponent } from '../ecommerce-wishlist/ecommerce-wishlist.component';
-
 @Component({
   selector: 'app-ecommerce-item',
   templateUrl: './ecommerce-item.component.html',
@@ -31,6 +29,8 @@ export class EcommerceItemComponent implements OnInit {
   // Input Decorotor
   @Input() product;
   @Input() isWishlistOpen = false;
+  @Input() isLogin = false;
+
 
   // Public
   public isInCart = false;
@@ -60,14 +60,9 @@ export class EcommerceItemComponent implements OnInit {
         cancelButtonText: 'No, keep it'
       }).then((result) => {
         if (result.value) {
-          this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
-            if(res.isSuccessed){
-              Swal.fire("Success",res.message,"success");
-              window.location.reload();
-            }
-            else{
-              Swal.fire("Warning",res.message,"warning");
-            }
+          this._ecommerceService.removeFromWishlist(product.id).then((res=>{
+            product.isInWishlist = false;
+            console.log(res);
           }),
           (error=>{
             Swal.fire("Error",error,"error");
@@ -76,14 +71,9 @@ export class EcommerceItemComponent implements OnInit {
         }
       })
     } else {
-      product.isInWishlist = true;
-      this._ecommerceService.addToWishlist(product.id).subscribe(res => {
-        if(res.isSuccessed){
-          Swal.fire("Success",res.message,"success");
-        }
-        else{
-          Swal.fire("Warning",res.message,"warning");
-        }
+      this._ecommerceService.addToWishlist(product.id).then(res => {
+        product.isInWishlist = true;
+        console.log(res);
       })
     }
   }
@@ -109,5 +99,6 @@ export class EcommerceItemComponent implements OnInit {
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

@@ -93,7 +93,8 @@ export class AuthLoginV2Component implements OnInit {
         data => {
           if(data.isSuccessed)
           {
-            this._router.navigate([this.returnUrl]);
+            // this._router.navigate([this.returnUrl]);
+            this._router.navigate(['/apps/e-commerce/shop']);
           }
           else {
             this.error = data.message;

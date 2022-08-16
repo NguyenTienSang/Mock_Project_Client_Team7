@@ -124,6 +124,7 @@
         <app-ecommerce-item
           class="card ecommerce-card"
           [product]="product"
+          [isLogin]="isLoginValue"
           *ngFor="
             let product of products
               | filter: searchText:'name'
