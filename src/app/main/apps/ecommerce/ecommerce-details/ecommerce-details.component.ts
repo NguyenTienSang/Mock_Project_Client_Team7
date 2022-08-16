@@ -177,14 +177,7 @@ export class EcommerceDetailsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    if(this.currentUser.user.role == "Master" || this.currentUser.user.role == "Mod")
-    {
-      this.isRating = false;
-    }
-    else
-    {
-      this.isRating = true;
-    }
+   
 
     this.ratingProduct = 3.5
     this.rating = 0;
@@ -195,7 +188,12 @@ export class EcommerceDetailsComponent implements OnInit {
     if(this.currentUser != null){
       let roleUser = this.currentUser.user.role;
       if(roleUser == "Master" || roleUser == "Mod")
+      {
         this.role = true;
+        this.isRating = false;
+      }
+      else
+        this.isRating = true;
     }
 
     // Subscribe to Selected Product change

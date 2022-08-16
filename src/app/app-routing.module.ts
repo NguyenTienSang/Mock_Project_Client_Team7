@@ -6,6 +6,7 @@ import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { EcommerceShopComponent } from './main/apps/ecommerce/ecommerce-shop/ecommerce-shop.component';
 import { OrderManagementComponent } from './main/apps/order-management/order-management.component';
+import { UserOrderDetailComponent } from './main/pages/user-order/user-order-detail/user-order-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'apps/e-commerce/shop', pathMatch: 'full' },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'heroes', component: HeroesComponent },
   { path: 'apps/e-commerce/shop', component: EcommerceShopComponent },
-  { path: 'apps/order-management', component: OrderManagementComponent }
+  { path: 'apps/order-management', component: OrderManagementComponent },
+  { path: 'pages/user-order-detail/:id', component: UserOrderDetailComponent }
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ import { AccountSettingsService } from 'app/main/pages/account-settings/account-
 import { UserContactComponent } from '../user-contact/user-contact.component';
 
 import { UserOrderManagementComponent } from '../user-order/user-order-management/user-order-management.component';
+import { UserOrderDetailComponent } from '../user-order/user-order-detail/user-order-detail.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,14 @@ const routes: Routes = [
   {
     path: 'user-order-manage',
     component: UserOrderManagementComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
+  },
+  {
+    path: 'user-order-detail/:id',
+    component: UserOrderDetailComponent,
     canActivate: [AuthGuard],
     // resolve: {
     //   accountSetting: AccountSettingsService
