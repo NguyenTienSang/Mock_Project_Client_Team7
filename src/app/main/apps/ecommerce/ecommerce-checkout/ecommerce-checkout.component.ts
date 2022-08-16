@@ -222,16 +222,10 @@ export class EcommerceCheckoutComponent implements OnInit {
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
       if(currentUser)
       {
-        this._ecommerceService.getWishlists().subscribe(res => {
-
-          this.wishlist = res.resultObj;
+        this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
           this.products.forEach(product => {
-
-            product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
-
-          });
-
+          product.isInWishlist = this.wishlist.findIndex(p => p.id === product.id) > -1;
         });
       }
 

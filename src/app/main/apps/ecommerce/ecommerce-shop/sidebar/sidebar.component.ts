@@ -9,7 +9,6 @@ import { id } from '@swimlane/ngx-datatable';
 import { Elements } from 'plyr';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { arrays2csv } from '@ctrl/ngx-csv';
-import { element } from 'protractor';
 
 @Component({
   selector: 'ecommerce-sidebar',
