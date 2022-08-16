@@ -120,6 +120,9 @@ export class EcommerceService implements Resolve<any> {
    * Get Wishlist
    */
   getWishlist(): Promise<any[]> {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser)
+    {
     return new Promise((resolve, reject) => {
       this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
         this.wishlist = response.resultObj;
@@ -127,6 +130,7 @@ export class EcommerceService implements Resolve<any> {
         resolve(this.wishlist);
       }, reject);
     });
+  }
   }
   // getWishlist(): Promise<any[]> {
   //   return new Promise((resolve, reject) => {
@@ -144,8 +148,18 @@ export class EcommerceService implements Resolve<any> {
 
   getCartList(): Promise<any[]> {
     this.currentId= JSON.parse(localStorage.getItem("currentUser"))?.user?.id;
+    const dataCart = JSON.parse(sessionStorage.getItem('cart'));
     if(this.currentId)
     {
+
+      // if(dataCart)
+      // {
+      //   dataCart.forEach(elementCart => {
+      //     this.updateCart(elementCart.productId,elementCart.quantity);
+      //   });
+      //   sessionStorage.removeItem('cart');
+      // }
+
       return new Promise((resolve, reject) => {
         this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
 
@@ -158,7 +172,7 @@ export class EcommerceService implements Resolve<any> {
       });
     }
     else {
-      const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+
     //Have cart in sessionStorage
       if(dataCart != null)
       {

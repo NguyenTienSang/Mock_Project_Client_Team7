@@ -19,7 +19,7 @@ export class EcommerceCheckoutComponent implements OnInit {
   public products;
   public cartLists;
   public wishlist;
-  private userID = JSON.parse(localStorage.getItem('currentUser'))?.user?.id;
+  public userID = JSON.parse(localStorage.getItem('currentUser'))?.user?.id;
   public contacts;
   public totalPrice = 0;
   public disableOrder = false;
