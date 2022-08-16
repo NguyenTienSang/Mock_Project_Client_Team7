@@ -74,31 +74,31 @@ export class EcommerceCheckoutItemComponent implements OnInit {
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, keep it'
       }).then((result) => {
-        if (result.value) {
-          this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
-            if(res.isSuccessed){
-              Swal.fire("Success",res.message,"success");
-              window.location.reload();
-            }
-            else{
-              Swal.fire("Warning",res.message,"warning");
-            }
-          }),
-          (error=>{
-            Swal.fire("Error",error,"error");
-          })
-          );
-        } 
-      })
-    } else {
+    //     if (result.value) {
+    //       this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
+    //         if(res.isSuccessed){
+    //           Swal.fire("Success",res.message,"success");
+    //           window.location.reload();
+    //         }
+    //         else{
+    //           Swal.fire("Warning",res.message,"warning");
+    //         }
+    //       }),
+    //       (error=>{
+    //         Swal.fire("Error",error,"error");
+    //       })
+    //       );
+    //     }
+    //   })
+    // } else {
 
-      this._ecommerceService.addToWishlist(product.id).subscribe(res => {
-        if(res.isSuccessed){
-          Swal.fire("Success",res.message,"success");
-        }
-        else{
-          Swal.fire("Warning",res.message,"warning");
-        }
+    //   this._ecommerceService.addToWishlist(product.id).subscribe(res => {
+    //     if(res.isSuccessed){
+    //       Swal.fire("Success",res.message,"success");
+    //     }
+    //     else{
+    //       Swal.fire("Warning",res.message,"warning");
+    //     }
       })
     }
   }

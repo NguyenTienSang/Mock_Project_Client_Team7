@@ -6,6 +6,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CategoryUI } from './ui-models/Categories/CategoryUI';
+import Swal  from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlists(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
+      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -115,18 +116,14 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get Wishlist
    */
-  // getWishlist(): Promise<any[]> {
-  //   return new Promise((resolve, reject) => {
-  //     this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
-  //       this.wishlist = response.resultObj;
-  //       this.onWishlistChange.next(this.wishlist);
-  //       resolve(this.wishlist);
-  //     }, reject);
-  //   });
-  // }
-
-  getWishlists(): Observable<any>{
-    return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
+  getWishlist(): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
+        this.wishlist = response.resultObj;
+        this.onWishlistChange.next(this.wishlist);
+        resolve(this.wishlist);
+      }, reject);
+    });
   }
 
   /**
@@ -242,9 +239,19 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
 
-  addToWishlist(id):Observable<any> {
-    console.log(this.currentId);
-    return this._httpClient.post<any>(`${environment.apiUrl}/api/Wishlist/add/${id}`,null);
+  addToWishlist(id) {
+    return new Promise<void>((resolve, reject) => {
+      this._httpClient.post(`${environment.apiUrl}/api/Wishlist/add/${id}`,null).subscribe((res:any) => {
+        this.getWishlist();
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+        resolve();
+      }, reject);
+    });
   }
 
   /**
@@ -253,9 +260,19 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
 
-  removeFromWishlist(id):Observable<any> {
-    //const indexRef = this.wishlist.findIndex(wishlistRef => wishlistRef.productId === id); // Get the index ref
-    return this._httpClient.delete<any>(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`)
+  removeFromWishlist(id) {
+    return new Promise<void>((resolve, reject) => {
+      this._httpClient.delete(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`).subscribe((res: any) => {
+        this.getWishlist();
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+        resolve();
+      }, reject);
+    });
   }
 
 

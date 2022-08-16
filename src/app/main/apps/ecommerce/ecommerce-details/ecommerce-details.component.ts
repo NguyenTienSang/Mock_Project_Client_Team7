@@ -96,39 +96,39 @@ export class EcommerceDetailsComponent implements OnInit {
    */
   toggleWishlist(selectedProduct) {
     if (selectedProduct.isInWishlist === true) {
-      Swal.fire({
-        title: 'Are you sure want to remove?',
-        text: 'You will not be able to recover this file!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, keep it'
-      }).then((result) => {
-        if (result.value) {
-          this._ecommerceService.removeFromWishlist(selectedProduct.id).subscribe((res=>{
-            if(res.isSuccessed){
-              Swal.fire("Success",res.message,"success");
-              window.location.reload();
-            }
-            else{
-              Swal.fire("Warning",res.message,"warning");
-            }
-          }),
-          (error=>{
-            Swal.fire("Error",error,"error");
-          })
-          );
-        } 
-      })
+      // Swal.fire({
+      //   title: 'Are you sure want to remove?',
+      //   text: 'You will not be able to recover this file!',
+      //   icon: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonText: 'Yes, delete it!',
+      //   cancelButtonText: 'No, keep it'
+      // }).then((result) => {
+      //   if (result.value) {
+      //     this._ecommerceService.removeFromWishlist(selectedProduct.id).subscribe((res=>{
+      //       if(res.isSuccessed){
+      //         Swal.fire("Success",res.message,"success");
+      //         window.location.reload();
+      //       }
+      //       else{
+      //         Swal.fire("Warning",res.message,"warning");
+      //       }
+      //     }),
+      //     (error=>{
+      //       Swal.fire("Error",error,"error");
+      //     })
+      //     );
+      //   }
+      // })
     } else {
-      this._ecommerceService.addToWishlist(selectedProduct.id).subscribe(res => {
-        if(res.isSuccessed){
-          Swal.fire("Success",res.message,"success");
-        }
-        else{
-          Swal.fire("Warning",res.message,"warning");
-        }
-      })
+      // this._ecommerceService.addToWishlist(selectedProduct.id).subscribe(res => {
+      //   if(res.isSuccessed){
+      //     Swal.fire("Success",res.message,"success");
+      //   }
+      //   else{
+      //     Swal.fire("Warning",res.message,"warning");
+      //   }
+      // })
     }
   }
 
@@ -208,10 +208,10 @@ export class EcommerceDetailsComponent implements OnInit {
     // Subscribe to Selected Product change
     this._ecommerceService.onSelectedProductChange.subscribe(res => {
       this.selectedProduct = res[0];
-      
+
     });
 
-    
+
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
@@ -230,7 +230,7 @@ export class EcommerceDetailsComponent implements OnInit {
             this.selectedProduct = respone.resultObj;
             Id = this.selectedProduct.id;
             console.log("id", Id);
-            
+
             this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
               if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
               {
@@ -251,7 +251,7 @@ export class EcommerceDetailsComponent implements OnInit {
     this.selectedProduct.isInWishlist = this.wishlist.findIndex(p => p.productId === this.selectedProduct.id) > -1;
     this.selectedProduct.isInCart = this.cartList.findIndex(p => p.productId === this.selectedProduct.id) > -1;
 
-    
+
 
     // content header
     this.contentHeader = {
@@ -307,7 +307,7 @@ export class EcommerceDetailsComponent implements OnInit {
                 this.selectedProduct = respone.resultObj;
                 let Id = this.selectedProduct.id;
                 console.log("id", Id);
-                
+
                 this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
                   if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
                   {

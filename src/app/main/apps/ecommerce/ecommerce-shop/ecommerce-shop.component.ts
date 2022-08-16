@@ -91,17 +91,19 @@ export class EcommerceShopComponent implements OnInit {
     this._ecommerceService.onProductListChange.subscribe(res => {
       this.products = res;
       console.log("all product", res[0].brand.name);
-      
+
       this.products.isInWishlist = false;
     });
     this.productsTemp = this.products;
     this._ecommerceService.onCategoryListChange.subscribe(res => {
       this.categories = res;
-    console.log(res);
     });
     // Subscribe to Wishlist change
     this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
 
+    this.products.forEach(product => {
+      product.isInWishlist = this.wishlist.findIndex(p => p.id === product.id) > -1;
+    });
     // Subscribe to Cartlist change
     this._ecommerceService.onCartListChange.subscribe(res => (this.cartList = res));
 

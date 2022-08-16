@@ -18,7 +18,7 @@
             <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
           </span>
         </ng-template>
-        
+
         <ngb-rating [(rate)]="product.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
       </div>
     </div>
@@ -49,7 +49,7 @@
     *ngIf="isWishlistOpen === true"
     href="javascript:void(0)"
     class="btn btn-light btn-wishlist"
-    (click)="toggleWishlist(product, 'rm')"
+    (click)="toggleWishlist(product)"
     rippleEffect
   >
     <i data-feather="x"></i>
@@ -59,7 +59,7 @@
     *ngIf="isWishlistOpen !== true"
     href="javascript:void(0)"
     class="btn btn-light btn-wishlist"
-    (click)="toggleWishlist(product, 'add')"
+    (click)="toggleWishlist(product)"
     rippleEffect
   >
     <i class="fa mr-25" [ngClass]="product.isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"></i>
