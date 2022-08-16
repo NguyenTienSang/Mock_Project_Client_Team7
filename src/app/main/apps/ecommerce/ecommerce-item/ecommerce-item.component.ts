@@ -29,6 +29,8 @@ export class EcommerceItemComponent implements OnInit {
   // Input Decorotor
   @Input() product;
   @Input() isWishlistOpen = false;
+  @Input() isLogin = false;
+
 
   // Public
   public isInCart = false;
