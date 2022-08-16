@@ -11,6 +11,10 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { AccountSettingsComponent } from 'app/main/pages/account-settings/account-settings.component';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 
+import { UserContactComponent } from '../user-contact/user-contact.component';
+
+import { UserOrderManagementComponent } from '../user-order/user-order-management/user-order-management.component';
+
 const routes: Routes = [
   {
     path: 'account-settings',
@@ -20,14 +24,22 @@ const routes: Routes = [
       accountSetting: AccountSettingsService
     }
   },
-  // {
-  //   path: 'account-settings1',
-  //   component: AccountSettingsComponent,
-  //   canActivate: [AuthGuard],
-  //   resolve: {
-  //     accountSetting: AccountSettingsService
-  //   }
-  // }
+  {
+    path: 'user-order-manage',
+    component: UserOrderManagementComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
+  },
+  {
+    path: 'user-contact',
+    component: UserContactComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
+  }
 ];
 
 @NgModule({

@@ -17,9 +17,13 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { AccountSettingsModule } from './account-settings/account-settings.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { UserOrderManagementComponent } from './user-order/user-order-management/user-order-management.component';
+import { UserOrderManagementItemComponent } from './user-order/user-order-management-item/user-order-management-item.component';
+
+import { UserContactComponent } from './user-contact/user-contact.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent],
   imports: [
     CommonModule,
     CoreCommonModule,
@@ -38,6 +42,9 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
     AccountSettingsModule
   ],
 
-  providers: []
+  providers: [
+    UserOrderManagementComponent,
+    UserOrderManagementItemComponent
+  ]
 })
 export class PagesModule {}

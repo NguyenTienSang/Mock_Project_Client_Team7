@@ -48,6 +48,9 @@ export class CoreMenuComponent implements OnInit {
     this._coreMenuService.onMenuChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
       this.currentUser = this._coreMenuService.currentUser;
 
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+
       // Load menu
       this.menu = this._coreMenuService.getCurrentMenu();
 

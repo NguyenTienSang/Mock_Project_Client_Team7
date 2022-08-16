@@ -36,13 +36,13 @@ export class NavbarCartComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
+
+      this._ecommerceService.totalPriceCart -=  product.price*product.quantityInCart;
+      this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
+      this.totalPrice = this._ecommerceService.totalPriceCart;
       this._ecommerceService.removeFromCart(product.id).then<any>(res => {
         product.isInCart = false;
-
-        // this.getTotalPrice();
-    //  this.totalPrice = this.getTotalPrice();
-    //     console.log('this.totalPrice : ',this.totalPrice);
-
       });
     }
   }
@@ -71,12 +71,15 @@ export class NavbarCartComponent implements OnInit {
       this.cartList = res;
       this.cartListLength = this.cartList?.length;
       this.totalPrice = this._ecommerceService.totalPriceCart;
+
       // console.log('onCartListChange : ');
     });
 
     // Subscribe to ProductList change
     this._ecommerceService.onProductListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.products = res;
+
+      console.log('this.cartList : ',this.cartList);
 
 
       if (this.products.length) {
@@ -86,16 +89,23 @@ export class NavbarCartComponent implements OnInit {
           this.cartList.forEach(p => {
               if(p.productId === product.id)
               {
-                // console.log('product : ',product);
-
                 product.isInCart = true;
                 product.quantityInCart = p.quantity;
-                this.totalPrice+=product.price;
+                console.log('product.price : ',product.price);
+                console.log('product.quantityInCart : ',product.quantityInCart);
+
+                this.totalPrice+=product.price * product.quantityInCart;
               }
           })
 
-          product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
+        product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
         });
+        console.log('This test : ',this.totalPrice);
+
+        this.totalPrice = Number(this.totalPrice.toFixed(2));
+        console.log(' this.totalPrice  : ', typeof(this.totalPrice) );
+
+        this._ecommerceService.totalPriceCart = this.totalPrice;
       }
     });
   }

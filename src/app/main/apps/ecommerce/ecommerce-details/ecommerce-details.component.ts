@@ -138,9 +138,11 @@ export class EcommerceDetailsComponent implements OnInit {
    * @param product
    */
   addToCart(selectedProduct) {
+    console.log('test');
+
+    this._ecommerceService.totalPriceCart += selectedProduct.price;
     this._ecommerceService.addToCart(selectedProduct.id).then(res => {
       selectedProduct.isInCart = true;
-
     });
   }
   deleteProduct(id: number){

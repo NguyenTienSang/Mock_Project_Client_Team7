@@ -46,12 +46,16 @@ const routes: Routes = [
     path: 'brand',
     loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)
   },
+  {
+    path: 'order-management',
+    loadChildren: () => import('./order-management/order-management.module').then(m => m.OrderManagementModule)
+  },
 ];
 
 FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)]
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
 
 export class AppsModule {}

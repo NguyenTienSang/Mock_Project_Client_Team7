@@ -52,6 +52,8 @@ export class EcommerceCheckoutItemComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
+      this._ecommerceService.totalPriceCart -=  product.price*product.quantityInCart;
+      this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
       this._ecommerceService.removeFromCart(product.id).then(res => {
         product.isInCart = false;
       });
@@ -74,6 +76,7 @@ export class EcommerceCheckoutItemComponent implements OnInit {
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, keep it'
       }).then((result) => {
+<<<<<<< HEAD
     //     if (result.value) {
     //       this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
     //         if(res.isSuccessed){
@@ -91,6 +94,25 @@ export class EcommerceCheckoutItemComponent implements OnInit {
     //     }
     //   })
     // } else {
+=======
+        if (result.value) {
+          this._ecommerceService.removeFromWishlist(product.id).subscribe((res=>{
+            if(res.isSuccessed){
+              Swal.fire("Success",res.message,"success");
+              window.location.reload();
+            }
+            else{
+              Swal.fire("Warning",res.message,"warning");
+            }
+          }),
+          (error=>{
+            Swal.fire("Error",error,"error");
+          })
+          );
+        }
+      })
+    } else {
+>>>>>>> Develop
 
     //   this._ecommerceService.addToWishlist(product.id).subscribe(res => {
     //     if(res.isSuccessed){

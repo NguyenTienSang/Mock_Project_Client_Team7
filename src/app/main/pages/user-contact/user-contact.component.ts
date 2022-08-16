@@ -8,21 +8,13 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import Swal  from 'sweetalert2';
-// declare var window: any
-
 
 @Component({
-  selector: 'app-account-settings',
-  templateUrl: './account-settings.component.html',
-  styleUrls: ['./account-settings.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-user-contact',
+  templateUrl: './user-contact.component.html',
+  styleUrls: ['./user-contact.component.scss']
 })
-export class AccountSettingsComponent implements OnInit {
-
-
-
-  // title = 'ang13-bootstrap5-modal-demo';
-  // formModal: any;
+export class UserContactComponent implements OnInit {
 
   closeResult: string;
   // public
@@ -297,8 +289,10 @@ export class AccountSettingsComponent implements OnInit {
     this._accountSettingsService.getUserDetailContact(
       id
     ).subscribe((response)=>{
+      // console.log('response.resultObj ; ',response.resultObj);
+
       this.contactEdit = response.resultObj;
-      this.NameContactEdit = response.resultObj.name;
+      this.NameContactEdit = response.resultObj.fullName;
       this.AddressContactEdit = response.resultObj.address;
       this.PhoneNumberContactEdit = response.resultObj.phoneNumber;
     },(err) =>{
@@ -405,76 +399,37 @@ export class AccountSettingsComponent implements OnInit {
     })
   }
 
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
-  ngOnInit() : void {
-
+  ngOnInit(): void {
 
     this.data = (JSON.parse(localStorage.getItem("currentUser")));
-
-
     this.getUserContact(this.data.user.id);
 
 
-    // content header
-    this.contentHeader = {
-      headerTitle: 'Profile',
-      actionButton: true,
-      breadcrumb: {
-        type: '',
-        links: [
-          {
-            name: 'Home',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'Pages',
-            isLink: true,
-            link: '/'
-          },
-          {
-            name: 'Profile',
-            isLink: false
-          }
-        ]
+ // content header
+ this.contentHeader = {
+  headerTitle: 'Contact',
+  actionButton: true,
+  breadcrumb: {
+    type: '',
+    links: [
+      {
+        name: 'Home',
+        isLink: true,
+        link: '/'
+      },
+      {
+        name: 'Pages',
+        isLink: true,
+        link: '/'
+      },
+      {
+        name: 'Contact',
+        isLink: false
       }
-    };
+    ]
   }
+};
 
-
-
-
-  get lastName() {
-    return this.updateProfileForm.get('lastname');
-  }
-
-  get firstName() {
-    return this.updateProfileForm.get('firstname');
-  }
-
-  get email() {
-    return this.updateProfileForm.get('email');
-  }
-
-  get phoneNumber() {
-    return this.updateProfileForm.get('phonenumber');
-  }
-
-  get name() {
-    return this.ContactForm.get('Name');
-  }
-
-  get address() {
-    return this.ContactForm.get('Address');
-  }
-
-  get phonenumber() {
-    return this.ContactForm.get('Phonenumber');
   }
 
 }

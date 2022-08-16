@@ -81,22 +81,22 @@ export class AccountSettingsService implements Resolve<any> {
   };
 
 
-  addContact(name : string, address : string, phonenumber : string){
+  addContact(fullName : string, address : string, phoneNumber : string){
     return this._httpClient.post<any>(`${environment.apiUrl}/api/User/contact/add`,{
-      name,
+      fullName,
       address,
-      phonenumber
+      phoneNumber
     }).pipe(map(
       response => {
       return response;
     }))
   }
 
-  editContact(id : string,name : string, address : string, phonenumber : string){
+  editContact(id : string,fullName : string, address : string, phoneNumber : string){
     return this._httpClient.put<any>(`${environment.apiUrl}/api/User/contact/update/${id}`,{
-      name,
+      fullName,
       address,
-      phonenumber
+      phoneNumber
     }).pipe(map(
       response => {
       return response;
@@ -105,6 +105,13 @@ export class AccountSettingsService implements Resolve<any> {
 
   deleteContact(id : string){
     return this._httpClient.delete<any>(`${environment.apiUrl}/api/User/contact/delete/${id}`).pipe(map(
+      response => {
+      return response;
+    }))
+  }
+
+  setDefaultContact(id : string){
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/User/contact/setdefault/${id}`,id).pipe(map(
       response => {
       return response;
     }))

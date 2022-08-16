@@ -1,0 +1,701 @@
+<div class="content-wrapper">
+    <div class="content-body">
+      <!-- content-header component -->
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+  
+      <!-- account setting page -->
+      <section id="page-account-settings">
+        <div class="row nav-vertical d-flex">
+          <div class="col-2 mb-1 mb-md-0">
+            <ul ngbNav #navVertical="ngbNav" class="nav nav-pills flex-column nav-left">
+              <li class="nav-item" style="background-color: #FFFF00; border-radius:5px" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-general"
+                  data-toggle="pill"
+                  href="#account-vertical-general"
+                  aria-expanded="true"
+                >
+                <div class="col-sm-4" >
+                      <p class="fa badge fa-lg">
+                        <i class="nts" *ngIf="numberOrderWaiting !== 0" >{{numberOrderWaiting}}</i>
+                        <i data-feather="bookmark" class="font-medium-3 mr-1"></i>
+                      </p>
+                </div>
+                <div class="col-sm-8">
+                    <span class="font-weight-bold">Waiting</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                        <!-- <div class="border">
+                            <button class="btn btn-md btn-outline-primary">
+                              <i class="fa fa-user"></i>New Contact
+                            </button>
+                          </div> -->
+                          <h3>Waiting</h3>
+                          <div class="d-flex flex-wrap">
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Name</th>
+                                  <th scope="col">Created By</th>
+                                  <th scope="col">Created Date</th>
+                                  <th scope="col">Address</th>
+                                  <th scope="col">Phone number</th>
+                                  <th scope="col">User Id</th>
+                                  <th scope="col">Status</th>
+                                  <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                                  <th scope="col">Detail</th>
+                                  <th scope="col">Change Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <ng-container *ngFor="let order of orders">
+                                  <tr  *ngIf="order.statusOrderId == 1">
+                                    <td>{{order.name}}</td>
+                                    <td>{{order.createdBy}}</td>
+                                    <td>{{order.createdDate}}</td>
+                                    <td>{{order.shipAddress}}</td>
+                                    <td>{{order.shipPhoneNumber}}</td>
+                                    <td>{{order.userId}}</td>
+                                    <td><div style="background-color: #FFFF00; border-radius: 0px;">{{order.status}}</div></td>
+                                    <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                      <div >
+                                        <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                          <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                            {{s.name}}
+                                          </option>
+                                        </select>
+                                      </div>
+                                    </td>
+                                    <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                    <td>
+                                      <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                        <i class="fa fa-detail"></i>Detail
+                                      </button>
+                                    </td>
+                                    <td> 
+                                      <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                        <i class="fa fa-status"></i>Change status
+                                      </button>
+                                      <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                        <i class="fa fa-status"></i>Save change
+                                      </button>
+                                      <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                        <i class="fa fa-status"></i>Cancel
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </ng-container>
+                              </tbody>
+                            </table>
+                          </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li class="nav-item" style="background-color: #46e3f1; border-radius:5px" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-password"
+                  data-toggle="pill"
+                  href="#account-vertical-password"
+                  aria-expanded="false"
+                >
+                <div class="col-sm-4">
+                    <p class="fa badge fa-lg">
+                      <i class="nts" *ngIf="numberOrderConfirmed !== 0" >{{numberOrderConfirmed}}</i>
+                      <i data-feather="archive" class="font-medium-3 mr-1"></i>
+                    </p>
+                </div>
+                <div class="col-sm-8">
+                  <span class="font-weight-bold">Confirmed</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- <div class="border">
+                        <button class="btn btn-md btn-outline-primary">
+                          <i class="fa fa-user"></i>New Contact
+                        </button>
+                      </div> -->
+                      <h3>Confirmed</h3>
+                      <div class="d-flex flex-wrap">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Created By</th>
+                              <th scope="col">Created Date</th>
+                              <th scope="col">Address</th>
+                              <th scope="col">Phone number</th>
+                              <th scope="col">User Id</th>
+                              <th scope="col">Status</th>
+                              <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                              <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let order of orders">
+                              <tr  *ngIf="order.statusOrderId == 2">
+                                <td>{{order.name}}</td>
+                                <td>{{order.createdBy}}</td>
+                                <td>{{order.createdDate}}</td>
+                                <td>{{order.shipAddress}}</td>
+                                <td>{{order.shipPhoneNumber}}</td>
+                                <td>{{order.userId}}</td>
+                                <td><div style="background-color:#46e3f1 ; border-radius: 5px">{{order.status}}</div></td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                  <div >
+                                    <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                      <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                        {{s.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                <td>
+                                  <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                    <i class="fa fa-detail"></i>Detail
+                                  </button>
+                                </td>
+                                <td> 
+                                  <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Change status
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Save change
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                    <i class="fa fa-status"></i>Cancel
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li class="nav-item" style="background-color: #C0C0C0; border-radius:5px" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-password"
+                  data-toggle="pill"
+                  href="#account-vertical-password"
+                  aria-expanded="false"
+                >
+                <div class="col-sm-4">
+                    <p class="fa badge fa-lg">
+                      <i class="nts" *ngIf="numberOrderShipping !== 0">{{numberOrderShipping}}</i>
+                      <i data-feather="truck" class="font-medium-3 mr-1"></i>
+                    </p>
+                </div>
+                <div class="col-sm-8">
+                  <span class="font-weight-bold">Shipping</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- <div class="border">
+                        <button class="btn btn-md btn-outline-primary">
+                          <i class="fa fa-user"></i>New Contact
+                        </button>
+                      </div> -->
+                      <h3>Shipping</h3>
+                      <div class="d-flex flex-wrap">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Created By</th>
+                              <th scope="col">Created Date</th>
+                              <th scope="col">Address</th>
+                              <th scope="col">Phone number</th>
+                              <th scope="col">User Id</th>
+                              <th scope="col">Status</th>
+                              <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                              <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let order of orders">
+                              <tr  *ngIf="order.statusOrderId == 3">
+                                <td>{{order.name}}</td>
+                                <td>{{order.createdBy}}</td>
+                                <td>{{order.createdDate}}</td>
+                                <td>{{order.shipAddress}}</td>
+                                <td>{{order.shipPhoneNumber}}</td>
+                                <td>{{order.userId}}</td>
+                                <td><div style="background-color: #C0C0C0; border-radius: 5px;">{{order.status}}</div></td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                  <div >
+                                    <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                      <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                        {{s.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                <td>
+                                  <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                    <i class="fa fa-detail"></i>Detail
+                                  </button>
+                                </td>
+                                <td> 
+                                  <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Change status
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Save change
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                    <i class="fa fa-status"></i>Cancel
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li class="nav-item" style="background-color:#2ee32e ; border-radius: 5px;" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-password"
+                  data-toggle="pill"
+                  href="#account-vertical-password"
+                  aria-expanded="false"
+                >
+                <div class="col-sm-4">
+                    <p class="fa badge fa-lg">
+                      <i class="nts" *ngIf="numberOrderArrived !== 0" >{{numberOrderArrived}}</i>
+                      <i data-feather="check-circle" class="font-medium-3 mr-1"></i>
+                    </p>
+
+                   
+
+                </div>
+                <div class="col-sm-8">
+                  <span class="font-weight-bold">Arrived</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- <div class="border">
+                        <button class="btn btn-md btn-outline-primary">
+                          <i class="fa fa-user"></i>New Contact
+                        </button>
+                      </div> -->
+                      <h3>Arrived</h3>
+                      <div class="d-flex flex-wrap">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Created By</th>
+                              <th scope="col">Created Date</th>
+                              <th scope="col">Address</th>
+                              <th scope="col">Phone number</th>
+                              <th scope="col">User Id</th>
+                              <th scope="col">Status</th>
+                              <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                              <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let order of orders">
+                              <tr  *ngIf="order.statusOrderId == 4">
+                                <td>{{order.name}}</td>
+                                <td>{{order.createdBy}}</td>
+                                <td>{{order.createdDate}}</td>
+                                <td>{{order.shipAddress}}</td>
+                                <td>{{order.shipPhoneNumber}}</td>
+                                <td>{{order.userId}}</td>
+                                <td><div style="background-color:#2ee32e ; border-radius: 5px">{{order.status}}</div></td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                  <div >
+                                    <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                      <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                        {{s.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                <td>
+                                  <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                    <i class="fa fa-detail"></i>Detail
+                                  </button>
+                                </td>
+                                <td> 
+                                  <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Change status
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Save change
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                    <i class="fa fa-status"></i>Cancel
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li class="nav-item" style="background-color: #FF9900; border-radius:5px" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-password"
+                  data-toggle="pill"
+                  href="#account-vertical-password"
+                  aria-expanded="false"
+                >
+                <div class="col-sm-4">
+                    <!-- <i class="fa badge fa-lg" >
+                    <i data-feather="x-octagon" class="font-medium-3 mr-1">{{number}}</i>
+                    </i> -->
+                    
+                    <p class="fa badge fa-lg">
+                      <i class="nts" *ngIf="numberOrderCancelled !== 0">{{numberOrderCancelled}}</i>
+                      <i data-feather="x-octagon" class="font-medium-3 mr-1" ></i>
+                    </p>
+                    
+                      <!-- <p class="fa badge fa-lg" >{{number}}
+                      <span data-feather="x-octagon" class="font-medium-3 mr-1"></span>
+                      </p> -->
+               
+                    <!-- <i class="fas fa-envelope fa-lg"></i>
+                    <span class="badge rounded-pill badge-notification bg-danger">1</span> -->
+
+                  </div>
+                <div class="col-sm-8">
+                  <span class="font-weight-bold">Cancelled</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- <div class="border">
+                        <button class="btn btn-md btn-outline-primary">
+                          <i class="fa fa-user"></i>New Contact
+                        </button>
+                      </div> -->
+                      <h3>Caccelled</h3>
+                      <div class="d-flex flex-wrap">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Created By</th>
+                              <th scope="col">Created Date</th>
+                              <th scope="col">Address</th>
+                              <th scope="col">Phone number</th>
+                              <th scope="col">User Id</th>
+                              <th scope="col">Status</th>
+                              <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                              <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let order of orders">
+                              <tr  *ngIf="order.statusOrderId == 5">
+                                <td>{{order.name}}</td>
+                                <td>{{order.createdBy}}</td>
+                                <td>{{order.createdDate}}</td>
+                                <td>{{order.shipAddress}}</td>
+                                <td>{{order.shipPhoneNumber}}</td>
+                                <td>{{order.userId}}</td>
+                                <td><div style="background-color: #FF9900; border-radius: 5px;">{{order.status}}</div></td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                  <div >
+                                    <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                      <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                        {{s.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                <td>
+                                  <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                    <i class="fa fa-detail"></i>Detail
+                                  </button>
+                                </td>
+                                <td> 
+                                  <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Change status
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Save change
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                    <i class="fa fa-status"></i>Cancel
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li class="nav-item" style="background-color: #FFCC33; border-radius:5px" ngbNavItem>
+                <a
+                  ngbNavLink
+                  class="nav-link d-flex py-75"
+                  id="account-pill-password"
+                  data-toggle="pill"
+                  href="#account-vertical-password"
+                  aria-expanded="false"
+                >
+                <div class="col-sm-4">
+                    <p class="fa badge fa-lg">
+                      <i class="nts" *ngIf="numberOrderReturns !== 0">{{numberOrderReturns}}</i>
+                      <i data-feather="rewind" class="font-medium-3 mr-1"></i>
+                    </p>
+                </div>
+                <div class="col-sm-8">
+                  <span class="font-weight-bold">Returns</span>
+                </div>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- <div class="border">
+                        <button class="btn btn-md btn-outline-primary">
+                          <i class="fa fa-user"></i>New Contact
+                        </button>
+                      </div> -->
+                      <h3>Returns</h3>
+                      <div class="d-flex flex-wrap">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Created By</th>
+                              <th scope="col">Created Date</th>
+                              <th scope="col">Address</th>
+                              <th scope="col">Phone number</th>
+                              <th scope="col">User Id</th>
+                              <th scope="col">Status</th>
+                              <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
+                              <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let order of orders">
+                              <tr  *ngIf="order.statusOrderId == 6">
+                                <td>{{order.name}}</td>
+                                <td>{{order.createdBy}}</td>
+                                <td>{{order.createdDate}}</td>
+                                <td>{{order.shipAddress}}</td>
+                                <td>{{order.shipPhoneNumber}}</td>
+                                <td>{{order.userId}}</td>
+                                <td><div style="background-color: #FFCC33; border-radius: 5px;">{{order.status}}</div></td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
+                                  <div >
+                                    <select id="statusOrderId" name="statusOrderId" class="form-control" [(ngModel)]="statusOrderId" required>
+                                      <option name="statusOrderId" *ngFor="let s of statusOrders" value ="{{s.id}}" [selected]="s.id==statusOrderId">
+                                        {{s.name}}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
+                                <td>
+                                  <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
+                                    <i class="fa fa-detail"></i>Detail
+                                  </button>
+                                </td>
+                                <td> 
+                                  <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Change status
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-primary" (click)="SaveChangeStatusOrder(order.id)">
+                                    <i class="fa fa-status"></i>Save change
+                                  </button>
+                                  <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
+                                    <i class="fa fa-status"></i>Cancel
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+          </div>
+          <div [ngbNavOutlet]="navVertical" class="col-10 md-8"></div>
+        </div>
+      </section>
+      <!--/ account setting page -->
+    </div>
+</div>
+<!-- Order deatil -->
+<ng-template #content let-modal>
+  <div class="modal-header" >
+    <h4 class="modal-title" id="modal-basic-title">Order detail</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <form #DetailOrderForm="ngForm" class="form-validate">
+      <div class="row">
+        <div class="col-6">
+          <label for="userid">User ID: </label>
+          <input 
+            type="text"
+            class="form-control"
+            id="userid"
+            name="userid"
+            [(ngModel)]="selectedOrder.userId"
+            readonly
+          />
+        </div>
+        <div class="col-6">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            [(ngModel)]="selectedOrder.name"
+            readonly
+          />
+        </div> 
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <label for="address">Address: </label>
+          <input 
+            type="text"
+            class="form-control"
+            id="address"
+            name="address"
+            [(ngModel)]="selectedOrder.shipAddress"
+            readonly
+          />
+        </div>
+        <div class="col-4">
+          <label for="phone">Phone number: </label>
+          <input 
+            type="text"
+            class="form-control"
+            id="phone"
+            name="phone"
+            [(ngModel)]="selectedOrder.shipPhoneNumber"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label for="create-date">Create date: </label>
+          <input 
+            type="text"
+            class="form-control"
+            id="create-date"
+            name="create-date"
+            [(ngModel)]="selectedOrder.createdDate"
+            readonly
+          />
+        </div>
+        <div class="col-6">
+          <label for="status">Status: </label>
+          <input 
+            type="text"
+            class="form-control"
+            id="status"
+            name="status"
+            [(ngModel)]="selectedOrder.status"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+                  <h3>Products</h3>
+                  <div class="d-flex flex-wrap">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Image</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Discount</th>
+                          <th scope="col">Money</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container>
+                          <tr *ngFor="let order of selectedorderDetail; let i = index" >
+                            <td>{{i+1}}</td>
+                            <td>{{order.product.name}}</td>
+                            <td><img src="{{order.product.image}}" style="width: 50px; height:50px"/></td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.price}}</td>
+                            <td>{{order.discount}}%</td>
+                            <td *ngIf="order.discount !== 0">{{order.quantity * order.price *(1- order.discount/100)}}</td>
+                            <td *ngIf="order.discount === 0">{{order.quantity * order.price }}</td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10"></div>
+        <div class="col-2" style="float: right ;">
+          <h3>Total: {{selectedOrder.total.toFixed(2)}}$</h3>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button> -->
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

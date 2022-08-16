@@ -116,6 +116,12 @@
         ><a ngbDropdownItem [routerLink]="['/pages/faq']"
           ><span [data-feather]="'help-circle'" [class]="'mr-50'"></span> FAQ</a
         > -->
+        <a ngbDropdownItem [routerLink]="['/pages/user-contact']">
+          <span [data-feather]="'phone'" [class]="'mr-50'"></span>Contact
+        </a>
+        <a ngbDropdownItem [routerLink]="['/pages/user-order-manage']">
+          <span [data-feather]="'shopping-bag'" [class]="'mr-50'"></span> My Order
+        </a>
         <a ngbDropdownItem (click)="logout()"><span [data-feather]="'power'" [class]="'mr-50'"></span> Logout</a>
       </div>
     </li>

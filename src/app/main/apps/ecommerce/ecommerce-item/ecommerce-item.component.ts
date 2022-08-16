@@ -47,7 +47,7 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param product
    */
-   toggleWishlist(product) {
+  toggleWishlist(product) {
     if (product.isInWishlist) {
       Swal.fire({
         title: 'Are you sure want to remove?',
@@ -82,8 +82,8 @@ export class EcommerceItemComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
-    console.log('product : ',product);
-
+    this._ecommerceService.totalPriceCart += product.price;
+    this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
     this._ecommerceService.addToCart(product.id).then(res => {
       product.isInCart = true;
       product.quantityInCart = 1;

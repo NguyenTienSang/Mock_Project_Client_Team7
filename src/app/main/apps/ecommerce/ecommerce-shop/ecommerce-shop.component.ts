@@ -99,7 +99,18 @@ export class EcommerceShopComponent implements OnInit {
       this.categories = res;
     });
     // Subscribe to Wishlist change
-    this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
+    // this._ecommerceService.onWishlistChange.subscribe(res => (this.wishlist = res));
+    this._ecommerceService.getWishlists().subscribe(res => {
+
+      this.wishlist = res.resultObj;
+
+      this.products.forEach(product => {
+
+        product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
+
+      });
+
+    });
 
     this.products.forEach(product => {
       product.isInWishlist = this.wishlist.findIndex(p => p.id === product.id) > -1;
@@ -112,6 +123,7 @@ export class EcommerceShopComponent implements OnInit {
       //product.isInWishlist = this.wishlist.findIndex(p => p.productId === product.id) > -1;
       product.isInCart = this.cartList.findIndex(p => p.productId === product.id) > -1;
     });
+
 
     // content header
     this.contentHeader = {
