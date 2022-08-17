@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { UserOrderDetailService } from './user-order-detail.service';
 
 @Component({
@@ -194,14 +195,89 @@ export class UserOrderDetailComponent implements OnInit {
 
         console.log("order total", this.selectedOrder.total);
       }))
-    }))
-
-
-    
-    
+    })) 
   }
 
- 
+  UserCancelOrder(){
+    Swal.fire({
+      title: 'Cancel order!',
+      text: 'Are you sure want to cancel?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.value) {
+        this._userOrderDetailService.cancelOrder(this.selectedOrder.id, 5).subscribe(respone=>{
+          // console.log("delete",respone);
+          if(respone.isSuccessed){
+            Swal.fire("Success",respone.message,"success")
+            this._userOrderDetailService.getOrderById(this.urlLastValue).subscribe((res=>{
+              this.selectedOrder = res.resultObj;
+              this.selectedOrder.createdDate = this.selectedOrder.createdDate.substring(0,10);
+              switch(this.selectedOrder.statusOrderId) { 
+                case 1: { 
+                  this.selectedOrder.status = 'waiting';
+                   break; 
+                } 
+                case 2: { 
+                  this.selectedOrder.status = 'confirmed';
+                   break; 
+                } 
+                case 3: { 
+                  this.selectedOrder.status = 'shipping';
+                   break; 
+                } 
+                case 4: { 
+                  this.selectedOrder.status = 'arrived';
+                   break; 
+                } 
+                case 5: { 
+                  this.selectedOrder.status = 'cancelled';
+                   break; 
+                } 
+                case 6: { 
+                  this.selectedOrder.status = 'returns';
+                   break; 
+                } 
+                default: { 
+                  this.selectedOrder.status = 'other';
+                   break; 
+                } 
+             } 
+          
+              console.log("order", this.selectedOrder);
+        
+              console.log("order status", this.selectedOrder.status.toUpperCase());
+        
+              this.nextStep(0);
+        
+              this._userOrderDetailService.getAllOrderDetailByOrderId(this.urlLastValue).subscribe((res=>{
+                this.selectedOrderDetail = res.resultObj;
+                this.selectedOrder.total = 0;
+                this.selectedOrderDetail.forEach((order) =>{
+                  if(order.discount != 0)
+                    this.selectedOrder.total += order.price * order.quantity * (1 - order.discount/100);
+                  else
+                    this.selectedOrder.total += order.price * order.quantity;
+                  });
+                // this.selectedOrder.total =  this.selectedOrder.total.toFixed(2);
+                console.log("order detail", this.selectedOrderDetail);
+        
+                console.log("order total", this.selectedOrder.total);
+              }))
+            })) 
+          }
+          else{
+            Swal.fire("Error",respone.message,"error")
+          }
+        },(error=>{
+          Swal.fire("Error",error,"error")
+        })
+        );
+      }
+    })
+  }
 
   nextStep(step:number) {
     this.currentStep = step+1;
@@ -244,5 +320,21 @@ export class UserOrderDetailComponent implements OnInit {
       elem.className = newClass.replace(/^\s+|\s+$/g, "");
     }
   }
+
+  // convetToPDF() {
+  //   var data = document.getElementById('contentToConvert');
+  //   html2canvas(data).then(canvas => {
+  //       // Few necessary setting options
+  //       var imgWidth = 208;
+  //       var pageHeight = 295;
+  //       var imgHeight = canvas.height * imgWidth / canvas.width;
+  //       var heightLeft = imgHeight;
+  //       const contentDataURL = canvas.toDataURL('image/png')
+  //       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+  //       var position = 0;
+  //       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+  //       pdf.save('new-file.pdf'); // Generated PDF
+  //   });
+  // }
 
 }

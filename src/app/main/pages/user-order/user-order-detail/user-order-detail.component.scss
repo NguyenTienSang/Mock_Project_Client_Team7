@@ -24,12 +24,12 @@ p {
 }
 
 .stepper-horizontal .step .step-circle {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     margin: 0 auto;
     border-radius: 50%;
     text-align: center;
-    line-height: 5.5rem;
+    line-height: 4rem;
     font-size: 30px;
     font-weight: 600;
     z-index: 2;
@@ -88,7 +88,7 @@ p {
 .stepper-horizontal .step .step-bar-left,
 .stepper-horizontal .step .step-bar-right {
     position: absolute;
-    top: calc(4rem + 5px); // margin trục
+    top: calc(3rem + 5px); // margin trục
     height: 10px;
     background-color: #D9E2EC;
     border: solid #D9E2EC;
@@ -96,9 +96,9 @@ p {
 }
 
 .stepper-horizontal .step .step-bar-left {
-    width: calc(100% - 5.4rem); // chiều dài trục
+    width: calc(100% - 4.2rem); // chiều dài trục
     left: 50%;
-    margin-left: 2.7rem;
+    margin-left: 2.1rem;
     z-index: -1;
 }
 
