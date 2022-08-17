@@ -221,21 +221,26 @@ export class EcommerceDetailsComponent implements OnInit {
             this.selectedProduct = respone.resultObj;
             Id = this.selectedProduct.id;
             console.log("id", Id);
-
-            this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
-              if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
-              {
-                this.rating = res.resultObj.rate;
-                if(res.resultObj.updatedDate!= null)
-                  this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
-                else
-                  this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
-              }
-              else{
-                this.rating = 0;
-                this.notificationRating = null;
-              }
-            }))
+            if(this.currentUser != null){
+              this._ecommerceService.getRating(this.selectedProduct.id).subscribe((res=>{
+                if(res.isSuccessed && res.resultObj.userId == this.currentUser.user.id)
+                {
+                  this.rating = res.resultObj.rate;
+                  console.log("rating: ", this.rating);
+                  
+                  if(res.resultObj.updatedDate!= null)
+                    this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
+                  else
+                    this.notificationRating = "You are rated at "+ res.resultObj.createdDate.substring(0,10);
+                  console.log("noti: ", this.notificationRating);
+                }
+                else{
+                  this.rating = 0;
+                  this.notificationRating = null;
+                }
+              }))
+            }
+           
           })
       }
     });

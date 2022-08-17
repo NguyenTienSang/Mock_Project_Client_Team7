@@ -18,4 +18,8 @@ export class UserOrderDetailService {
   getAllOrderDetailByOrderId(idOrder: number): Observable<any>{
     return this._httpClient.get(`${environment.apiUrl}/api/OrderDetail/GetAllOrderDetailByIdOrder/${idOrder}`);
   }
+
+  cancelOrder(id: number, statusId: number): Observable<any>{
+    return this._httpClient.put<any>(`${environment.apiUrl}/api/Order/ChangeStatusOrder/${id}`, {statusId});
+  }
 }
