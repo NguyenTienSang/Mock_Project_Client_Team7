@@ -6,6 +6,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CategoryUI } from './ui-models/Categories/CategoryUI';
+import Swal  from 'sweetalert2';
 import {tap} from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 
@@ -80,7 +81,7 @@ export class EcommerceService implements Resolve<any> {
     this.idHandel = route.params.id;
 
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlists(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
+      Promise.all([this.getProducts(), this.getListCategory(),this.getBrandLists(), this.getWishlist(), this.getCartList(), this.getSelectedProduct(this.productId)]).then(() => {
         resolve();
       }, reject);
     });
@@ -118,6 +119,19 @@ export class EcommerceService implements Resolve<any> {
   /**
    * Get Wishlist
    */
+  getWishlist(): Promise<any[]> {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser)
+    {
+    return new Promise((resolve, reject) => {
+      this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
+        this.wishlist = response.resultObj;
+        this.onWishlistChange.next(this.wishlist);
+        resolve(this.wishlist);
+      }, reject);
+    });
+  }
+  }
   // getWishlist(): Promise<any[]> {
   //   return new Promise((resolve, reject) => {
   //     this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`).subscribe((response: any) => {
@@ -127,20 +141,6 @@ export class EcommerceService implements Resolve<any> {
   //     }, reject);
   //   });
   // }
-
-  getWishlists(): Observable<any>{
-    // if(this.currentId)
-    // {
-    //   return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${this.currentId}`);
-    // }
-
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if(currentUser)
-    {
-      return this._httpClient.get(`${environment.apiUrl}/api/Wishlist/user/${currentUser.user.id}`);
-    }
-  }
-
   /**
    * Get CartList
    */
@@ -148,8 +148,18 @@ export class EcommerceService implements Resolve<any> {
 
   getCartList(): Promise<any[]> {
     this.currentId= JSON.parse(localStorage.getItem("currentUser"))?.user?.id;
+    const dataCart = JSON.parse(sessionStorage.getItem('cart'));
     if(this.currentId)
     {
+
+      // if(dataCart)
+      // {
+      //   dataCart.forEach(elementCart => {
+      //     this.updateCart(elementCart.productId,elementCart.quantity);
+      //   });
+      //   sessionStorage.removeItem('cart');
+      // }
+
       return new Promise((resolve, reject) => {
         this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
 
@@ -162,7 +172,7 @@ export class EcommerceService implements Resolve<any> {
       });
     }
     else {
-      const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+
     //Have cart in sessionStorage
       if(dataCart != null)
       {
@@ -239,8 +249,19 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
 
-  addToWishlist(id):Observable<any> {
-    return this._httpClient.post<any>(`${environment.apiUrl}/api/Wishlist/add/${id}`,null);
+  addToWishlist(id) {
+    return new Promise<void>((resolve, reject) => {
+      this._httpClient.post(`${environment.apiUrl}/api/Wishlist/add/${id}`,null).subscribe((res:any) => {
+        this.getWishlist();
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+        resolve();
+      }, reject);
+    });
   }
 
   /**
@@ -249,9 +270,19 @@ export class EcommerceService implements Resolve<any> {
    * @param id
    */
 
-  removeFromWishlist(id):Observable<any> {
-    //const indexRef = this.wishlist.findIndex(wishlistRef => wishlistRef.productId === id); // Get the index ref
-    return this._httpClient.delete<any>(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`)
+  removeFromWishlist(id) {
+    return new Promise<void>((resolve, reject) => {
+      this._httpClient.delete(`${environment.apiUrl}/api/Wishlist/wishlst-delete/${id}`).subscribe((res: any) => {
+        this.getWishlist();
+        if(res.isSuccessed){
+          Swal.fire("Success",res.message,"success");
+        }
+        else{
+          Swal.fire("Warning",res.message,"warning");
+        }
+        resolve();
+      }, reject);
+    });
   }
 
 
@@ -470,11 +501,5 @@ export class EcommerceService implements Resolve<any> {
   //     }, reject))
   //   });
   // }
-
-
-
-
-
-
 }
 

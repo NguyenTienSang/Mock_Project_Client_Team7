@@ -1,7 +1,7 @@
 <!-- Ecommerce Item -->
 <div class="item-img text-center">
   <a [routerLink]="'/apps/e-commerce/details/' + product.id">
-    <img class="img-fluid card-img-top" [src]="product.image" alt="img-placeholder" />
+    <img class="img-fluid card-img-top img-product" [src]="product.image" alt="img-placeholder" />
   </a>
 </div>
 <div class="card-body">
@@ -18,7 +18,7 @@
             <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
           </span>
         </ng-template>
-        
+
         <ngb-rating [(rate)]="product.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
       </div>
     </div>
@@ -56,7 +56,7 @@
     <span>Remove</span>
   </a>
   <a
-    *ngIf="isWishlistOpen !== true"
+    *ngIf="isLogin!==false && isWishlistOpen !== true"
     href="javascript:void(0)"
     class="btn btn-light btn-wishlist"
     (click)="toggleWishlist(product)"
