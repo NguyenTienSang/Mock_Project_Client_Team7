@@ -50,23 +50,10 @@ export class UserOrderManagementComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this._userOrderManagementService.getOrderUser(this.userID).subscribe(respone=>{
       this._userOrderManagementService.SearchMyOrder().subscribe(respone=>{
       this.listOrderUsers = respone.resultObj;
       this.listOrderUsersTemp = this.listOrderUsers;
-      // if(respone.isSuccessed)
-      // {
-      //   // console.log('this._userOrderManagementItemComponent.totalPriceOrder : ',this._userOrderManagementItemComponent.totalPriceOrder);
-
-      //   // this.totalPrice+=this._userOrderManagementItemComponent.totalPriceOrder;
-      //   // console.log('this.totalPrice : ',this.totalPrice);
-      // }
-
-
-
     })
-
-
 
     // content header
     this.contentHeader = {
