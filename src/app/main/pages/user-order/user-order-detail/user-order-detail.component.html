@@ -37,22 +37,48 @@
         <div class="step-bar-right"></div>
     </div>
 </div>
+<div class="page-content container">
+<div class="page-header text-blue-d2">
+    <h1 class="page-title text-secondary-d1">
+        <!-- Invoice -->
+        <!-- <small class="page-info">
+            <i class="fa fa-angle-double-right"></i>
+            ID: #{{selectedOrder.id}}
+        </small> -->
+    </h1>
+
+    <div class="page-tools">
+        <div class="action-buttons">
+            <div class="row">  
+                <a class="btn bg-white btn-light mx-1px " data-title="PDF" (click)="convetToPDF()">
+                    <i class="mr-1 fa fa-file-pdf-o text-danger-m1  w-2"></i>
+                    Export
+                </a>
+                <a *ngIf="selectedOrder.statusOrderId === 1" class="btn bg-white btn-outline-warning mx-1px " data-title="Cancel" (click)="UserCancelOrder()">
+                    <i class="mr-1 fa fa-trash text-danger-m1  w-2"></i>
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <!-- <button (click)="nextStep()">Next</button> -->
 <div class="card-body" id="contentToConvert">
     <div class="page-content container">
-        <div class="page-header text-blue-d2">
+        <!-- <div class="page-header text-blue-d2">
             <h1 class="page-title text-secondary-d1">
-                <!-- Invoice -->
-                <!-- <small class="page-info">
+                Invoice 
+                <small class="page-info">
                     <i class="fa fa-angle-double-right"></i>
                     ID: #{{selectedOrder.id}}
-                </small> -->
+                </small> 
             </h1>
     
             <div class="page-tools">
                 <div class="action-buttons">
                     <div class="row">  
-                        <a class="btn bg-white btn-light mx-1px " data-title="PDF">
+                        <a class="btn bg-white btn-light mx-1px " data-title="PDF" (click)="convetToPDF()">
                             <i class="mr-1 fa fa-file-pdf-o text-danger-m1  w-2"></i>
                             Export
                         </a>
@@ -63,9 +89,17 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div class="row">
+            <div class="col-12">
+                <div class="text-left ">
+                    <i class="fa fa-heart fa-2x text-success-m2 mr-1"></i>
+                    <span class="text-default-d3">FShop.com</span>
+                </div>
+            </div>
         </div>
-    
-        <div class="container px-0">
+        <hr class="row brc-default-l1 mx-n1 mb-4" />
+        <div class="container px-0" >
             <div class="row mt-4">
                 <div class="col-12 col-lg-12">
                     <!-- <div class="row">

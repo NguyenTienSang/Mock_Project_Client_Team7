@@ -1040,29 +1040,51 @@
   </div>
   <div class="modal-body" >
     <form #DetailOrderForm="ngForm" class="form-validate">
-      <div class="page-content container">
-        <div class="page-header text-blue-d2">
+      <div class="page-header text-blue-d2">
+        <h1 class="page-title text-secondary-d1">
+            Invoice
+            <!-- <small class="page-info">
+                <i class="fa fa-angle-double-right"></i>
+                ID: #{{selectedOrder.id}}
+            </small> -->
+        </h1>
+
+        <div class="page-tools">
+            <div class="action-buttons">
+                <!-- <a class="btn bg-white btn-light mx-1px " (click)="printOut()" data-title="Print">
+                    <i class="mr-1 fa fa-print text-primary-m1  w-2"></i>
+                    Print
+                </a> -->
+                <a class="btn bg-white btn-light mx-1px " data-title="PDF" (click)="convetToPDF()">
+                    <i class="mr-1 fa fa-file-pdf-o text-danger-m1  w-2"></i>
+                    Export
+                </a>
+            </div>
+        </div>
+    </div>
+      <div class="page-content container" id="contentToConvert">
+        <!-- <div class="page-header text-blue-d2">
             <h1 class="page-title text-secondary-d1">
                 Invoice
-                <!-- <small class="page-info">
+                 <small class="page-info">
                     <i class="fa fa-angle-double-right"></i>
                     ID: #{{selectedOrder.id}}
-                </small> -->
+                </small> 
             </h1>
     
             <div class="page-tools">
                 <div class="action-buttons">
-                    <!-- <a class="btn bg-white btn-light mx-1px " (click)="printOut()" data-title="Print">
+                    <a class="btn bg-white btn-light mx-1px " (click)="printOut()" data-title="Print">
                         <i class="mr-1 fa fa-print text-primary-m1  w-2"></i>
                         Print
-                    </a> -->
+                    </a> 
                     <a class="btn bg-white btn-light mx-1px " data-title="PDF">
                         <i class="mr-1 fa fa-file-pdf-o text-danger-m1  w-2"></i>
                         Export
                     </a>
                 </div>
             </div>
-        </div>
+        </div> -->
     
         <div class="container px-0">
             <div class="row mt-4">
@@ -1082,14 +1104,14 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div>
-                                <span class="text-sm text-grey-m2 align-middle">To: </span>
-                                <span class="text-blue align-middle">{{selectedOrder.name}}</span>
+                                <span class="text-sm text-grey-m2 align-middle"><b>To: </b></span>
+                                <span class="text-blue align-middle"><b>{{selectedOrder.name}}</b></span>
                             </div>
                             <div class="text-grey-m2">
                                 <div class="my-1">
-                                    {{selectedOrder.shipAddress}}
+                                  <i class="fa fa-map fa-flip-horizontal text-secondary"></i> <b> {{selectedOrder.shipAddress}}</b>
                                 </div>
-                                <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="">{{selectedOrder.shipPhoneNumber}}</b></div>
+                                <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class=""> {{selectedOrder.shipPhoneNumber}}</b></div>
                             </div>
                         </div>
                         <!-- /.col -->
@@ -1097,9 +1119,9 @@
                         <div class="col-sm-6 align-self-start d-sm-flex justify-content-end">
                             <!-- <hr class="d-sm-none" /> -->
                             <div class="text-grey-m2">
-                                <div class="mt-1 mb-2 text-secondary-m1">
+                                <!-- <div class="mt-1 mb-2 text-secondary-m1">
                                     Invoice
-                                </div>
+                                </div> -->
     
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="">ID:</span> #{{selectedOrder.id}}</div>
     
