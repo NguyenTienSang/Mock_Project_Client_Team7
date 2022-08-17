@@ -21,11 +21,25 @@ import { UserOrderManagementComponent } from './user-order/user-order-management
 import { UserOrderManagementItemComponent } from './user-order/user-order-management-item/user-order-management-item.component';
 
 import { UserContactComponent } from './user-contact/user-contact.component';
+import { UserOrderDetailComponent } from './user-order/user-order-detail/user-order-detail.component';
+import { RouterModule, Routes } from '@angular/router';
+import { UserOrderDetailService } from './user-order/user-order-detail/user-order-detail.service';
+
+const routes: Routes = [
+  {
+    path: 'user-order-detail/:id',
+    component: UserOrderDetailComponent,
+    resolve: {
+      ecommerce:UserOrderDetailService
+    }
+  }
+]
 
 @NgModule({
-  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent],
+  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent, UserOrderDetailComponent],
   imports: [
     CommonModule,
+    RouterModule.forChild(routes),
     CoreCommonModule,
     ContentHeaderModule,
     NgbModule,
