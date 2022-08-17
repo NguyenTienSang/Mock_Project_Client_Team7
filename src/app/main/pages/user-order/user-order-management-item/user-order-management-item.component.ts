@@ -16,7 +16,6 @@ export class UserOrderManagementItemComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('this.order : ',this.order);
-
       this._userOrderManagementItemService.getOrderDetailUser(this.order).subscribe(respone=>{
         this.listOrderDetails = respone.resultObj;
         console.log('respone.totalPriceOrder : ',respone.totalPriceOrder);

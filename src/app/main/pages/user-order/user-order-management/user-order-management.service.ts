@@ -68,4 +68,9 @@ export class UserOrderManagementService  {
   };
 
 
+  SearchMyOrder(): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Order/SearchOrderUser`)
+  };
+
+
 }

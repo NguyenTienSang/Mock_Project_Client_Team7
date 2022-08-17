@@ -2,46 +2,61 @@
 <!-- content-header component -->
 <app-content-header [contentHeader]="contentHeader"></app-content-header>
   <div class="content-body">
-    <div class="bs-stepper checkout-tab-steps" id="checkoutStepper">
+    <!-- <div class="bs-stepper checkout-tab-steps" id="checkoutStepper"> -->
 
-      <div class="bs-stepper-content">
-        <div id="step-cart">
-          <div id="place-order" class="list-view product-checkout">
+      <!-- <div class="bs-stepper-content"> -->
+        <!-- <div id="step-cart"> -->
+          <!-- <div id="place-order" class="list-view product-checkout"> -->
             <div class="checkout-options">
+              <section id="ecommerce-searchbar" class="ecommerce-searchbar" style="margin-bottom: 10px;">
+                <div class="row mt-1">
+                  <div class="col-sm-12">
+                    <div class="input-group input-group-merge">
+                      <input
+                        type="text"
+                        class="form-control search-product"
+                        id="shop-search"
+                        placeholder="Search Id order, Status order"
+                        aria-label="Search..."
+                        aria-describedby="shop-search"
+                        [(ngModel)]="search"
+                        #searchRef="ngModel"
+                        (keyup)="SearchMyOrder()"
+                      />
+                      <!-- -->
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
               <ng-container *ngFor="let listOrderUser of listOrderUsers">
               <div class="card">
-
-                  <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                  <!-- <div class="card-body"> -->
                     <ul class="list-unstyled">
                       <li class="price-detail infor-order disabled-copy">
                         <p>Id Order : {{listOrderUser.id}}</p>
                         <p style="color: #26aa99;"><i data-feather="truck" class="font-medium-3 mr-1"></i>  {{listOrderUser.statusOrder.name}}</p>
-                      </li>
-                      <li class="price-detail address-received disabled-copy">
-                        <p ><i data-feather="user" class="font-medium-3 mr-1"></i> {{listOrderUser.name}}</p>
-                        <p ><i data-feather="map" class="font-medium-3 mr-1"></i> {{listOrderUser.shipAddress}}</p>
-                      </li>
-                      <li class="price-detail address-received disabled-copy">
-                        <p><i data-feather="phone-call" class="font-medium-3 mr-1"></i>{{listOrderUser.shipPhoneNumber}}</p>
-                        <p><i data-feather="calendar" class="font-medium-3 mr-1"></i>{{listOrderUser.createdDate.substring(0,10) }}</p>
                       </li>
                       <li class="detail-order disabled-copy">
                         <app-user-order-management-item
                         [order]="listOrderUser.id"
                         ></app-user-order-management-item>
                       </li>
-                      <!-- <li class="total-price-order disabled-copy">
-                        <p>Total price : ${{totalPrice}}</p>
-                      </li> -->
                     </ul>
-                  </div>
+                  <!-- </div> -->
+                    </div>
+                    </div>
                 </div>
               </ng-container>
             </div>
-          </div>
-        </div>
+          <!-- </div> -->
+        <!-- </div> -->
 
-      </div>
-    </div>
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </div>
