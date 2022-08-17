@@ -10,20 +10,13 @@ import { UserOrderManagementService } from '../user-order-management/user-order-
 export class UserOrderManagementItemComponent implements OnInit {
   public listOrderDetails;
   public totalPriceOrder = 0;
-  @Input() order;
+  @Input() orderDetails;
 
   constructor(private _userOrderManagementItemService : UserOrderManagementItemService,private _userOrderManagementService : UserOrderManagementService) { }
 
   ngOnInit(): void {
-    console.log('this.order : ',this.order);
-
-      this._userOrderManagementItemService.getOrderDetailUser(this.order).subscribe(respone=>{
-        this.listOrderDetails = respone.resultObj;
-        console.log('respone.totalPriceOrder : ',respone.totalPriceOrder);
-        this.totalPriceOrder = respone.totalPriceOrder
-        // console.log('this.listOrderDetails : ',this.listOrderDetails);
-        // this.totalPriceOrder = 0
-
-      });
+    this.orderDetails.forEach(itemOrderDetail => {
+      this.totalPriceOrder+=(itemOrderDetail.price*itemOrderDetail.quantity);
+    });
   }
 }

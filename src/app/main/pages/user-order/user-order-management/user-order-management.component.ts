@@ -20,12 +20,10 @@ export class UserOrderManagementComponent implements OnInit {
 
   private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
   public listOrderUsers;
+  public listOrderUsersTemp;
   // public totalPrice = 0;
   public disableOrder = false;
-
-  public listOrder;
-
-
+  public search = '';
 
 
 
@@ -36,24 +34,26 @@ export class UserOrderManagementComponent implements OnInit {
 
 
 
+  SearchMyOrder(){
+    if(this.search != null || this.search != " "){
+      let search = this.search.toLowerCase();
+      // x.orderDetails.product.name.toString().toLowerCase().includes(search)
+      this.listOrderUsers = this.listOrderUsersTemp.filter(x=>x.id.toString().toLowerCase().includes(search)
+      || x.statusOrder.name.toString().toLowerCase().includes(search)
+      || x.orderDetails.some(orderDetail => orderDetail.product.name.toString().toLowerCase().includes(search)))
+    }
+    else{
+      this.listOrderUsers = this.listOrderUsersTemp;
+    }
+  }
+
+
+
   ngOnInit(): void {
-
-    this._userOrderManagementService.getOrderUser(this.userID).subscribe(respone=>{
+      this._userOrderManagementService.SearchMyOrder().subscribe(respone=>{
       this.listOrderUsers = respone.resultObj;
-      console.log('respone : ',respone);
-      if(respone.isSuccessed)
-      {
-        // console.log('this._userOrderManagementItemComponent.totalPriceOrder : ',this._userOrderManagementItemComponent.totalPriceOrder);
-
-        // this.totalPrice+=this._userOrderManagementItemComponent.totalPriceOrder;
-        // console.log('this.totalPrice : ',this.totalPrice);
-      }
-
-
-
+      this.listOrderUsersTemp = this.listOrderUsers;
     })
-
-
 
     // content header
     this.contentHeader = {
