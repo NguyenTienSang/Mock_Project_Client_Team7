@@ -71,7 +71,6 @@ export class EcommerceManagerService implements Resolve<any> {
   }
 
   reportExcel(startDay:any, endDay:any):Observable<any>{
-    console.log(startDay, endDay);
     return this._httpClient.get<any>(`${environment.apiUrl}/api/Report/GetListReportOrder/${startDay}/${endDay}`);
   }
 

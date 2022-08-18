@@ -20,20 +20,20 @@
         <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
           <label  for="startDay" class="ml-1">Start Day</label>
           <input id="startDay" type="date" class="form-control ml-1" placeholder="expire" name="expire" (change)="loadListReport()" [(ngModel)]="startDay" />
-          
+
           <label  for="endDay" class="ml-1">End Day</label>
           <input id="endDay" type="date" class="form-control ml-1" placeholder="expire" name="expire" (change)="loadListReport()" [(ngModel)]="endDay" />
-          
+
           <button class="btn btn-primary ml-25" (click)="exportExcel()">
             <!-- <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i> -->
             <span>Report Excel</span>
           </button>
-          
+
           <button class="btn btn-primary ml-25" (click)="exportPDF()">
             <!-- <i data-feather="plus" ></i> -->
             <span>Report PDF</span>
           </button>
-         
+
         </div>
       </div>
 
@@ -127,24 +127,89 @@
   </core-sidebar>
 
   <div hidden id="content" class="content" #content>
-    <h1 style="text-align:center;">Product Report</h1>
-    <table style="top:12px" id="excel-table">
-      <tr>
-        <th>ProductId</th>
-        <th>Name</th>
-        <th>SoldQuantity</th>
-        <th>StorageQuantity</th>
-        <th>CreatedDay</th>
-      </tr>
-      <tr *ngFor="let item of listReport">
-        <td>{{item.productId}}</td>
-        <td>{{item.name}}</td>
-        <td>{{item.soldQuantity}}</td>
-        <td>{{item.storageQuantity}}</td>
-        <td>{{item.createdDay}}</td>
-      </tr>
-    </table>
+    <header width="100" height="5px" style="text-align: center; color: green">
+      <h1 class="logo-title">FSHOP</h1>
+    </header>
+
+    <hr width="100%"
+    size="5px">
+
+    <div style="text-align: center; color: green;font-weight: bold;margin-top:10px;margin-bottom:30px">
+        <h1>REPORT PRODUCT</h1>
+    </div>
+
+    <h3>Overise</h3>
+    <div style="margin-top:10px;margin-bottom:30px">
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">Start Day: {{startDay}}</div>
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">End Day: {{endDay}}</div>
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">Total amount sold: {{totalAmountSold}}</div>
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">Total proceeds: {{totalProceeds}}</div>
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">Best selling products: <span *ngFor="let item of bestBellingProducts">{{item}} </span></div>
+          <div style="margin:10px;margin-left:40px; font-weight: bold;">The product that sells the least: <span *ngFor="let item of productSoldAtLeast">{{item}} </span></div>
+    </div>
+    <h1 style="margin-top:10px;margin-bottom:30px">Detail</h1>
+    <div style="margin:10px 20px 20px 30px">
+        <table  style="width:90%;text-align:center;">
+            <thead>
+              <tr>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:5%;text-align:center;">No</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:5%;text-align:center;">Id</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:35%;text-align:center;">NameProduct</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:10%;text-align:center;">Price</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:10%;text-align:center;">SoldQuantity</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:10%;text-align:center;">Proceeds</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:10%;text-align:center;">StorageQuantity</th>
+                <th style="height: 70px;background-color: rgb(109, 109, 230);color:#FFF;width:15%;text-align:center;">CreatedDay</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listReport;let i = index">
+                <td style="width:5%;text-align:center;">{{i+1}}</td>
+                <td style="width:5%;height:40px;text-align:center;">{{item.productId}}</td>
+                <td style="width:35%;height:40px;text-align:center;">{{item.name}}</td>
+                <td style="width:10%;height:40px;text-align:center;">{{item.price}}</td>
+                <td style="width:10%;height:40px;text-align:center;">{{item.soldQuantity}}</td>
+                <td style="width:10%;height:40px;text-align:center;">{{item.proceeds}}</td>
+                <td style="width:10%;height:40px;text-align:center;">{{item.storageQuantity}}</td>
+                <td style="width:15%;height:40px;text-align:center;">{{item.createdDay}}</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
   </div>
+
+  <table hidden style="top:12px" id="excel-table">
+    <tr><td>FSHOP</td></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr><td>Overise</td></tr>
+    <tr><td>Start Day:</td><td>{{startDay}}</td></tr>
+    <tr><td>End Day:</td><td>{{endDay}}</td></tr>
+    <tr><td>Total amount sold:</td><td>{{totalAmountSold}}</td></tr>
+    <tr><td>Total proceeds:</td><td>{{totalProceeds}}</td></tr>
+    <tr><td>Best selling products:</td><td><span *ngFor="let item of bestBellingProducts">{{item}},</span></td></tr>
+    <tr><td>The product that sold at least: </td><td><span *ngFor="let item of productSoldAtLeast">{{item}},</span></td></tr>
+    <tr></tr>
+    <tr><td>Detail</td></tr>
+    <tr>
+      <th>ProductId</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>SoldQuantity</th>
+      <th>Proceeds</th>
+      <th>StorageQuantity</th>
+      <th>CreatedDay</th>
+    </tr>
+    <tr *ngFor="let item of listReport">
+      <td>{{item.productId}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.price}}</td>
+      <td>{{item.soldQuantity}}</td>
+      <td>{{item.proceeds}}/td>
+      <td>{{item.storageQuantity}}</td>
+      <td>{{item.createdDay}}</td>
+    </tr>
+  </table>
 
 </div>
 <!--/ Ecommerce Wishlist -->
