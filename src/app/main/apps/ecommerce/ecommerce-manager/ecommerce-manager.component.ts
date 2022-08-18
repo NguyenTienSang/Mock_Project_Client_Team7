@@ -135,13 +135,10 @@ export class EcommerceManagerComponent implements OnInit {
 
     console.log(this.startDay);
     console.log(this.endDay);
-    if(this.startDay>this.endDay){
-      Swal.fire("Success","Start day must be less than End day");
-    }
-
-    var startDay = Math.round(Date.parse(this.startDay) / 1000);
-      console.log(this.startDay);
-      var endDay = Math.round(Date.parse(this.endDay) / 1000);
+    var startDay = Math.round(Date.parse(this.startDay) / 1000)-25200;
+      console.log(startDay);
+      var endDay = Math.round(Date.parse(this.endDay) / 1000)+61199;
+      console.log(endDay);
       this._ecommerceManagerService
         .reportExcel(startDay, endDay)
         .subscribe((reponse) => {
@@ -151,6 +148,10 @@ export class EcommerceManagerComponent implements OnInit {
   }
 
   exportExcel(): void {
+    if(this.startDay>this.endDay){
+      Swal.fire("Success","Start day must be less than End day");
+      return;
+    }
     if(this.startDay == null && this.endDay == null){
       this.loadListReport();
     }
@@ -240,7 +241,6 @@ export class EcommerceManagerComponent implements OnInit {
     },500);
 
     setTimeout(() =>{
-      console.log("1111");
       var fileName = this.currentDate.toString()+'_ReportProduct';
       const pdfTable = this.pdfTable.nativeElement;
       var html = htmlToPdfmake(pdfTable.innerHTML);
