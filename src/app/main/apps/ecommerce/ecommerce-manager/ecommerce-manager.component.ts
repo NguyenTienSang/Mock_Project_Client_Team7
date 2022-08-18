@@ -38,6 +38,11 @@ export class EcommerceManagerComponent implements OnInit {
   public endDay;
   currentDate = new Date();
   public listReport;
+
+  public totalAmountSold=0;
+  public totalProceeds=0;
+  public bestBellingProducts=[];
+  public productSoldAtLeast=[];
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -149,6 +154,36 @@ export class EcommerceManagerComponent implements OnInit {
     if(this.startDay == null && this.endDay == null){
       this.loadListReport();
     }
+
+    setTimeout( () => {
+      this.totalAmountSold=0;
+    this.totalProceeds=0;
+    this.bestBellingProducts=[];
+    this.productSoldAtLeast=[];
+      this.totalAmountSold=this.listReport.reduce((accumulator, obj)=>{
+        return accumulator + obj.soldQuantity;
+      }, 0);
+
+      this.totalProceeds=this.listReport.reduce((accumulator, obj)=>{
+        return accumulator + obj.proceeds;
+      },0);
+
+      var max=this.listReport.reduce((acc, obj)=>acc=acc>obj.soldQuantity ? acc:obj.soldQuantity,0);
+      this.listReport.forEach(element => {
+        if(element.soldQuantity===max){
+          this.bestBellingProducts.push(element.productId);
+        }
+      })
+
+      var min=this.listReport.reduce((acc, obj)=>acc=acc<obj.soldQuantity ? acc:obj.soldQuantity,this.listReport[0].soldQuantity);
+      this.listReport.forEach(element => {
+        if(element.soldQuantity===min){
+          this.productSoldAtLeast.push(element.productId);
+        }
+      })
+    }, 500 );
+
+    setTimeout(() => {
     var fileName = this.currentDate.toString()+'_ReportProduct.xlsx';
     /* pass here the table id */
     let element = document.getElementById('excel-table');
@@ -160,18 +195,58 @@ export class EcommerceManagerComponent implements OnInit {
 
     /* save to file */
     XLSX.writeFile(wb, fileName);
-  }
+  },500);
+}
 
   @ViewChild('content') pdfTable: ElementRef;
   exportPDF():void{
     if(this.startDay == null && this.endDay == null){
       this.loadListReport();
+
     }
-    var fileName = this.currentDate.toString()+'_ReportProduct';
-    const pdfTable = this.pdfTable.nativeElement;
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download(fileName);
+
+    setTimeout(() =>{
+      this.totalAmountSold=0;
+    this.totalProceeds=0;
+    this.bestBellingProducts=[];
+    this.productSoldAtLeast=[];
+      this.totalAmountSold=this.listReport.reduce((accumulator, obj)=>{
+        return accumulator + obj.soldQuantity;
+      }, 0);
+
+      this.totalProceeds=this.listReport.reduce((accumulator, obj)=>{
+        return accumulator + obj.proceeds;
+      },0);
+
+      var max=this.listReport.reduce((acc, obj)=>acc=acc>obj.soldQuantity ? acc:obj.soldQuantity,0);
+      console.log(max);
+      this.listReport.forEach(element => {
+        if(element.soldQuantity===max){
+          this.bestBellingProducts.push(element.productId);
+        }
+      });
+
+      var min=this.listReport.reduce((acc, obj)=>acc=acc<obj.soldQuantity ? acc:obj.soldQuantity,this.listReport[0].soldQuantity);
+      this.listReport.forEach(element => {
+        if(element.soldQuantity===min){
+          this.productSoldAtLeast.push(element.productId);
+        }
+      });
+
+      console.log(this.totalAmountSold);
+      console.log(this.totalProceeds);
+      console.log(this.bestBellingProducts);
+      console.log(this.productSoldAtLeast);
+    },500);
+
+    setTimeout(() =>{
+      console.log("1111");
+      var fileName = this.currentDate.toString()+'_ReportProduct';
+      const pdfTable = this.pdfTable.nativeElement;
+      var html = htmlToPdfmake(pdfTable.innerHTML);
+      const documentDefinition = { content: html };
+      pdfMake.createPdf(documentDefinition).download(fileName);
+    },500);
   }
 
   ngOnInit(): void {
