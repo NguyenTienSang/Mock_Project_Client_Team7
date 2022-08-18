@@ -45,6 +45,7 @@ export class EcommerceDetailsComponent implements OnInit {
   public ratingProduct ;
   public rating;
   public notificationRating;
+  public isLogin=false;
 
   datePipe: DatePipe = new DatePipe('en-US');
   currentDate = new Date();
@@ -177,7 +178,7 @@ export class EcommerceDetailsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-   
+
 
     this.ratingProduct = 3.5
     this.rating = 0;
@@ -213,6 +214,12 @@ export class EcommerceDetailsComponent implements OnInit {
     this._ecommerceService.getRelatedProducts().then(response => {
       this.relatedProducts = response;
     });
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(currentUser){
+      this.isLogin=true;
+    }
+
     this.route.paramMap.subscribe((params)=>{
       this.productId = params.get('id');
       if(this.productId){
@@ -227,7 +234,7 @@ export class EcommerceDetailsComponent implements OnInit {
                 {
                   this.rating = res.resultObj.rate;
                   console.log("rating: ", this.rating);
-                  
+
                   if(res.resultObj.updatedDate!= null)
                     this.notificationRating = "You are rated at "+ res.resultObj.updatedDate.substring(0,10);
                   else
@@ -240,7 +247,7 @@ export class EcommerceDetailsComponent implements OnInit {
                 }
               }))
             }
-           
+
           })
       }
     });
