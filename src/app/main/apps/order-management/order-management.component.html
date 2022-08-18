@@ -2,7 +2,7 @@
     <div class="content-body">
       <!-- content-header component -->
       <app-content-header [contentHeader]="contentHeader"></app-content-header>
-      
+
       <!-- account setting page -->
       <section id="page-account-settings">
         <div class="row d-flex">
@@ -66,26 +66,27 @@
                               <thead>
                                 <tr>
                                   <th scope="col">Name</th>
-                                  <th scope="col">Created By</th>
+                                  <!-- <th scope="col">Created By</th> -->
                                   <th scope="col">Created Date</th>
                                   <th scope="col">Address</th>
                                   <th scope="col">Phone number</th>
-                                  <th scope="col">User Id</th>
+                                  <!-- <th scope="col">User Id</th> -->
                                   <th scope="col">Status</th>
                                   <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                                  <th scope="col">Detail</th>
-                                  <th scope="col">Change Status</th>
+                                  <!-- <th scope="col">Detail</th> -->
+                                  <!-- <th scope="col">Change Status</th> -->
+                                  <th scope="col">Actions</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                                   <tr  *ngIf="order.statusOrderId == 1">
                                     <td>{{order.name}}</td>
-                                    <td>{{order.createdBy}}</td>
+                                    <!-- <td>{{order.createdBy}}</td> -->
                                     <td>{{order.createdDate}}</td>
                                     <td>{{order.shipAddress}}</td>
                                     <td>{{order.shipPhoneNumber}}</td>
-                                    <td>{{order.userId}}</td>
+                                    <!-- <td>{{order.userId}}</td> -->
                                     <td><div style="background-color: #FFFF00; border-radius: 0px;">{{order.status}}</div></td>
                                     <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                       <div >
@@ -97,12 +98,12 @@
                                       </div>
                                     </td>
                                     <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                    <td>
+                                    <!-- <td>
                                       <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                         <i class="fa fa-detail"></i>Detail
                                       </button>
                                     </td>
-                                    <td> 
+                                    <td>
                                       <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                         <i class="fa fa-status"></i>Change status
                                       </button>
@@ -112,6 +113,27 @@
                                       <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                         <i class="fa fa-status"></i>Cancel
                                       </button>
+                                    </td> -->
+                                    <td>
+                                      <div ngbDropdown container="body">
+                                        <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                          <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                        </button>
+                                        <div ngbDropdownMenu>
+                                          <a (click)="open(content, order.id)" ngbDropdownItem>
+                                            <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                          </a>
+                                          <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                            <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                          </a>
+                                          <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                            <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                          </a>
+                                          <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                            <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                          </a>
+                                        </div>
+                                      </div>
                                     </td>
                                   </tr>
                                 </ng-container>
@@ -210,26 +232,27 @@
                           <thead>
                             <tr>
                               <th scope="col">Name</th>
-                              <th scope="col">Created By</th>
+                              <!-- <th scope="col">Created By</th> -->
                               <th scope="col">Created Date</th>
                               <th scope="col">Address</th>
                               <th scope="col">Phone number</th>
-                              <th scope="col">User Id</th>
+                              <!-- <th scope="col">User Id</th> -->
                               <th scope="col">Status</th>
                               <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                              <th scope="col">Detail</th>
-                              <th scope="col">Change Status</th>
+                              <!-- <th scope="col">Detail</th> -->
+                              <!-- <th scope="col">Change Status</th> -->
+                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
                             <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                               <tr  *ngIf="order.statusOrderId == 2">
                                 <td>{{order.name}}</td>
-                                <td>{{order.createdBy}}</td>
+                                <!-- <td>{{order.createdBy}}</td> -->
                                 <td>{{order.createdDate}}</td>
                                 <td>{{order.shipAddress}}</td>
                                 <td>{{order.shipPhoneNumber}}</td>
-                                <td>{{order.userId}}</td>
+                                <!-- <td>{{order.userId}}</td> -->
                                 <td><div style="background-color:#46e3f1 ; border-radius: 5px">{{order.status}}</div></td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                   <div >
@@ -241,12 +264,12 @@
                                   </div>
                                 </td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                     <i class="fa fa-detail"></i>Detail
                                   </button>
                                 </td>
-                                <td> 
+                                <td>
                                   <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                     <i class="fa fa-status"></i>Change status
                                   </button>
@@ -256,6 +279,27 @@
                                   <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                     <i class="fa fa-status"></i>Cancel
                                   </button>
+                                </td> -->
+                                <td>
+                                  <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                      <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                      <a (click)="open(content, order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                      </a>
+                                      <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                        <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             </ng-container>
@@ -354,26 +398,27 @@
                           <thead>
                             <tr>
                               <th scope="col">Name</th>
-                              <th scope="col">Created By</th>
+                              <!-- <th scope="col">Created By</th> -->
                               <th scope="col">Created Date</th>
                               <th scope="col">Address</th>
                               <th scope="col">Phone number</th>
-                              <th scope="col">User Id</th>
+                              <!-- <th scope="col">User Id</th> -->
                               <th scope="col">Status</th>
                               <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                              <th scope="col">Detail</th>
-                              <th scope="col">Change Status</th>
+                              <!-- <th scope="col">Detail</th> -->
+                              <!-- <th scope="col">Change Status</th> -->
+                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
                             <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                               <tr  *ngIf="order.statusOrderId == 3">
                                 <td>{{order.name}}</td>
-                                <td>{{order.createdBy}}</td>
+                                <!-- <td>{{order.createdBy}}</td> -->
                                 <td>{{order.createdDate}}</td>
                                 <td>{{order.shipAddress}}</td>
                                 <td>{{order.shipPhoneNumber}}</td>
-                                <td>{{order.userId}}</td>
+                                <!-- <td>{{order.userId}}</td> -->
                                 <td><div style="background-color: #C0C0C0; border-radius: 5px;">{{order.status}}</div></td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                   <div >
@@ -385,12 +430,12 @@
                                   </div>
                                 </td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                     <i class="fa fa-detail"></i>Detail
                                   </button>
                                 </td>
-                                <td> 
+                                <td>
                                   <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                     <i class="fa fa-status"></i>Change status
                                   </button>
@@ -400,6 +445,27 @@
                                   <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                     <i class="fa fa-status"></i>Cancel
                                   </button>
+                                </td> -->
+                                <td>
+                                  <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                      <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                      <a (click)="open(content, order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                      </a>
+                                      <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                        <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             </ng-container>
@@ -456,7 +522,7 @@
                       <i data-feather="check-circle" class="font-medium-3 mr-1"></i>
                     </p>
 
-                   
+
 
                 </div>
                 <div class="col-sm-8">
@@ -502,26 +568,27 @@
                           <thead>
                             <tr>
                               <th scope="col">Name</th>
-                              <th scope="col">Created By</th>
+                              <!-- <th scope="col">Created By</th> -->
                               <th scope="col">Created Date</th>
                               <th scope="col">Address</th>
                               <th scope="col">Phone number</th>
-                              <th scope="col">User Id</th>
+                              <!-- <th scope="col">User Id</th> -->
                               <th scope="col">Status</th>
                               <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                              <th scope="col">Detail</th>
-                              <th scope="col">Change Status</th>
+                              <th scope="col">Actions</th>
+                              <!-- <th scope="col">Detail</th> -->
+                              <!-- <th scope="col">Change Status</th> -->
                             </tr>
                           </thead>
                           <tbody>
                             <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                               <tr  *ngIf="order.statusOrderId == 4">
                                 <td>{{order.name}}</td>
-                                <td>{{order.createdBy}}</td>
+                                <!-- <td>{{order.createdBy}}</td> -->
                                 <td>{{order.createdDate}}</td>
                                 <td>{{order.shipAddress}}</td>
                                 <td>{{order.shipPhoneNumber}}</td>
-                                <td>{{order.userId}}</td>
+                                <!-- <td>{{order.userId}}</td> -->
                                 <td><div style="background-color:#2ee32e ; border-radius: 5px">{{order.status}}</div></td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                   <div >
@@ -533,12 +600,12 @@
                                   </div>
                                 </td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                     <i class="fa fa-detail"></i>Detail
                                   </button>
                                 </td>
-                                <td> 
+                                <td>
                                   <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                     <i class="fa fa-status"></i>Change status
                                   </button>
@@ -548,6 +615,27 @@
                                   <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                     <i class="fa fa-status"></i>Cancel
                                   </button>
+                                </td> -->
+                                <td>
+                                  <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                      <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                      <a (click)="open(content, order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                      </a>
+                                      <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                        <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             </ng-container>
@@ -601,16 +689,16 @@
                     <!-- <i class="fa badge fa-lg" >
                     <i data-feather="x-octagon" class="font-medium-3 mr-1">{{number}}</i>
                     </i> -->
-                    
+
                     <p class="fa badge fa-lg">
                       <i class="nts" *ngIf="numberOrderCancelled !== 0">{{numberOrderCancelled}}</i>
                       <i data-feather="x-octagon" class="font-medium-3 mr-1" ></i>
                     </p>
-                    
+
                       <!-- <p class="fa badge fa-lg" >{{number}}
                       <span data-feather="x-octagon" class="font-medium-3 mr-1"></span>
                       </p> -->
-               
+
                     <!-- <i class="fas fa-envelope fa-lg"></i>
                     <span class="badge rounded-pill badge-notification bg-danger">1</span> -->
 
@@ -658,26 +746,27 @@
                           <thead>
                             <tr>
                               <th scope="col">Name</th>
-                              <th scope="col">Created By</th>
+                              <!-- <th scope="col">Created By</th> -->
                               <th scope="col">Created Date</th>
                               <th scope="col">Address</th>
                               <th scope="col">Phone number</th>
-                              <th scope="col">User Id</th>
+                              <!-- <th scope="col">User Id</th> -->
                               <th scope="col">Status</th>
                               <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                              <th scope="col">Detail</th>
-                              <th scope="col">Change Status</th>
+                              <th scope="col">Actions</th>
+                              <!-- <th scope="col">Detail</th> -->
+                              <!-- <th scope="col">Change Status</th> -->
                             </tr>
                           </thead>
                           <tbody>
                             <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                               <tr  *ngIf="order.statusOrderId == 5">
                                 <td>{{order.name}}</td>
-                                <td>{{order.createdBy}}</td>
+                                <!-- <td>{{order.createdBy}}</td> -->
                                 <td>{{order.createdDate}}</td>
                                 <td>{{order.shipAddress}}</td>
                                 <td>{{order.shipPhoneNumber}}</td>
-                                <td>{{order.userId}}</td>
+                                <!-- <td>{{order.userId}}</td> -->
                                 <td><div style="background-color: #FF9900; border-radius: 5px;">{{order.status}}</div></td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                   <div >
@@ -689,12 +778,12 @@
                                   </div>
                                 </td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                     <i class="fa fa-detail"></i>Detail
                                   </button>
                                 </td>
-                                <td> 
+                                <td>
                                   <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                     <i class="fa fa-status"></i>Change status
                                   </button>
@@ -704,6 +793,27 @@
                                   <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                     <i class="fa fa-status"></i>Cancel
                                   </button>
+                                </td> -->
+                                <td>
+                                  <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                      <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                      <a (click)="open(content, order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                      </a>
+                                      <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                        <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             </ng-container>
@@ -802,26 +912,28 @@
                           <thead>
                             <tr>
                               <th scope="col">Name</th>
-                              <th scope="col">Created By</th>
+                              <!-- <th scope="col">Created By</th> -->
                               <th scope="col">Created Date</th>
                               <th scope="col">Address</th>
                               <th scope="col">Phone number</th>
-                              <th scope="col">User Id</th>
+                              <!-- <th scope="col">User Id</th> -->
                               <th scope="col">Status</th>
                               <th *ngIf="isChangeStatusOrder" scope="col">Status change</th>
-                              <th scope="col">Detail</th>
-                              <th scope="col">Change Status</th>
+                              <!-- <th scope="col">Detail</th>
+                              <th scope="col">Change Status</th> -->
+                              <th scope="col">Actions</th>
+
                             </tr>
                           </thead>
                           <tbody>
                             <ng-container *ngFor="let order of orders |filter:searchText:'name'| slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;">
                               <tr  *ngIf="order.statusOrderId == 6">
                                 <td>{{order.name}}</td>
-                                <td>{{order.createdBy}}</td>
+                                <!-- <td>{{order.createdBy}}</td> -->
                                 <td>{{order.createdDate}}</td>
                                 <td>{{order.shipAddress}}</td>
                                 <td>{{order.shipPhoneNumber}}</td>
-                                <td>{{order.userId}}</td>
+                                <!-- <td>{{order.userId}}</td> -->
                                 <td><div style="background-color: #FFCC33; border-radius: 5px;">{{order.status}}</div></td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id">
                                   <div >
@@ -833,12 +945,12 @@
                                   </div>
                                 </td>
                                 <td *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId !== order.id"></td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn btn-sm btn-warning" (click)="open(content, order.id)" >
                                     <i class="fa fa-detail"></i>Detail
                                   </button>
                                 </td>
-                                <td> 
+                                <td>
                                   <button *ngIf="selectedOrderChangeStatusId !== order.id" class="btn btn-sm btn-primary" (click)="ChangeStatusOrder(order.id)">
                                     <i class="fa fa-status"></i>Change status
                                   </button>
@@ -848,6 +960,27 @@
                                   <button *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" class="btn btn-sm btn-danger" (click)="Reset()">
                                     <i class="fa fa-status"></i>Cancel
                                   </button>
+                                </td> -->
+                                <td>
+                                  <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                      <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                      <a (click)="open(content, order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details
+                                      </a>
+                                      <a *ngIf="selectedOrderChangeStatusId !== order.id" (click)="ChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Change Status
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="SaveChangeStatusOrder(order.id)" ngbDropdownItem>
+                                        <span [data-feather]="'save'" [size]="16" [class]="'mr-50'"></span> Save change
+                                      </a>
+                                      <a *ngIf="isChangeStatusOrder && selectedOrderChangeStatusId === order.id" (click)="Reset()" ngbDropdownItem>
+                                        <span [data-feather]="'refresh-ccw'" [size]="16" [class]="'mr-50'"></span> Cancel
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             </ng-container>
@@ -909,7 +1042,7 @@
       <div class="row">
         <div class="col-6">
           <label for="userid">User ID: </label>
-          <input 
+          <input
             type="text"
             class="form-control"
             id="userid"
@@ -928,12 +1061,12 @@
             [(ngModel)]="selectedOrder.name"
             readonly
           />
-        </div> 
+        </div>
       </div>
       <div class="row">
         <div class="col-8">
           <label for="address">Address: </label>
-          <input 
+          <input
             type="text"
             class="form-control"
             id="address"
@@ -944,7 +1077,7 @@
         </div>
         <div class="col-4">
           <label for="phone">Phone number: </label>
-          <input 
+          <input
             type="text"
             class="form-control"
             id="phone"
@@ -957,7 +1090,7 @@
       <div class="row">
         <div class="col-6">
           <label for="create-date">Create date: </label>
-          <input 
+          <input
             type="text"
             class="form-control"
             id="create-date"
@@ -968,7 +1101,7 @@
         </div>
         <div class="col-6">
           <label for="status">Status: </label>
-          <input 
+          <input
             type="text"
             class="form-control"
             id="status"
@@ -1069,15 +1202,15 @@
                  <small class="page-info">
                     <i class="fa fa-angle-double-right"></i>
                     ID: #{{selectedOrder.id}}
-                </small> 
+                </small>
             </h1>
-    
+
             <div class="page-tools">
                 <div class="action-buttons">
                     <a class="btn bg-white btn-light mx-1px " (click)="printOut()" data-title="Print">
                         <i class="mr-1 fa fa-print text-primary-m1  w-2"></i>
                         Print
-                    </a> 
+                    </a>
                     <a class="btn bg-white btn-light mx-1px " data-title="PDF">
                         <i class="mr-1 fa fa-file-pdf-o text-danger-m1  w-2"></i>
                         Export
@@ -1085,7 +1218,7 @@
                 </div>
             </div>
         </div> -->
-    
+
         <div class="container px-0">
             <div class="row mt-4">
                 <div class="col-12 col-lg-12">
@@ -1098,9 +1231,9 @@
                         </div>
                     </div>
                     <!-- .row -->
-    
+
                     <hr class="row brc-default-l1 mx-n1 mb-4" />
-    
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div>
@@ -1115,24 +1248,24 @@
                             </div>
                         </div>
                         <!-- /.col -->
-    
+
                         <div class="col-sm-6 align-self-start d-sm-flex justify-content-end">
                             <!-- <hr class="d-sm-none" /> -->
                             <div class="text-grey-m2">
                                 <!-- <div class="mt-1 mb-2 text-secondary-m1">
                                     Invoice
                                 </div> -->
-    
+
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="">ID:</span> #{{selectedOrder.id}}</div>
-    
+
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="">Create Date:</span> {{selectedOrder.createdDate}}</div>
-    
+
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="">Status: </span> <span class="badge badge-warning badge-pill px-25">{{selectedOrder.status}}</span></div>
                             </div>
                         </div>
                         <!-- /.col -->
                     </div>
-    
+
                     <div class="mt-4">
                         <div class="row  text-white bgc-default-tp1 py-25">
                             <div class="col-1 d-none d-sm-block ">#</div>
@@ -1142,7 +1275,7 @@
                             <div class="col-2 d-none d-sm-block  ">Discount</div>
                             <div class="col-1">Money</div>
                         </div>
-    
+
                         <div *ngFor="let order of selectedorderDetail; let i = index" class=" text-secondary-d3">
                             <div class="row mb-2 mb-sm-0 py-25">
                                 <div class="col-1 d-none d-sm-block ">{{i+1}}</div>
@@ -1154,14 +1287,14 @@
                                 <div class="col-1 " *ngIf="order.discount === 0">{{order.quantity * order.price }}</div>
                             </div>
                         </div>
-    
+
                         <div class="row border-b-2 brc-default-l2"></div>
-    
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-7 text-grey-d2  mt-2 mt-lg-0">
                                 Extra note such as company or payment information...
                             </div>
-    
+
                             <div class="col-12 col-sm-5 text-grey  order-first order-sm-last">
                                 <div class="row my-2">
                                     <div class="col-7 text-right">
@@ -1171,7 +1304,7 @@
                                         <span class=" text-secondary-d1">{{selectedOrder.total.toFixed(2)}}$</span>
                                     </div>
                                 </div>
-    
+
                                 <div class="row my-2">
                                     <div class="col-7 text-right">
                                         Tax (10%)
@@ -1180,7 +1313,7 @@
                                         <span class="text-secondary-d1">{{(selectedOrder.total/10).toFixed(2)}}$</span>
                                     </div>
                                 </div>
-    
+
                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                     <div class="col-7 text-right" style="font-size: 15px;">
                                         Total Amount
@@ -1191,9 +1324,9 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <hr />
-    
+
                         <div>
                             <span class="text-secondary-d1 ">Thank you for your business</span>
                             <!-- <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a> -->
