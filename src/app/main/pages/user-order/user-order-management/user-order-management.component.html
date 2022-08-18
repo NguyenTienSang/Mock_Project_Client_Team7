@@ -1,12 +1,12 @@
 <div class="content-wrapper">
 <!-- content-header component -->
 <app-content-header [contentHeader]="contentHeader"></app-content-header>
-  <div class="content-body">
-    <div class="bs-stepper checkout-tab-steps" id="checkoutStepper">
+  <!-- <div class="content-body"> -->
+    <!-- <div class="bs-stepper checkout-tab-steps" id="checkoutStepper"> -->
 
-      <div class="bs-stepper-content">
-        <div id="step-cart">
-          <div id="place-order" class="list-view product-checkout">
+      <!-- <div class="bs-stepper-content">
+        <div id="step-cart"> -->
+          <!-- <div id="place-order" class="list-view product-checkout"> -->
             <div class="checkout-options">
               <section id="ecommerce-searchbar" class="ecommerce-searchbar" style="margin-bottom: 10px;">
                 <div class="row mt-1">
@@ -39,14 +39,6 @@
                         <p>Id Order : {{listOrderUser.id}}</p>
                         <p style="color: #26aa99;"><i data-feather="truck" class="font-medium-3 mr-1"></i>  {{listOrderUser.statusOrder.name}}</p>
                       </li>
-                      <!-- <li class="price-detail address-received disabled-copy">
-                        <p ><i data-feather="user" class="font-medium-3 mr-1"></i> {{listOrderUser.name}}</p>
-                        <p ><i data-feather="map" class="font-medium-3 mr-1"></i> {{listOrderUser.shipAddress}}</p>
-                      </li>
-                      <li class="price-detail address-received disabled-copy">
-                        <p><i data-feather="phone-call" class="font-medium-3 mr-1"></i>{{listOrderUser.shipPhoneNumber}}</p>
-                        <p><i data-feather="calendar" class="font-medium-3 mr-1"></i>{{listOrderUser.createdDate.substring(0,10) }}</p>
-                      </li> -->
                       <li class="detail-order">
                         <app-user-order-management-item
                         [orderDetails]="listOrderUser.orderDetails"
@@ -57,10 +49,9 @@
                 </div>
               </ng-container>
             </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+          <!-- </div> -->
+        <!-- </div>
+      </div> -->
+    <!-- </div> -->
+  <!-- </div> -->
 </div>
