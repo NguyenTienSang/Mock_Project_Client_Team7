@@ -24,7 +24,7 @@
     <div style="flex: 1;" class="item-child-detail-order">
       <!-- ${{ (product.price * (1 - product.discount*0.01)).toFixed(2)}} -->
       <!-- <p>Total : ${{(orderDetailItem.price - (orderDetailItem.price *orderDetailItem.discount*0.01)).toFixed(2) *  orderDetailItem.quantity }}</p> -->
-      <p>Total : ${{(orderDetailItem.price * (1 - orderDetailItem.discount*0.01)).toFixed(2) *orderDetailItem.quantity }}</p>
+      <p>Total : ${{(orderDetailItem.price * (1 - orderDetailItem.discount*0.01) *orderDetailItem.quantity).toFixed(2) }}</p>
       <!-- this._ecommerceService.totalPriceCart-= Number((product.price * (1 - product.discount*0.01)).toFixed(2))*product.quantityInCart; -->
     </div>
    </div>

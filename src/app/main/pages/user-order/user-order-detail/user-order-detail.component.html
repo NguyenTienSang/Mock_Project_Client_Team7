@@ -165,8 +165,8 @@
                                 <div class="col-2 d-none d-sm-block">{{order.quantity}}</div>
                                 <div class="col-2 d-none d-sm-block ">{{order.price}}</div>
                                 <div class="col-2 d-none d-sm-block">{{order.discount}}%</div>
-                                <div class="col-1 " *ngIf="order.discount !== 0">{{order.quantity * order.price *(1- order.discount/100)}}</div>
-                                <div class="col-1 " *ngIf="order.discount === 0">{{order.quantity * order.price }}</div>
+                                <div class="col-1 " >{{(order.quantity * order.price *(1- order.discount/100)).toFixed(2)}}</div>
+                                <!-- <div class="col-1 " *ngIf="order.discount === 0">{{order.quantity * order.price }}</div> -->
                             </div>
                         </div>
 
@@ -178,9 +178,9 @@
                             </div>
 
                             <div class="col-12 col-sm-5 order-first order-sm-last">
-                                <div class="row my-2">
+                                <!-- <div class="row my-2">
                                     <div class="col-8 text-right">
-                                        SubTotal
+                                      Total Amount
                                     </div>
                                     <div class="col-4">
                                         <span class=" text-secondary-d1">{{selectedOrder.total.toFixed(2)}}$</span>
@@ -194,14 +194,14 @@
                                     <div class="col-4">
                                         <span class="text-secondary-d1">{{(selectedOrder.total/10).toFixed(2)}}$</span>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row my-2 " style="font-size:15px ;">
                                     <div class="col-8 text-right">
                                         <b>Total Amount</b>
                                     </div>
                                     <div class="col-4">
-                                        <span class=" text-success-d3 opacity-2"><b>{{(selectedOrder.total*110/100).toFixed(2)}}$</b></span>
+                                        <span class=" text-success-d3 opacity-2"><b>${{selectedOrder.total.toFixed(2)}}</b></span>
                                     </div>
                                 </div>
                             </div>

@@ -1138,8 +1138,8 @@
                             <td>{{order.quantity}}</td>
                             <td>{{order.price}}</td>
                             <td>{{order.discount}}%</td>
-                            <td *ngIf="order.discount !== 0">{{order.quantity * order.price *(1- order.discount/100)}}</td>
-                            <td *ngIf="order.discount === 0">{{order.quantity * order.price }}</td>
+                            <td >{{(order.quantity * order.price *(1- order.discount/100)).toFixed(2)}}</td>
+                            <!-- <td *ngIf="order.discount === 0">{{order.quantity * order.price }}</td> -->
                           </tr>
                         </ng-container>
                       </tbody>
@@ -1281,10 +1281,10 @@
                                 <div class="col-1 d-none d-sm-block ">{{i+1}}</div>
                                 <div class="col-4 ">{{order.product.name}}</div>
                                 <div class="col-2 d-none d-sm-block">{{order.quantity}}</div>
-                                <div class="col-2 d-none d-sm-block ">{{order.price}}</div>
+                                <div class="col-2 d-none d-sm-block ">${{order.price}}</div>
                                 <div class="col-2 d-none d-sm-block">{{order.discount}}%</div>
-                                <div class="col-1 " *ngIf="order.discount !== 0">{{order.quantity * order.price *(1- order.discount/100)}}</div>
-                                <div class="col-1 " *ngIf="order.discount === 0">{{order.quantity * order.price }}</div>
+                                <div class="col-1 " >${{(order.quantity * order.price *(1- order.discount/100)).toFixed(2)}}</div>
+                                <!-- <div class="col-1 " *ngIf="order.discount === 0">{{order.quantity * order.price }}</div> -->
                             </div>
                         </div>
 
@@ -1296,7 +1296,7 @@
                             </div>
 
                             <div class="col-12 col-sm-5 text-grey  order-first order-sm-last">
-                                <div class="row my-2">
+                                <!-- <div class="row my-2">
                                     <div class="col-7 text-right">
                                         SubTotal
                                     </div>
@@ -1312,14 +1312,14 @@
                                     <div class="col-5">
                                         <span class="text-secondary-d1">{{(selectedOrder.total/10).toFixed(2)}}$</span>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                     <div class="col-7 text-right" style="font-size: 15px;">
                                         Total Amount
                                     </div>
                                     <div class="col-5">
-                                        <span class=" text-success-d3 opacity-2" style="font-size: 15px;"><b>{{(selectedOrder.total*110/100).toFixed(2)}}$</b></span>
+                                        <span class=" text-success-d3 opacity-2" style="font-size: 15px;"><b>${{selectedOrder.total.toFixed(2)}}</b></span>
                                     </div>
                                 </div>
                             </div>
