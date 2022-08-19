@@ -152,6 +152,14 @@ export class OrderManagementComponent implements OnInit {
   public numberOrderArrived;
   public numberOrderCancelled;
   public numberOrderReturns;
+
+  public OrdersWaiting;
+  public OrdersConfirmed;
+  public OrdersShipping;
+  public OrdersArrived;
+  public OrdersCancelled;
+  public OrdersReturns;
+
   closeResult: string;
 
   public selectedOrder;
@@ -214,6 +222,78 @@ export class OrderManagementComponent implements OnInit {
       this.numberOrderArrived = this.orders.filter(x=>x.statusOrderId == 4).length;
       this.numberOrderCancelled = this.orders.filter(x=>x.statusOrderId == 5).length;
       this.numberOrderReturns = this.orders.filter(x=>x.statusOrderId == 6).length;
+
+      this.OrdersWaiting = this.orders.filter(x=>x.statusOrderId == 1);
+      this.OrdersWaiting.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
+    
+      this.OrdersConfirmed = this.orders.filter(x=>x.statusOrderId == 2);
+      this.OrdersConfirmed.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
+
+      this.OrdersShipping = this.orders.filter(x=>x.statusOrderId == 3);
+      this.OrdersShipping.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
+
+      this.OrdersArrived = this.orders.filter(x=>x.statusOrderId == 4);
+      this.OrdersArrived.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
+
+      this.OrdersCancelled = this.orders.filter(x=>x.statusOrderId == 5);
+      this.OrdersCancelled.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
+
+      this.OrdersReturns = this.orders.filter(x=>x.statusOrderId == 6);
+      this.OrdersReturns.sort(function(x,y) {
+        if (x.createdDate < y.createdDate) {
+            return 1;
+        }
+    
+        if (x.createdDate > y.createdDate) {
+            return -1;
+        }
+        return 0;
+       });
     }))
   }
 
