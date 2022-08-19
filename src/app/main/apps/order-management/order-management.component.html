@@ -1156,7 +1156,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button *ngIf="selectedOrder.statusOrderId === 2"  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="openInvoice(invoice)" >Invoice</button>
+        <button *ngIf="selectedOrder.statusOrderId !== 1"  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="openInvoice(invoice)" >Invoice</button>
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
       </div>
     </form>

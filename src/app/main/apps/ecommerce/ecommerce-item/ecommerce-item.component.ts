@@ -84,7 +84,7 @@ export class EcommerceItemComponent implements OnInit {
    * @param product
    */
   addToCart(product) {
-    this._ecommerceService.totalPriceCart += product.price;
+    this._ecommerceService.totalPriceCart += Number((product.price * (1 - product.discount*0.01)).toFixed(2));
     this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
     this._ecommerceService.addToCart(product.id).then(res => {
       product.isInCart = true;

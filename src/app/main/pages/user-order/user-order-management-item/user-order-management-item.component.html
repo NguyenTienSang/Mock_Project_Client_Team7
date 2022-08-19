@@ -10,10 +10,22 @@
       <p>X{{orderDetailItem.quantity}}</p>
     </div>
     <div style="flex: 1;" class="item-child-detail-order">
-      <p>${{orderDetailItem.price}}</p>
+      <p  *ngIf="orderDetailItem.discount">${{(orderDetailItem.price * (1 - orderDetailItem.discount*0.01)).toFixed(2)}}</p>
+      <p [ngStyle]="orderDetailItem.discount ? {'text-decoration' : 'line-through','font-style' : 'italic',color : 'rgb(187, 184, 184)'} : {'text-decoration' : 'none'}" >${{orderDetailItem.price}}</p>
+      <!--
+       -->
+
+      <!-- <h4 *ngIf="product.discount" class="item-price">${{(product.price - (product.price * product.discount*0.01)).toFixed(2)}}</h4>
+      <h4 [ngStyle]="product.discount ? {'text-decoration' : 'line-through','font-style' : 'italic',color : 'rgb(187, 184, 184)'} : {'text-decoration' : 'none'}"  class="item-price">${{ product.price}}</h4> -->
+
+
+
     </div>
     <div style="flex: 1;" class="item-child-detail-order">
-      <p>Total : ${{orderDetailItem.quantity * orderDetailItem.price}}</p>
+      <!-- ${{ (product.price * (1 - product.discount*0.01)).toFixed(2)}} -->
+      <!-- <p>Total : ${{(orderDetailItem.price - (orderDetailItem.price *orderDetailItem.discount*0.01)).toFixed(2) *  orderDetailItem.quantity }}</p> -->
+      <p>Total : ${{(orderDetailItem.price * (1 - orderDetailItem.discount*0.01)).toFixed(2) *orderDetailItem.quantity }}</p>
+      <!-- this._ecommerceService.totalPriceCart-= Number((product.price * (1 - product.discount*0.01)).toFixed(2))*product.quantityInCart; -->
     </div>
    </div>
   </ng-container>

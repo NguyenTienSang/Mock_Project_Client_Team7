@@ -4,3 +4,26 @@
   width: 400px;
   height: 450px;
 }
+
+
+.price-reduc {
+  position: absolute;
+  z-index: 5;
+  right: 25px;
+  width: 45px;
+  height: 40px;
+  margin-top: 20px;
+  padding: 7px 4px;
+  border: 1px solid #f47920;
+  border-radius: 50%;
+  background: #f47920;
+}
+
+.price-percent-reduce {
+	font-size: 12px;
+	padding: 2px;
+	text-align: center;
+	color: white;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}

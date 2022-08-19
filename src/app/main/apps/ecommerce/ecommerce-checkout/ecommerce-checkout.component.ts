@@ -110,6 +110,7 @@ export class EcommerceCheckoutComponent implements OnInit {
                 {
 
                   createOrderDetailViewModel.productId = itemCart.productId;
+                  // createOrderDetailViewModel.price = Number((product.price - (product.price * product.discount*0.01)).toFixed(2));
                   createOrderDetailViewModel.price = product.price;
                   createOrderDetailViewModel.quantity = itemCart.quantity;
 
@@ -207,7 +208,8 @@ export class EcommerceCheckoutComponent implements OnInit {
       else {
         this.disableOrder = true;
       }
-      this.totalPrice = this._ecommerceService.totalPriceCart;
+      this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
     });
 
       if(this.cartLists.length)
@@ -230,33 +232,21 @@ export class EcommerceCheckoutComponent implements OnInit {
       }
 
 
-
-    // Subscribe to Wishlist change
-    // this._ecommerceService.getWishlists().subscribe(res => {
-
-    //   this.wishlist = res.resultObj;
-
-    //   this.products.forEach(product => {
-
-    //     product.isInWishlist = this.wishlist.findIndex(p => p.id == product.id) > -1;
-
-    //   });
-
-    // });
-
     // update product is in Wishlist & is in CartList : Boolean
 
-    this.products.forEach(product => {
-      product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
-      if(product.isInCart)
-      {
-        console.log('product ; ',product);
-        this.totalPrice = this._ecommerceService.totalPriceCart ;
-        // this.totalPrice+=product.price * product.quantityInCart;
-      }
-      // this.totalPrice = Number(this.totalPrice.toFixed(2));
-      // this._ecommerceService.totalPriceCart = this.totalPrice;
-    });
+    // this.products.forEach(product => {
+    //   product.isInCart = this.cartLists.findIndex(p => p.productId === product.id) > -1;
+    //   if(product.isInCart)
+    //   {
+    //     console.log('product ; ',product);
+    //     this.totalPrice = this._ecommerceService.totalPriceCart ;
+    //     // this.totalPrice+=product.price * product.quantityInCart;
+    //   }
+    //   // this.totalPrice = Number(this.totalPrice.toFixed(2));
+    //   // this._ecommerceService.totalPriceCart = this.totalPrice;
+    // });
+
+    this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2)) ;
 
 
     this.checkoutStepper = new Stepper(document.querySelector('#checkoutStepper'), {
