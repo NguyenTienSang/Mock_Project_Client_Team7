@@ -50,9 +50,8 @@ export class CoreTouchspinComponent implements OnInit {
 
       // this._navbarCartComponent.totalPrice+= product.price;
       product.quantityInCart++;
-      this._ecommerceService.totalPriceCart +=  product.price;
+      this._ecommerceService.totalPriceCart+=Number((product.price * (1 - product.discount*0.01)).toFixed(2));
       this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
-
 
 
     if (this.stepValue == undefined) {
@@ -82,8 +81,9 @@ export class CoreTouchspinComponent implements OnInit {
   decrement(product) {
 
     product.quantityInCart--;
-    this._ecommerceService.totalPriceCart -=  product.price;
+    this._ecommerceService.totalPriceCart-=Number((product.price * (1 - product.discount*0.01)).toFixed(2));
     this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
+
 
     if (this.stepValue == undefined) {
       this.numberValue -= 1;

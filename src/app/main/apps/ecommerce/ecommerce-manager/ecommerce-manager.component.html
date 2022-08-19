@@ -80,13 +80,14 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Description" prop="description" [width]="250">
-            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+          <ngx-datatable-column name="Category" prop="category.name" [width]="250">
+            <!-- <ngx-datatable-column name="Description" prop="description" [width]="250"> -->
+            <!-- <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                 <div class="cell-line-height">
                       <span>{{ (name | slice:0:40) + '...'}}
                       </span>
                   </div>
-              </ng-template>
+              </ng-template> -->
           </ngx-datatable-column>
           <ngx-datatable-column name="Brand" prop="brand.name" [width]="50">
           </ngx-datatable-column>

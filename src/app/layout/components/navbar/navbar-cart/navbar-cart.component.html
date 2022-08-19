@@ -42,7 +42,7 @@
                   <core-touchspin  [product]="product" [numberValue]="product.quantityInCart" [stepValue]="1" [minValue]="1" [maxValue]="10"></core-touchspin>
                 </div>
               </div>
-              <h5 class="cart-item-price">${{ product.price }}</h5>
+              <h5 class="cart-item-price">${{ (product.price * (1 - product.discount*0.01)).toFixed(2) }}</h5>
             </div>
           </div>
         </ng-container>

@@ -52,7 +52,7 @@ export class EcommerceCheckoutItemComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
-      this._ecommerceService.totalPriceCart -=  product.price*product.quantityInCart;
+      this._ecommerceService.totalPriceCart -=  Number((product.price - (product.price * product.discount*0.01)).toFixed(2))  *product.quantityInCart;
       this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
       this._ecommerceService.removeFromCart(product.id).then(res => {
         product.isInCart = false;

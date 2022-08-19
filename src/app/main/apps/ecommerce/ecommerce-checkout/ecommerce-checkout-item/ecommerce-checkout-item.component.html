@@ -37,7 +37,10 @@
   <div class="item-options text-center">
     <div class="item-wrapper">
       <div class="item-cost">
-        <h4 class="item-price">${{ product.price }}</h4>
+        <h4 *ngIf="product.discount" class="item-price">${{(product.price - (product.price * product.discount*0.01)).toFixed(2)}}</h4>
+        <!-- <h6 *ngIf="product.discount" class="item-price">${{ (product.price - (product.price * product.discount*0.01)).toFixed(2)}}</h6> -->
+        <!-- <h6 [ngStyle]="{'text-decoration' :  product.discount ? 'line-through' : 'none' }"  class="item-price">${{ product.price}}</h6> -->
+        <h4 [ngStyle]="product.discount ? {'text-decoration' : 'line-through','font-style' : 'italic',color : 'rgb(187, 184, 184)'} : {'text-decoration' : 'none'}"  class="item-price">${{ product.price}}</h4>
         <p class="card-text shipping" *ngIf="product.hasFreeShipping">
           <span class="badge badge-pill badge-light-success">Free Shipping</span>
         </p>

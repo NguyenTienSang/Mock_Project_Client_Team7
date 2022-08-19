@@ -36,9 +36,9 @@ export class NavbarCartComponent implements OnInit {
    */
   removeFromCart(product) {
     if (product.isInCart === true) {
+      this._ecommerceService.totalPriceCart-= Number((product.price * (1 - product.discount*0.01)).toFixed(2))*product.quantityInCart;
+      this._ecommerceService.totalPriceCart= Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
-      this._ecommerceService.totalPriceCart -=  product.price*product.quantityInCart;
-      this._ecommerceService.totalPriceCart = Number(this._ecommerceService.totalPriceCart.toFixed(2));
 
       this.totalPrice = this._ecommerceService.totalPriceCart;
       this._ecommerceService.removeFromCart(product.id).then<any>(res => {
@@ -70,7 +70,7 @@ export class NavbarCartComponent implements OnInit {
     this._ecommerceService.onCartListChange.pipe(takeUntil(this._unsubscribeAll)).subscribe(res => {
       this.cartList = res;
       this.cartListLength = this.cartList?.length;
-      this.totalPrice = this._ecommerceService.totalPriceCart;
+      this.totalPrice = Number(this._ecommerceService.totalPriceCart.toFixed(2)) ;
 
       // console.log('onCartListChange : ');
     });
@@ -94,7 +94,9 @@ export class NavbarCartComponent implements OnInit {
                 console.log('product.price : ',product.price);
                 console.log('product.quantityInCart : ',product.quantityInCart);
 
-                this.totalPrice+=product.price * product.quantityInCart;
+                // this.totalPrice+=Number((product.price * product.quantityInCart * (1 - product.discount*0.01)).toFixed(2));
+                this.totalPrice+=Number((product.price * (1 - product.discount*0.01)).toFixed(2))*product.quantityInCart;
+                this.totalPrice=Number(this.totalPrice.toFixed(2));
               }
           })
 
@@ -102,10 +104,11 @@ export class NavbarCartComponent implements OnInit {
         });
         console.log('This test : ',this.totalPrice);
 
-        this.totalPrice = Number(this.totalPrice.toFixed(2));
+        // this.totalPrice = Number(this.totalPrice.toFixed(2));
         console.log(' this.totalPrice  : ', typeof(this.totalPrice) );
 
-        this._ecommerceService.totalPriceCart = this.totalPrice;
+        this._ecommerceService.totalPriceCart = Number(this.totalPrice.toFixed(2));
+        // Number(this._ecommerceService.totalPriceCart.toFixed(2)) ;
       }
     });
   }

@@ -1,6 +1,9 @@
 <!-- Ecommerce Item -->
 <div class="item-img text-center">
   <a [routerLink]="'/apps/e-commerce/details/' + product.id">
+    <div *ngIf="product.discount" class="price-reduc">
+      <span class="price-percent-reduce">-{{product.discount}}%</span>
+    </div>
     <img class="img-fluid card-img-top img-product" [src]="product.image" alt="img-placeholder" />
   </a>
 </div>
@@ -23,7 +26,11 @@
       </div>
     </div>
     <div class="item-cost">
-      <h6 class="item-price">${{ product.price}}</h6>
+      <!-- Number(this._ecommerceService.totalPriceCart.toFixed(2)) -->
+      <!-- <h6 *ngIf="product.discount" class="item-price">${{ Number((product.price - (product.price * product.discount*0.01)).toFixed(2))}}</h6> -->
+      <h6 *ngIf="product.discount" class="item-price">${{ (product.price * (1 - product.discount*0.01)).toFixed(2)}}</h6>
+      <!-- <h6 [ngStyle]="{'text-decoration' :  product.discount ? 'line-through' : 'none' }"  class="item-price">${{ product.price}}</h6> -->
+      <h6 [ngStyle]="product.discount ? {'text-decoration' : 'line-through','font-style' : 'italic',color : 'rgb(187, 184, 184)'} : {'text-decoration' : 'none'}"  class="item-price">${{ product.price}}</h6>
     </div>
   </div>
   <h6 class="item-name">
