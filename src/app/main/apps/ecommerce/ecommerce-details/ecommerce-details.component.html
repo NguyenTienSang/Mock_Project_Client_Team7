@@ -9,7 +9,7 @@
           <div class="row my-2">
             <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
               <div class="d-flex align-items-center justify-content-center">
-                <img [src]="selectedProduct.image" class="img-fluid product-img" alt="product image" />
+                <img [src]="selectedProduct.image" class="img-fluid product-img img-product" alt="product image" />
               </div>
             </div>
             <div class="col-12 col-md-7">
@@ -24,7 +24,7 @@
                     <ng-template let-fill="fill" let-index="index">
                       <span class="fa fa-star-o mr-25" [class.fa-star]="fill ===100">
                       </span>
-                    </ng-template> 
+                    </ng-template>
                   </ngb-rating>
                   {{rating}}<br/> -->
 
@@ -33,7 +33,7 @@
                       <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
                     </span>
                   </ng-template>
-                  
+
                   <ngb-rating [(rate)]="selectedProduct.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
                   <span style="font-size: medium;">  {{selectedProduct.rating}}/5 - {{selectedProduct.amountRating}} rating- {{selectedProduct.view}} viewers</span>
                 </div>
@@ -70,6 +70,7 @@
                   <span class="add-to-cart">View in cart</span>
                 </a>
                 <a
+                  *ngIf="isLogin"
                   href="javascript:void(0)"
                   (click)="toggleWishlist(selectedProduct)"
                   class="btn btn-outline-secondary btn-wishlist mr-0 mr-sm-1 mb-1 mb-sm-0"
@@ -108,7 +109,7 @@
                     </a>
                   </div>
                 </div>
-                
+
               </div>
               <div class="d-flex flex-column flex-sm-row pt-1">
                 <a
@@ -153,7 +154,7 @@
                                 <span class="half" [style.width.%]="fill"><em class="fa fa-star text-warning"></em></span><em class="fa fa-star-o text-warning cursor"></em>
                               </span>
                             </ng-template>
-                            
+
                             <ngb-rating [(rate)]="rating" [starTemplate]="rate" [readonly]="false" max="5"></ngb-rating>
                             <!-- {{rating}} -->
                           </div>
@@ -174,13 +175,13 @@
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
         <!-- Product Details ends -->
 
-        
+
         <!-- Item features starts -->
         <div class="item-features">
           <div class="row text-center">
