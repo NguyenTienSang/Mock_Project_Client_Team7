@@ -109,7 +109,7 @@
                             [(ngModel)]="AddressContactEdit"
                             class="form-control"
                             id="account-Address"
-                            name="username"
+                            name="Address"
                             placeholder="Address"
                             formControlName="Address"
                           />
@@ -133,7 +133,7 @@
                             name="Phonenumber"
                             placeholder="Phonenumber"
                             formControlName="Phonenumber"
-                            pattern="[0-9 ]{10}"
+                            pattern="(03|05|07|08|09)+([0-9]{8})"
                           />
                           <div *ngIf="!phonenumber?.valid && (phonenumber?.dirty
                           || phonenumber?.touched)"

@@ -431,5 +431,19 @@ export class UserContactComponent implements OnInit {
 };
 
   }
+  get name() {
+    return this.ContactForm.get('Name');
+  }
+
+  get address() {
+    return this.ContactForm.get('Address');
+  }
+
+  get phonenumber() {
+    return this.ContactForm.get('Phonenumber');
+  }
+
+
+
 
 }
