@@ -150,16 +150,31 @@ export class EcommerceService implements Resolve<any> {
   getCartList(): Promise<any[]> {
     this.currentId= JSON.parse(localStorage.getItem("currentUser"))?.user?.id;
     const dataCart = JSON.parse(sessionStorage.getItem('cart'));
+    //If have account
     if(this.currentId)
     {
 
-      // if(dataCart)
-      // {
-      //   dataCart.forEach(elementCart => {
-      //     this.updateCart(elementCart.productId,elementCart.quantity);
-      //   });
-      //   sessionStorage.removeItem('cart');
-      // }
+      if(dataCart)
+      {
+        dataCart.forEach(elementCart => {
+          // this.updateCart(elementCart.productId,elementCart.quantity);
+
+          return new Promise<void>((resolve, reject) => {
+            this._httpClient.put<any>(`${environment.apiUrl}/api/Cart/cart-update-passersby`,{
+              "productId" : elementCart.productId,
+              "userId" : this.currentId,
+              "quantity" :  elementCart.quantity
+            }).subscribe((response: any) => {
+              this.getCartList();
+              resolve();
+            }, reject);
+          });
+
+
+
+        });
+        sessionStorage.removeItem('cart');
+      }
 
       return new Promise((resolve, reject) => {
         this._httpClient.get(`${environment.apiUrl}/api/Cart/user/${this.currentId}`).subscribe((response: any) => {
@@ -172,6 +187,7 @@ export class EcommerceService implements Resolve<any> {
         },reject);
       });
     }
+    //Annonymous
     else {
 
     //Have cart in sessionStorage

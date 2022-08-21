@@ -9,40 +9,7 @@ if(currentUser != null)
 }
 
 
-export const menu: CoreMenu[] = [
-  // Dashboard
-  // {
-  //   id: 'dashboard',
-  //   title: 'Dashboard',
-  //   translate: 'MENU.DASHBOARD.COLLAPSIBLE',
-  //   type: 'collapsible',
-  //   icon: 'home',
-  //   badge: {
-  //     title: '2',
-  //     translate: 'MENU.DASHBOARD.BADGE',
-  //     classes: 'badge-light-warning badge-pill'
-  //   },
-  //   children: [
-  //     {
-  //       id: 'analytics',
-  //       title: 'Analytics',
-  //       translate: 'MENU.DASHBOARD.ANALYTICS',
-  //       type: 'item',
-  //       role: ['Admin'], // To set multiple role: ['Admin', 'Client']
-  //       icon: 'circle',
-  //       url: 'dashboard/analytics'
-  //     },
-  //     {
-  //       // If role is not assigned will be display to all
-  //       id: 'ecommerce',
-  //       title: 'eCommerce',
-  //       translate: 'MENU.DASHBOARD.ECOMMERCE',
-  //       type: 'item',
-  //       icon: 'circle',
-  //       url: 'dashboard/ecommerce'
-  //     }
-  //   ]
-  // },
+export const menu: CoreMenu[] = currentUser == 'User' ? [
   // Apps & Pages
   {
     id: 'apps',
@@ -50,7 +17,7 @@ export const menu: CoreMenu[] = [
     title: 'Apps & Pages',
     translate: 'MENU.APPS.SECTION',
     icon: 'package',
-    children: currentUser == 'User' || currentUser == 'Mod' ?
+    children:
     [
       {
         id: 'e-commerce',
@@ -58,7 +25,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
         type: 'collapsible',
         icon: 'shopping-cart',
-        children: currentUser == 'User' ? [
+        children:  [
           {
             id: 'shop',
             title: 'Shop',
@@ -77,8 +44,26 @@ export const menu: CoreMenu[] = [
             url: 'apps/e-commerce/wishlist'
           },
         ]
-        :
-        [
+      }
+    ]
+  },
+]
+ : [
+  {
+    id: 'apps',
+    type: 'section',
+    title: 'Apps & Pages',
+    translate: 'MENU.APPS.SECTION',
+    icon: 'package',
+    children: currentUser == 'Mod' ?
+    [
+      {
+        id: 'e-commerce',
+        title: 'E-commerce',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
           {
             id: 'shop',
             title: 'Shop',
@@ -87,7 +72,6 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'apps/e-commerce/shop'
           },
-
           {
             id: 'wishList',
             title: 'WishList',
@@ -105,12 +89,63 @@ export const menu: CoreMenu[] = [
             url: 'apps/e-commerce/manager'
           },
           {
-            id: 'Delete',
+            id: 'delete',
             title: 'List Product Deleted',
             translate: 'MENU.APPS.ECOMMERCE.DELETE',
             type: 'item',
             icon: 'circle',
             url: 'apps/e-commerce/product-delete'
+          }
+        ]
+      },
+      {
+        id: 'category',
+        title: 'Category',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'list',
+            title: 'List',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/category/manager'
+          },
+        ]
+      },
+      {
+        id: 'brand',
+        title: 'Brand',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'list',
+            title: 'List',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/brand/manager'
+          },
+        ]
+      },
+      {
+        id: 'order',
+        title: 'Order',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'truck',
+        children: [
+          {
+            id: 'list',
+            title: 'Manage Order',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: '/apps/order-management/manager'
           },
         ]
       }

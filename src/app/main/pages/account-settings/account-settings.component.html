@@ -163,7 +163,7 @@
                               name="company"
                               placeholder="Phone numbser"
                               formControlName="phonenumber"
-                              pattern="[0-9 ]{10}"
+                              pattern="(03|05|07|08|09)+([0-9]{8})"
                             />
                             <div *ngIf="!phoneNumber?.valid && (phoneNumber?.dirty
                             || phoneNumber?.touched)"
