@@ -72,8 +72,20 @@
                     <hr />
                     <ul class="list-unstyled">
                       <li class="price-detail">
+                        <div *ngIf="!isSelectedVoucher" class="detail-title detail-total">Voucher</div>
+                        <div *ngIf="isSelectedVoucher" class="detail-title detail-total">{{selectedVoucher.name.toUpperCase()}}</div>
+                        <div class="detail-amt font-weight-bolder">
+                          <a *ngIf="!isSelectedVoucher" (click)="open(content)"><span style="color: blue ;">Add voucher</span></a>
+                          <a *ngIf="isSelectedVoucher" (click)="open(content)"><span style="color: blue ;">${{selectedVoucher.discount}}</span></a>
+                        </div>
+                      </li>
+                    </ul>
+                    <hr/>
+                    <ul class="list-unstyled">
+                      <li class="price-detail">
                         <div class="detail-title detail-total">Total</div>
-                        <div class="detail-amt font-weight-bolder">${{totalPrice}}</div>
+                        <div *ngIf="!isSelectedVoucher" class="detail-amt font-weight-bolder">${{totalPrice}}</div>
+                        <div *ngIf="isSelectedVoucher" class="detail-amt font-weight-bolder">${{totalPriceFinal}}</div>
                       </li>
                     </ul>
 
@@ -102,3 +114,53 @@
     </div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header" >
+    <h4 class="modal-title" id="modal-basic-title">SELECTED VOUCHERS</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <form #VoucherForm="ngForm" class="form-validate">
+      <div style="overflow-y:scroll;height:650px; overflow-x:hidden;">
+        <div *ngFor="let voucher of vouchers" >
+        <div class="row">
+          <div class="col-12">
+            <div class="container">
+              <div class="col-8 card-voucher">
+                <div class="main-voucher">
+                  <div class="co-img">
+                    <img
+                      src="../../../../../assets/images/logo/free-shipping.png"
+                      alt=""
+                    />
+                  </div>
+                  <div class="vertical"></div>
+                  <div class="content">
+                    <h2>{{voucher.name}}</h2>
+                    <h1><span>$</span>{{voucher.discount}} </h1>
+                    <p>Valid till {{voucher.expiredDate}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4" style=" height: 180px;
+              border-radius: 5px;
+              position: relative;
+              margin-top: 10px;
+              display: flex;
+              align-items: center;">
+                <button id="addVoucher" (click)="addVoucher(voucher.id)" class="btn" style="margin-left: 50px; border-radius: 10px; background-color: #fff;"><span style="color: black;"><b>Add voucher</b></span></button>
+              </div>
+            </div>
+          </div>
+        </div><br/>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        <button type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="addVoucherOrder()" >OK</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
