@@ -5,11 +5,107 @@ import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
 import { AccountSettingsService } from 'app/main/pages/account-settings/account-settings.service';
 
 import Swal  from 'sweetalert2';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-ecommerce-checkout',
   templateUrl: './ecommerce-checkout.component.html',
   styleUrls: ['./ecommerce-checkout.component.scss'],
+  styles: [`
 
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 200px;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  background-color: #00bfa5;
+  border-radius: 5px;
+}
+
+.card-voucher {
+  // width: 500px;
+  height: 180px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  // padding: 10px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.main-voucher {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  height: 180px;
+  align-items: center;
+}
+// .card-voucher::after {
+//   position: absolute;
+//   content: "";
+//   height: 40px;
+//   right: -20px;
+//   border-radius: 40px;
+//   z-index: 1;
+//   top: 70px;
+//   background-color: #dc143c;
+//   width: 40px;
+// }
+
+.card-voucher::before {
+  position: absolute;
+  content: "";
+  height: 40px;
+  left: -12px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  background-color: #00bfa5;
+  width: 40px;
+}
+
+.co-img img {
+  width: 150px;
+  height: 150px;
+}
+.vertical {
+  border-left: 5px dotted black;
+  height: 100px;
+  position: absolute;
+  left: 40%;
+}
+
+.content h1 {
+  font-size: 35px;
+  margin-left: -170px;
+  color: #565656;
+}
+
+.content h1 span {
+  font-size: 18px;
+}
+.content h2 {
+  font-size: 18px;
+  margin-left: -170px;
+  color: #565656;
+  text-transform: uppercase;
+}
+
+.content p {
+  font-size: 16px;
+  color: #696969;
+  margin-left: -170px;
+}
+
+  `],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ecommerce-application' }
 })
@@ -33,13 +129,23 @@ export class EcommerceCheckoutComponent implements OnInit {
 
   // Private
   private checkoutStepper: Stepper;
+  closeResult: string;
+
+  // voucher
+  public vouchers ;
+  public selectedVoucher;
+  public isSelectedVoucher: boolean;
+  voucherSelectedId: any;
+  public totalPriceFinal;
 
   /**
    *  Constructor
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _accountSettingsService: AccountSettingsService,private _ecommerceService: EcommerceService) {
+  constructor(private _accountSettingsService: AccountSettingsService,
+    private _ecommerceService: EcommerceService,
+    private modalService:NgbModal) {
 
   }
 
@@ -254,6 +360,17 @@ export class EcommerceCheckoutComponent implements OnInit {
       animation: true
     });
 
+    this.isSelectedVoucher = false;
+
+    this._ecommerceService.getAllVouchers().subscribe((res=>{
+      this.vouchers = res.resultObj;
+      this.vouchers.forEach(voucher =>{
+        voucher.expiredDate = voucher.expiredDate.substring(0,10);
+      })
+      console.log(this.vouchers);
+      
+    }))
+
     // content header
     this.contentHeader = {
       headerTitle: 'Checkout',
@@ -292,4 +409,43 @@ export class EcommerceCheckoutComponent implements OnInit {
   //   'Order Closed',
   // ];
   // public orderStatus = 'Order Closed';
+
+  // voucher
+  open(content) {
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    this.isSelectedVoucher = false;
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  addVoucher(voucherId){
+    this.voucherSelectedId = voucherId;
+  }
+
+  addVoucherOrder(){
+    if(this.voucherSelectedId != null){
+      this._ecommerceService.getVoucherbyId(this.voucherSelectedId).subscribe((res=>{
+        this.selectedVoucher = res.resultObj;
+        this.isSelectedVoucher = true;
+        console.log("OK voucher ", this.selectedVoucher);
+        Swal.fire("Success", "Add voucher successfully", "success")
+        this.totalPriceFinal = Number((this._ecommerceService.totalPriceCart - this.selectedVoucher.discount).toFixed(2)) ;
+        if(this.totalPriceFinal < 0)
+          this.totalPriceFinal = 0;
+      }))
+    }
+  }
 }
