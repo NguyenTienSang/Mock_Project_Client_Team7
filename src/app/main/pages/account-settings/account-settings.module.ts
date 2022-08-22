@@ -16,6 +16,8 @@ import { UserContactComponent } from '../user-contact/user-contact.component';
 import { UserOrderManagementComponent } from '../user-order/user-order-management/user-order-management.component';
 import { UserOrderDetailComponent } from '../user-order/user-order-detail/user-order-detail.component';
 
+import { UserVoucherManagementComponent } from '../user-voucher/user-voucher-management/user-voucher-management.component';
+
 const routes: Routes = [
   {
     path: 'account-settings',
@@ -36,6 +38,14 @@ const routes: Routes = [
   {
     path: 'user-order-detail/:id',
     component: UserOrderDetailComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
+  },
+  {
+    path: 'user-voucher-manage',
+    component: UserVoucherManagementComponent,
     canActivate: [AuthGuard],
     // resolve: {
     //   accountSetting: AccountSettingsService

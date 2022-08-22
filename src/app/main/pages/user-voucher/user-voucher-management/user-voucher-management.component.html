@@ -1,0 +1,22 @@
+<div class="content-wrapper">
+  <!-- content-header component -->
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
+<ng-container *ngFor="let listVoucherUser of listVoucherUsers">
+  <div class="card disabled-copy">
+      <div class="card-body">
+        <ul class="list-unstyled">
+          <li class="price-detail infor-order disabled-copy">
+            <p>Name : {{listVoucherUser.voucher.name}}</p>
+            <p>Discount : {{listVoucherUser.voucher.discount}}</p>
+            <!-- <p style="color: #26aa99;"><i data-feather="truck" class="font-medium-3 mr-1"></i>  {{listOrderUser.statusOrder.name}}</p> -->
+          </li>
+          <!-- <li class="detail-order">
+            <app-user-order-management-item
+            [orderDetails]="listOrderUser.orderDetails"
+            ></app-user-order-management-item>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+</div>
