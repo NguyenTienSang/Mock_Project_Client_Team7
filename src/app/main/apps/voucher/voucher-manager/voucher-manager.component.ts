@@ -45,6 +45,11 @@ export class VoucherManagerComponent implements OnInit {
   }
 
   openCreate(content){
+    this.voucherName="";
+    this.discount="";
+    this.quantity="";
+    this.conditionDiscount="";
+    this.expiredDay=new Date();
     //If add contact then reset null dat
     this.typeAction ="Add Voucher";
   // console.log('txt : ',type);
@@ -74,12 +79,10 @@ export class VoucherManagerComponent implements OnInit {
   }
 
   AddVoucher(){
-
     if(formatDate(this.expiredDay,'yyyy-MM-dd','en_US')<formatDate(new Date(),'yyyy-MM-dd','en_US')){
       Swal.fire("Warning","Expiration date must be less than current date!");
       return;
     }
-
     let voucherForCreate= {
       name: this.voucherName,
       discount: this.discount,
@@ -160,6 +163,17 @@ export class VoucherManagerComponent implements OnInit {
       else
         Swal.fire("Error",response.message,"error")
     });
+  }
+
+  keyPressNumbers(event) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   ngOnInit(): void {
