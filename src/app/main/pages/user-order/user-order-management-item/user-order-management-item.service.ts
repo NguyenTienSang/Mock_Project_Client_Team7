@@ -28,4 +28,7 @@ export class UserOrderManagementItemService {
     }))
   }
 
+  getVoucherById(id: string):Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/Voucher/${id}`)
+  }
 }

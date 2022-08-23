@@ -135,6 +135,7 @@ export class UserOrderDetailComponent implements OnInit {
 
   public selectedOrder;
   public selectedOrderDetail;
+  public voucherDiscount;
   
   
   constructor(private router: Router, private _userOrderDetailService: UserOrderDetailService) 
@@ -199,6 +200,14 @@ export class UserOrderDetailComponent implements OnInit {
 
         console.log("order total", this.selectedOrder.total);
       }))
+      if(this.selectedOrder.voucherId != null){
+        this._userOrderDetailService.getVoucherById(this.selectedOrder.voucherId).subscribe((res=>{
+          this.voucherDiscount = res.resultObj;
+          console.log("voucher discount", this.voucherDiscount.discount);
+          
+        }))
+      }
+      
     })) 
   }
 
@@ -270,6 +279,12 @@ export class UserOrderDetailComponent implements OnInit {
         
                 console.log("order total", this.selectedOrder.total);
               }))
+
+              if(this.selectedOrder.voucherId != null){
+                this._userOrderDetailService.getVoucherById(this.selectedOrder.voucherId).subscribe((res=>{
+                  this.voucherDiscount = res.resultObj;
+                }))
+              }
             })) 
           }
           else{
@@ -348,4 +363,6 @@ export class UserOrderDetailComponent implements OnInit {
     audio.load();
     audio.play();
   }
+
+
 }

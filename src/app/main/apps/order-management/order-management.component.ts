@@ -175,6 +175,7 @@ export class OrderManagementComponent implements OnInit {
 
   public page = 1;
   public pageSize = 10;
+  public voucherDiscount;
 
   constructor( private _orderManagementService: OrderManagementService, private modalService:NgbModal) { }
 
@@ -345,6 +346,15 @@ export class OrderManagementComponent implements OnInit {
     
     this._orderManagementService.getOrderById(orderId).subscribe((res=>{
       this.selectedOrder = res.resultObj;
+      this.voucherDiscount = null;
+      if(this.selectedOrder.voucherId != null){
+        this._orderManagementService.getVoucherById(this.selectedOrder.voucherId).subscribe((res=>{
+          this.voucherDiscount = res.resultObj;
+          console.log("voucher discount", this.voucherDiscount.discount);
+          
+        }))
+      }
+
       this.selectedOrder.createdDate = this.selectedOrder.createdDate.substring(0,10);
       switch(this.selectedOrder.statusOrderId) { 
         case 1: { 
@@ -378,20 +388,27 @@ export class OrderManagementComponent implements OnInit {
      } 
   
       console.log("order", this.selectedOrder);
+
+      this._orderManagementService.getAllOrderDetailByOrderId(orderId).subscribe((res=>{
+        this.selectedorderDetail = res.resultObj;
+        this.selectedOrder.total = 0;
+        this.selectedorderDetail.forEach((order) =>{
+          if(order.discount != 0)
+            this.selectedOrder.total += order.price * order.quantity * (1 - order.discount/100);
+          else
+            this.selectedOrder.total += order.price * order.quantity;
+          });
+        // this.selectedOrder.total =  this.selectedOrder.total.toFixed(2);
+        console.log("order detail", res.resultObj);
+
+        
+      }))
+
+      
+      
     }))
 
-    this._orderManagementService.getAllOrderDetailByOrderId(orderId).subscribe((res=>{
-      this.selectedorderDetail = res.resultObj;
-      this.selectedOrder.total = 0;
-      this.selectedorderDetail.forEach((order) =>{
-        if(order.discount != 0)
-          this.selectedOrder.total += order.price * order.quantity * (1 - order.discount/100);
-        else
-          this.selectedOrder.total += order.price * order.quantity;
-        });
-      // this.selectedOrder.total =  this.selectedOrder.total.toFixed(2);
-      console.log("order detail", res.resultObj);
-    }))
+    
 
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:'xl'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
