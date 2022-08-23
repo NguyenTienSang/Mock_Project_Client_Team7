@@ -11,6 +11,8 @@ export class UserOrderManagementItemComponent implements OnInit {
   public listOrderDetails;
   public totalPriceOrder = 0;
   @Input() orderDetails;
+  @Input() orderVoucherId;
+  public voucherDiscount;
 
   constructor(private _userOrderManagementItemService : UserOrderManagementItemService,private _userOrderManagementService : UserOrderManagementService) { }
 
@@ -30,5 +32,13 @@ export class UserOrderManagementItemComponent implements OnInit {
 
       // Number((orderDetailItem.price - (orderDetailItem.price * orderDetailItem.discount*0.01)).toFixed(2)) *  orderDetailItem.quantity
     });
+
+    if(this.orderVoucherId != null){
+      this._userOrderManagementItemService.getVoucherById(this.orderVoucherId).subscribe((res=>{
+        this.voucherDiscount = res.resultObj;
+        console.log("voucher discount", this.voucherDiscount);
+        
+      }))
+    }
   }
 }

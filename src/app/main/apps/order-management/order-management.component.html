@@ -1149,12 +1149,37 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-10"></div>
-        <div class="col-2" style="float: right ;">
-          <h3>Total: {{selectedOrder.total.toFixed(2)}}$</h3>
+      <div *ngIf="voucherDiscount != null" class="row">
+         <div class="col-8"></div>
+        <div class="col-4" style="float: right ;">
+          <div  class="row my-2">
+            <div class="col-7 text-right">
+                Voucher({{voucherDiscount.name.toUpperCase()}})
+            </div>
+            <div class="col-5">
+                <span class="text-secondary-d1">${{voucherDiscount.discount}}</span>
+            </div>
+          </div>
         </div>
-      </div>
+
+        
+    </div>
+      <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+          <div class="row my-2" style="font-size: 20px;">
+            <div class="col-7 text-right">
+              <b>Total Amount</b>
+            </div>
+            <div *ngIf="voucherDiscount == null" class="col-5">
+                <span class=" text-success-d3 "><b>${{selectedOrder.total.toFixed(2)}}</b></span>
+            </div>
+            <div *ngIf="voucherDiscount != null" class="col-5">
+                <span class=" text-success-d3 "><b>${{(selectedOrder.total-voucherDiscount.discount).toFixed(2)}}</b></span>
+            </div>
+          </div>
+        </div>
+      </div> 
       <div class="modal-footer">
         <button *ngIf="selectedOrder.statusOrderId !== 1"  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="openInvoice(invoice)" >Invoice</button>
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
@@ -1303,24 +1328,27 @@
                                     <div class="col-5">
                                         <span class=" text-secondary-d1">{{selectedOrder.total.toFixed(2)}}$</span>
                                     </div>
-                                </div>
-
-                                <div class="row my-2">
-                                    <div class="col-7 text-right">
-                                        Tax (10%)
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="text-secondary-d1">{{(selectedOrder.total/10).toFixed(2)}}$</span>
-                                    </div>
                                 </div> -->
+
+                                <div *ngIf="voucherDiscount != null" class="row my-2">
+                                  <div class="col-7 text-right">
+                                      Voucher({{voucherDiscount.name.toUpperCase()}})
+                                  </div>
+                                  <div class="col-5">
+                                      <span class="text-secondary-d1">${{voucherDiscount.discount}}</span>
+                                  </div>
+                              </div> 
 
                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                     <div class="col-7 text-right" style="font-size: 15px;">
-                                        Total Amount
+                                        <b>Total Amount</b>
                                     </div>
-                                    <div class="col-5">
-                                        <span class=" text-success-d3 opacity-2" style="font-size: 15px;"><b>${{selectedOrder.total.toFixed(2)}}</b></span>
-                                    </div>
+                                    <div *ngIf="voucherDiscount == null" class="col-5">
+                                      <span class=" text-success-d3 opacity-2"><b>${{selectedOrder.total.toFixed(2)}}</b></span>
+                                  </div>
+                                  <div *ngIf="voucherDiscount != null" class="col-5">
+                                      <span class=" text-success-d3 opacity-2"><b>${{(selectedOrder.total-voucherDiscount.discount).toFixed(2)}}</b></span>
+                                  </div>
                                 </div>
                             </div>
                         </div>

@@ -22,4 +22,8 @@ export class UserOrderDetailService {
   cancelOrder(id: number, statusId: number): Observable<any>{
     return this._httpClient.put<any>(`${environment.apiUrl}/api/Order/ChangeStatusOrder/${id}`, {statusId});
   }
+
+  getVoucherById(id: string): Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/Voucher/${id}`)
+  }
 }
