@@ -18,4 +18,21 @@ export class UserVoucherManagementService {
     return this._httpClient.get<any>(`${environment.apiUrl}/api/VoucherUser/GetVoucherUser/${idUser}`)
   };
 
+  CompareDate(dateCompare : Date,name : string)
+  {
+    console.log('dateCompare : ',dateCompare);
+    console.log('name : ',name);
+
+    var todayDate = new Date();
+
+    if(todayDate > dateCompare)
+    {
+      console.log('big more');
+
+      return false;
+    }
+    return true;
+  }
+
+
 }

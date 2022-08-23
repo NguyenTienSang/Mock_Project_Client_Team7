@@ -31,12 +31,10 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 }
 
 .card-voucher {
-  // width: 500px;
   height: 180px;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  // padding: 10px;
   position: relative;
   margin-top: 10px;
 }
@@ -48,17 +46,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   height: 180px;
   align-items: center;
 }
-// .card-voucher::after {
-//   position: absolute;
-//   content: "";
-//   height: 40px;
-//   right: -20px;
-//   border-radius: 40px;
-//   z-index: 1;
-//   top: 70px;
-//   background-color: #dc143c;
-//   width: 40px;
-// }
+
 
 .card-voucher::before {
   position: absolute;
@@ -368,7 +356,7 @@ export class EcommerceCheckoutComponent implements OnInit {
         voucher.expiredDate = voucher.expiredDate.substring(0,10);
       })
       console.log(this.vouchers);
-      
+
     }))
 
     // content header
