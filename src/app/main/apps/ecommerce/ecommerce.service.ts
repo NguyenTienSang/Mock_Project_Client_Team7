@@ -518,5 +518,14 @@ export class EcommerceService implements Resolve<any> {
   //     }, reject))
   //   });
   // }
+
+  // voucher
+  getAllVouchers():Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/Voucher/all`);
+  }
+
+  getVoucherbyId(id: any):Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/api/Voucher/${id}`, id);
+  }
 }
 
