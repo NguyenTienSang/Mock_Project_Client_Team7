@@ -50,12 +50,17 @@ const routes: Routes = [
     path: 'order-management',
     loadChildren: () => import('./order-management/order-management.module').then(m => m.OrderManagementModule)
   },
+  {
+    path: 'voucher',
+    loadChildren: () => import('./voucher/voucher.module').then(m=>m.VoucherModule)
+  }
 ];
 
 FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)],
+  declarations: [],
 })
 
 export class AppsModule {}

@@ -116,6 +116,23 @@ export const menu: CoreMenu[] = currentUser == 'User' ? [
         ]
       },
       {
+        id:'voucher',
+        title: 'Voucher',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'list',
+            title: 'List',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/voucher/manager'
+          },
+        ]
+      },
+      {
         id: 'brand',
         title: 'Brand',
         translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
@@ -148,7 +165,7 @@ export const menu: CoreMenu[] = currentUser == 'User' ? [
             url: '/apps/order-management/manager'
           },
         ]
-      }
+      },
     ]
     :
     [
@@ -269,7 +286,24 @@ export const menu: CoreMenu[] = currentUser == 'User' ? [
             url: '/apps/order-management/manager'
           },
         ]
-      }
+      },
+      {
+        id:'voucher',
+        title: 'Voucher',
+        translate: 'MENU.APPS.ECOMMERCE.COLLAPSIBLE',
+        type: 'collapsible',
+        icon: 'shopping-cart',
+        children: [
+          {
+            id: 'manager',
+            title: 'Manager',
+            translate: 'MENU.APPS.ECOMMERCE.SHOP',
+            type: 'item',
+            icon: 'circle',
+            url: 'apps/voucher/manager'
+          },
+        ]
+      },
     ]
   },
 ];
