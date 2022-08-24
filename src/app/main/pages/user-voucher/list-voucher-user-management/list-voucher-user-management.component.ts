@@ -1,44 +1,25 @@
-import { EcommerceService } from 'app/main/apps/ecommerce/ecommerce.service';
-import { NavbarCartComponent } from 'app/layout/components/navbar/navbar-cart/navbar-cart.component';
 import { Component, OnInit } from '@angular/core';
-import { UserVoucherManagementService } from './user-voucher-management.service';
+import { UserVoucherManagementService } from '../user-voucher-management/user-voucher-management.service';
+import { ListVoucherUserManagementService } from './list-voucher-user-management.service';
 import Swal  from 'sweetalert2';
-
 @Component({
-  selector: 'app-user-voucher-management',
-  templateUrl: './user-voucher-management.component.html',
-  styleUrls: ['./user-voucher-management.component.scss']
+  selector: 'app-list-voucher-user-management',
+  templateUrl: './list-voucher-user-management.component.html',
+  styleUrls: ['./list-voucher-user-management.component.scss']
 })
-export class UserVoucherManagementComponent implements OnInit {
+
+export class ListVoucherUserManagementComponent implements OnInit {
 
   // Public
   public todayDate = new Date();
   public contentHeader: object;
   public listVoucherUsers;
-  public lengthCart;
   // private userID = JSON.parse(localStorage.getItem('currentUser')).user.id;
 
-  private idUserDetailVoucher = JSON.parse(localStorage.getItem('currentUser')).user.id;
+  private idUserDetailVoucher = localStorage.getItem('idUserDetailVoucher');
 
-  constructor(private _userVoucherManagementService : UserVoucherManagementService,private _ecommerceService: EcommerceService,) { }
+  constructor(private _userVoucherManagementService : UserVoucherManagementService, private _listVoucherUserManagementService : ListVoucherUserManagementService) { }
 
-  // CompareDate(dateCompare : Date,name : string){
-  //   // date1.now
-  //   // console.log('dateCompare : ',dateCompare);
-  //   // console.log('name : ',name);
-
-
-
-  //   // if(todayDate > dateCompare)
-  //   // {
-  //   //   console.log('big more');
-
-  //   //   return false;
-  //   // }
-  //   // return true;
-
-  //  return this._userVoucherManagementService.CompareDate(dateCompare,name);
-  // }
 
   CompareDate(dateCompare : string){
     return  new Date(dateCompare).getTime() >=  new Date(this.todayDate.toISOString()).getTime();
@@ -54,7 +35,7 @@ export class UserVoucherManagementComponent implements OnInit {
     // console.log('vmDeleteVoucherUser : ',vmDeleteVoucherUser);
 
 
-    this._userVoucherManagementService.deleteVoucherUser(vmDeleteVoucherUser).subscribe(response=>{
+    this._listVoucherUserManagementService.deleteVoucherUser(vmDeleteVoucherUser).subscribe(response=>{
       if(response.isSuccessed)
       {
         Swal.fire("Success",response.message,"success")
@@ -80,17 +61,7 @@ export class UserVoucherManagementComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this._ecommerceService.onCartListChange.subscribe(res => {
-      this.lengthCart = res.length;
-    });
-
     this.getVoucher(this.idUserDetailVoucher);
-
-
-
-
-    // console.log('this._navbarCartComponent.cartListLength : ',this._navbarCartComponent.cartListLength);
-
 
     // this._userVoucherManagementService.getVoucherUser(this.idUserDetailVoucher).subscribe(respone=>{
     //   this.listVoucherUsers = respone.resultObj;
@@ -127,7 +98,7 @@ export class UserVoucherManagementComponent implements OnInit {
           link: '/'
         },
         {
-          name:  'My Voucher',
+          name:'List Voucher Of User',
           isLink: false
         }
       ]

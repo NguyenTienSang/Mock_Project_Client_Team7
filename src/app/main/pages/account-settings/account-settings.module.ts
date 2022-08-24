@@ -18,6 +18,9 @@ import { UserOrderDetailComponent } from '../user-order/user-order-detail/user-o
 
 import { UserVoucherManagementComponent } from '../user-voucher/user-voucher-management/user-voucher-management.component';
 
+import { ListVoucherUserManagementComponent } from '../user-voucher/list-voucher-user-management/list-voucher-user-management.component';
+
+
 const routes: Routes = [
   {
     path: 'account-settings',
@@ -46,6 +49,14 @@ const routes: Routes = [
   {
     path: 'user-voucher-manage',
     component: UserVoucherManagementComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   accountSetting: AccountSettingsService
+    // }
+  },
+  {
+    path: 'list-voucher-user-manage',
+    component: ListVoucherUserManagementComponent,
     canActivate: [AuthGuard],
     // resolve: {
     //   accountSetting: AccountSettingsService
