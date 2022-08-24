@@ -37,7 +37,7 @@
           <th>Discount</th>
           <th>Condition Discount</th>
           <th>Quantity</th>
-          <th>Create Date</th>
+          <!-- <th>Create Date</th> -->
           <th>Expired Date</th>
           <th>Action</th>
       </tr>
@@ -49,12 +49,13 @@
         <th>{{item.discount}}</th>
         <th>{{item.conditionDiscount}}</th>
         <th>{{item.quantity}}</th>
-        <th>{{item.createdDate}}</th>
+        <!-- <th>{{item.createdDate}}</th> -->
         <th>{{item.expiredDate}}</th>
         <th>
           <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
             <button class="btn btn-primary ml-1" title="Settings" data-toggle="tooltip" (click)="openUpdate(content, item)"><i class="material-icons">&#xE8B8;</i></button>
             <button class="btn btn-primary ml-1" title="Delete" data-toggle="tooltip" (click)="DeleteVoucher(item.id)"><i class="material-icons">&#xE5C9;</i></button>
+            <button class="btn btn-primary ml-1" title="Add" data-toggle="tooltip" (click)="openCreateListUser(listUser, item.id)"><i class="material-icons">&#xe147;</i></button>
           </div>
         </th>
     </tr>
@@ -202,6 +203,62 @@
           <button  type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect>Submit</button>
           <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
         </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+<ng-template #listUser let-modal>
+  <div class="modal-header" >
+    <h4 class="modal-title" id="modal-user-title">SELECTED VOUCHERS</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <form #VoucherForm="ngForm" class="form-validate">
+      <div style="overflow-y:scroll;height:650px; overflow-x:hidden;">
+        <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Search:<input type="search" placeholder="Search username, email, role" class="form-control ml-25" (keyup)="filterSearchUser($event)"
+              /></label>
+        <table class="table table-striped table-hover" id="table-category">
+          <thead>
+            <tr class="text-center">
+                <th>No</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let listUser of listUsers;let i=index" class="text-center">
+            <th>{{i+1}}</th>
+            <th>{{listUser.userName}}</th>
+            <th>{{listUser.email}}</th>
+            <th>{{listUser.role}}</th>
+            <th>
+              <!-- <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"> -->
+                <button class="btn btn-primary ml-1" title="Add" data-toggle="tooltip" (click)="addUserVoucher(listUser.id)"><i class="material-icons">&#xe147;</i></button>
+                <button class="btn btn-primary ml-1" title="Detail" [routerLink]="['/pages/user-voucher-manage']" data-toggle="tooltip" (click)="listVoucherUser(listUser.id)">
+                  <!-- <a class="btn btn-primary" ngbDropdownItem [routerLink]="['/pages/user-voucher-manage']"> -->
+                    <i class="material-icons">&#xe8f4;</i>
+                  <!-- </a> -->
+
+                </button>
+                <!-- <button class="btn btn-primary ml-1" title="Add" data-toggle="tooltip" (click)="addUserVoucher(listUser.id)"><i class="material-icons">&#xE5C9;</i></button> -->
+              <!-- </div> -->
+            </th>
+        </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        <button type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="addVoucherOrder()" >OK</button>
+      </div>
     </form>
   </div>
 </ng-template>

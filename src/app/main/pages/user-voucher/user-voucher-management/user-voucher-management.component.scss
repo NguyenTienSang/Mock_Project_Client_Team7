@@ -41,7 +41,7 @@
   position: absolute;
   content: "";
   height: 40px;
-  left: -12px;
+  left: -10px;
   border-radius: 40px;
   z-index: 1;
   top: 70px;
@@ -52,6 +52,7 @@
 .co-img img {
   width: 150px;
   height: 150px;
+  margin-left: 10px;
 }
 // .vertical {
 //   border-left: 5px dotted black;
@@ -61,7 +62,7 @@
 // }
 
 .content h1 {
-  font-size: 35px;
+  font-size: 30px;
   margin-left: -170px;
   color: #565656;
 }
@@ -70,7 +71,7 @@
   font-size: 18px;
 }
 .content h2 {
-  font-size: 18px;
+  font-size: 15px;
   margin-left: -170px;
   color: #565656;
   text-transform: uppercase;

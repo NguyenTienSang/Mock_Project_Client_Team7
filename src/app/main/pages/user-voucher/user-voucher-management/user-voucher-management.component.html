@@ -19,13 +19,22 @@
                       <p style="color: red;">Valid till {{listVoucherUser.voucher.expiredDate.substring(0,10)}}</p>
                       <p>Condition: Order value from ${{listVoucherUser.voucher.conditionDiscount}} or more</p>
                     </div>
-                    <a routerLink="/apps/e-commerce/checkout" style="background-color: #00bfa5;
+                    <a *ngIf="idUserDetailVoucher == this.userID || this.idUserDetailVoucher == null" routerLink="/apps/e-commerce/checkout" style="background-color: #00bfa5;
+                    text-align: center;
                     border-radius: 5px;
                     position: relative;
                     align-items: center;
                     color: #fff;
                     padding: 5px;
                     ">Use voucher</a>
+                       <a *ngIf="idUserDetailVoucher != this.userID && this.idUserDetailVoucher != null"  (click)="deleteVoucher(idUserDetailVoucher,listVoucherUser.voucher.id)"  style="background-color: #00bfa5;
+                       text-align: center;
+                       border-radius: 5px;
+                       position: relative;
+                       align-items: center;
+                       color: #fff;
+                       padding: 5px;
+                       ">Remove voucher</a>
                   </div>
                 </div>
               </div>

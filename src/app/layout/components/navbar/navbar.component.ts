@@ -162,6 +162,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+   setIdUserVoucher(){
+    const idUserDetailVoucher = JSON.parse(localStorage.getItem('currentUser')).user.id;;
+      localStorage.setItem('idUserDetailVoucher',idUserDetailVoucher);
+   }
+
   /**
    * Logout method
    */
