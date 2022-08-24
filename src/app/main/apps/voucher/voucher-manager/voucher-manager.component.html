@@ -147,6 +147,7 @@
       <div class="mb-3">
         <label for="quantity">Quantity</label>
               <input
+                (keypress)="keyPressNumbers($event)"
                 type="number"
                 class="form-control"
                 id="quantity"
