@@ -25,4 +25,16 @@ export class VoucherService {
   deleteVoucher(id:number):Observable<any>{
     return this._httpClient.delete(`${environment.apiUrl}/api/Voucher/delete/${id}`);
   }
+
+  getListUser():Observable<any>{
+    return this._httpClient.get(`${environment.apiUrl}/api/User/all`);
+  }
+
+  addVoucherUser(vmAddVoucherUser):Observable<any>{
+    console.log('vmAddVoucherUser : ',vmAddVoucherUser);
+
+    return this._httpClient.post(`${environment.apiUrl}/api/VoucherUser/CreateVoucherUser`, vmAddVoucherUser);
+  }
+
+
 }

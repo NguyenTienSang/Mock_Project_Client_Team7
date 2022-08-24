@@ -23,7 +23,10 @@ export class VoucherManagerComponent implements OnInit {
   public expiredDay;
   public expiredDateOld;
   public voucherId;
+  public listUsers;
+  public listUserTemps;
 
+  private idVoucherAddVoucherUser;
 
   public page = 1;
   public pageSize = 10;
@@ -105,7 +108,7 @@ export class VoucherManagerComponent implements OnInit {
 
   openUpdate(content, item)
   {
-    this.typeAction ="Update Brand";
+    this.typeAction ="Update Voucher";
     this.voucherId=item.id;
     this.voucherName=item.name;
     this.discount=item.discount;
@@ -152,6 +155,7 @@ export class VoucherManagerComponent implements OnInit {
     })
   }
 
+
   DeleteVoucher(value){
     this._voucherService.deleteVoucher(value).subscribe(response => {
       if(response.isSuccessed)
@@ -176,8 +180,75 @@ export class VoucherManagerComponent implements OnInit {
     }
   }
 
+//=============================
+openCreateListUser(content,idVoucher){
+  this.idVoucherAddVoucherUser = idVoucher;
+
+this.modalService.open(content, {ariaLabelledBy: 'modal-user-title',size:'xl'}).result.then((result) => {
+  this.closeResult = `Closed with: ${result}`;
+}, (reason) => {
+  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+});
+}
+
+filterSearchUser(event) {
+  const val = event.target.value.toLowerCase();
+
+  // Filter Our Data
+  const temp = this.listUserTemps.filter(function (d) {
+    return d.userName.toLowerCase().indexOf(val) !== -1 || d.email.toLowerCase().indexOf(val) !== -1 || !val;
+  });
+
+  // Update The Rows
+  this.listUsers = temp;
+  // Whenever The Filter Changes, Always Go Back To The First Page
+  // this.table.offset = 0;
+}
+
+  getListUser(){
+    this._voucherService.getListUser().subscribe(response => {
+      this.listUsers = response.resultObj;
+      this.listUserTemps = this.listUsers;
+      console.log('this.listUser : ',this.listUsers);
+
+    })
+  }
+
+  addUserVoucher(idUser){
+    // console.log('idUser : ',idUser);
+    let vmAddVoucherUser= {
+      userId: idUser,
+      voucherId: this.idVoucherAddVoucherUser
+    }
+
+    this._voucherService.addVoucherUser(vmAddVoucherUser).subscribe(response=>{
+      if(response.isSuccessed)
+      {
+        Swal.fire("Success",response.message,"success")
+        // this.modalService.dismissAll();
+        // this.GetAllVoucher();
+      }
+      else
+        Swal.fire("Error",response.message,"error")
+    });
+
+
+
+
+
+  }
+
+
+  listVoucherUser(idUserDetailVoucher : string){
+      localStorage.setItem('idUserDetailVoucher',idUserDetailVoucher);
+      this.modalService.dismissAll();
+  }
+
+
+//=============================
   ngOnInit(): void {
     this.GetAllVoucher();
+    this.getListUser();
 
     this.contentHeader = {
       headerTitle: 'Voucher',

@@ -24,6 +24,10 @@ import { UserContactComponent } from './user-contact/user-contact.component';
 import { UserOrderDetailComponent } from './user-order/user-order-detail/user-order-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UserOrderDetailService } from './user-order/user-order-detail/user-order-detail.service';
+import { UserVoucherManagementComponent } from './user-voucher/user-voucher-management/user-voucher-management.component';
+import { ListVoucherUserManagementComponent } from './user-voucher/list-voucher-user-management/list-voucher-user-management.component';
+
+
 
 const routes: Routes = [
   {
@@ -36,7 +40,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent, UserOrderDetailComponent],
+  declarations: [UserOrderManagementComponent, UserOrderManagementItemComponent, UserContactComponent, UserOrderDetailComponent, UserVoucherManagementComponent, ListVoucherUserManagementComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

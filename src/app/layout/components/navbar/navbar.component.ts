@@ -162,6 +162,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+
+
   /**
    * Logout method
    */

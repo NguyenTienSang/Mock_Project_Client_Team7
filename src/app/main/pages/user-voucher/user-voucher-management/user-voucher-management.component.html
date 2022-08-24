@@ -1,0 +1,49 @@
+<div class="content-wrapper">
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <div *ngIf="listVoucherUsers.length" style="display: flex; flex-wrap: wrap;">
+      <div *ngFor="let listVoucherUser of listVoucherUsers" >
+              <div class="container" >
+                <div class="card-voucher">
+                  <div class="main-voucher">
+                    <div class="co-img">
+                      <img
+                        src="../../../../../assets/images/logo/free-shipping.png"
+                        alt=""
+                      />
+                    </div>
+
+                    <div class="content">
+                      <h2>{{listVoucherUser.voucher.name}}</h2>
+                      <h1><span>$</span>{{listVoucherUser.voucher.discount}} </h1>
+                      <p style="color: red;">Valid till {{listVoucherUser.voucher.expiredDate.substring(0,10)}}</p>
+                      <p>Condition: Order value from ${{listVoucherUser.voucher.conditionDiscount}} or more</p>
+                    </div>
+                    <!--  -->
+                    <a routerLink="{{lengthCart ? '/apps/e-commerce/checkout' : '/apps/e-commerce/shop'}}" style="background-color: #00bfa5;
+                    text-align: center;
+                    border-radius: 5px;
+                    position: relative;
+                    align-items: center;
+                    color: #fff;
+                    padding: 5px;
+                    ">Use voucher</a>
+                       <!-- <a *ngIf="idUserDetailVoucher != this.userID && this.idUserDetailVoucher != null"  (click)="deleteVoucher(idUserDetailVoucher,listVoucherUser.voucher.id)"  style="background-color: #00bfa5;
+                       text-align: center;
+                       border-radius: 5px;
+                       position: relative;
+                       align-items: center;
+                       color: #fff;
+                       padding: 5px;
+                       ">Remove voucher</a> -->
+                  </div>
+                </div>
+              </div>
+        </div>
+        <br/>
+      </div>
+
+      <div *ngIf="!listVoucherUsers.length">
+        <p style="font-size: 20px;">You haven't any voucher 😢 </p>
+      </div>
+</div>
