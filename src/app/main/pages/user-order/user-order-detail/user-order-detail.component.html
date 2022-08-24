@@ -185,23 +185,26 @@
                                     <div class="col-4">
                                         <span class=" text-secondary-d1">{{selectedOrder.total.toFixed(2)}}$</span>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="row my-2">
+                                <div *ngIf="voucherDiscount != null" class="row my-2">
                                     <div class="col-8 text-right">
-                                        Tax (10%)
+                                        Voucher({{voucherDiscount.name.toUpperCase()}})
                                     </div>
                                     <div class="col-4">
-                                        <span class="text-secondary-d1">{{(selectedOrder.total/10).toFixed(2)}}$</span>
+                                        <span class="text-secondary-d1">${{voucherDiscount.discount}}</span>
                                     </div>
-                                </div> -->
+                                </div> 
 
                                 <div class="row my-2 " style="font-size:15px ;">
                                     <div class="col-8 text-right">
                                         <b>Total Amount</b>
                                     </div>
-                                    <div class="col-4">
+                                    <div *ngIf="voucherDiscount == null" class="col-4">
                                         <span class=" text-success-d3 opacity-2"><b>${{selectedOrder.total.toFixed(2)}}</b></span>
+                                    </div>
+                                    <div *ngIf="voucherDiscount != null" class="col-4">
+                                        <span class=" text-success-d3 opacity-2"><b>${{(selectedOrder.total-voucherDiscount.discount).toFixed(2)}}</b></span>
                                     </div>
                                 </div>
                             </div>

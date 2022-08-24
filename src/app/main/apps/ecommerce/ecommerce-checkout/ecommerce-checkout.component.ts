@@ -6,6 +6,7 @@ import { AccountSettingsService } from 'app/main/pages/account-settings/account-
 
 import Swal  from 'sweetalert2';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ecommerce-checkout',
@@ -19,8 +20,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-
-.container {
+.container-voucher{
   width: 100%;
   height: 200px;
   justify-content: left;
@@ -37,6 +37,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   background-color: #fff;
   position: relative;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .main-voucher {
@@ -46,7 +47,6 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   height: 180px;
   align-items: center;
 }
-
 
 .card-voucher::before {
   position: absolute;
@@ -61,36 +61,31 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 }
 
 .co-img img {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }
-.vertical {
+.vertical-voucher {
   border-left: 5px dotted black;
   height: 100px;
-  position: absolute;
-  left: 40%;
 }
 
-.content h1 {
+.content-voucher h1 {
   font-size: 35px;
-  margin-left: -170px;
   color: #565656;
 }
 
-.content h1 span {
+.content-voucher h1 span {
   font-size: 18px;
 }
-.content h2 {
+.content-voucher h2 {
   font-size: 18px;
-  margin-left: -170px;
   color: #565656;
   text-transform: uppercase;
 }
 
-.content p {
+.content-voucher p {
   font-size: 16px;
   color: #696969;
-  margin-left: -170px;
 }
 
   `],
@@ -125,6 +120,11 @@ export class EcommerceCheckoutComponent implements OnInit {
   public isSelectedVoucher: boolean;
   voucherSelectedId: any;
   public totalPriceFinal;
+  isAddVoucher: boolean;
+
+  datePipe: DatePipe = new DatePipe('en-US');
+  currentDate = new Date();
+  transformDate= this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
 
   /**
    *  Constructor
@@ -169,16 +169,33 @@ export class EcommerceCheckoutComponent implements OnInit {
     var today = new Date();
     const orderDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' +  String(today.getDate()).padStart(2, '0');
 
-    let createOrderViewModel = {
-      name : this.address.fullNameVar,
-      createdBy : createdBy,
-      updatedDate : orderDate,
-      updatedBy : createdBy,
-      status : "Awaiting Accept Order",
-      shipAddress : this.address.addressVar,
-      shipPhoneNumber : this.address.numberVar,
-      // orderDate : orderDate
+    let createOrderViewModel;
+    if(this.selectedVoucher != null){
+      createOrderViewModel = {
+        name : this.address.fullNameVar,
+        createdBy : createdBy,
+        updatedDate : orderDate,
+        updatedBy : createdBy,
+        status : "Awaiting Accept Order",
+        voucherId: this.selectedVoucher.id,
+        shipAddress : this.address.addressVar,
+        shipPhoneNumber : this.address.numberVar,
+        // orderDate : orderDate
+      }
     }
+    else{
+      createOrderViewModel = {
+        name : this.address.fullNameVar,
+        createdBy : createdBy,
+        updatedDate : orderDate,
+        updatedBy : createdBy,
+        status : "Awaiting Accept Order",
+        shipAddress : this.address.addressVar,
+        shipPhoneNumber : this.address.numberVar,
+        // orderDate : orderDate
+      }
+    }
+    
 
     this._ecommerceService.createOrder(createOrderViewModel).subscribe(res => {
         console.log('res : ',res);
@@ -356,7 +373,7 @@ export class EcommerceCheckoutComponent implements OnInit {
         voucher.expiredDate = voucher.expiredDate.substring(0,10);
       })
       console.log(this.vouchers);
-
+      
     }))
 
     // content header
@@ -400,7 +417,9 @@ export class EcommerceCheckoutComponent implements OnInit {
 
   // voucher
   open(content) {
-
+    this.isAddVoucher = false;
+    console.log("now", this.transformDate);
+    
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size:'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -420,7 +439,17 @@ export class EcommerceCheckoutComponent implements OnInit {
   }
 
   addVoucher(voucherId){
+    this.isAddVoucher = false;
     this.voucherSelectedId = voucherId;
+    if(this.voucherSelectedId != null){
+      this._ecommerceService.getVoucherbyId(this.voucherSelectedId).subscribe((res=>{
+        this.selectedVoucher = res.resultObj;
+        this.isSelectedVoucher = true;
+        this.totalPriceFinal = Number((this._ecommerceService.totalPriceCart - this.selectedVoucher.discount).toFixed(2)) ;
+        if(this.totalPriceFinal < 0)
+          this.totalPriceFinal = 0;
+      }))
+    }
   }
 
   addVoucherOrder(){
@@ -429,11 +458,25 @@ export class EcommerceCheckoutComponent implements OnInit {
         this.selectedVoucher = res.resultObj;
         this.isSelectedVoucher = true;
         console.log("OK voucher ", this.selectedVoucher);
-        Swal.fire("Success", "Add voucher successfully", "success")
-        this.totalPriceFinal = Number((this._ecommerceService.totalPriceCart - this.selectedVoucher.discount).toFixed(2)) ;
-        if(this.totalPriceFinal < 0)
-          this.totalPriceFinal = 0;
+        if(this.totalPrice >= this.selectedVoucher.conditionDiscount){
+          Swal.fire("Success", "Add voucher successfully", "success")
+          this.totalPriceFinal = Number((this._ecommerceService.totalPriceCart - this.selectedVoucher.discount).toFixed(2)) ;
+          if(this.totalPriceFinal < 0)
+            this.totalPriceFinal = 0;
+          this.isAddVoucher = true;
+        }
+        else{
+          Swal.fire("Error", "Valid for orders of %"+this.selectedVoucher.conditionDiscount+" or more.", "error")
+        }
       }))
     }
+    // Swal.fire("Success", "Add voucher successfully", "success")
+    
   }
+
+  // CloseVoucher(){
+  //   this.modalService.dismissAll('Save click');
+  //   // this.selectedVoucher = null;
+  //   // this.isSelectedVoucher = false;
+  // }
 }

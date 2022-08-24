@@ -125,32 +125,34 @@
     <form #VoucherForm="ngForm" class="form-validate">
       <div style="overflow-y:scroll;height:650px; overflow-x:hidden;">
         <div *ngFor="let voucher of vouchers" >
-        <div class="row">
+        <div *ngIf="voucher.expiredDate >= transformDate" class="row">
           <div class="col-12">
-            <div class="container">
-              <div class="col-8 card-voucher">
+            <div class="container-voucher">
+              <div class="col-9 card-voucher">
                 <div class="main-voucher">
-                  <div class="co-img">
+                  <div class=" col-sm-3 co-img">
                     <img
                       src="../../../../../assets/images/logo/free-shipping.png"
                       alt=""
                     />
                   </div>
-                  <div class="vertical"></div>
-                  <div class="content">
+                  <div class="col-sm-1 vertical-voucher"></div>
+                  <div class="col-sm-8 content-voucher">
                     <h2>{{voucher.name}}</h2>
                     <h1><span>$</span>{{voucher.discount}} </h1>
-                    <p>Valid till {{voucher.expiredDate}}</p>
+                    <p><span style="color: red;">Valid till {{voucher.expiredDate}}</span></p>
+                    <p><span style="color: blue;">Valid for orders of ${{voucher.conditionDiscount}} or more</span></p>
                   </div>
                 </div>
               </div>
-              <div class="col-4" style=" height: 180px;
+              <div class="col-3" style=" height: 180px;
               border-radius: 5px;
               position: relative;
               margin-top: 10px;
               display: flex;
               align-items: center;">
-                <button id="addVoucher" (click)="addVoucher(voucher.id)" class="btn" style="margin-left: 50px; border-radius: 10px; background-color: #fff;"><span style="color: black;"><b>Add voucher</b></span></button>
+                <button *ngIf="!isSelectedVoucher || voucher.id !== voucherSelectedId" id="addVoucher" (click)="addVoucher(voucher.id)" class="btn" style="margin-left: 15px; border-radius: 10px; background-color: #fff;"><span style="color: black;"><b>Add voucher</b></span></button>
+                <button *ngIf="isSelectedVoucher && voucher.id === voucherSelectedId" id="addVoucher" (click)="addVoucher(voucher.id)" class="btn" style="margin-left: 15px; border-radius: 10px; background-color: rgb(245, 245, 6);"><span style="color: black;"><b>Add voucher</b></span></button>
               </div>
             </div>
           </div>
@@ -158,8 +160,9 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
-        <button type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="addVoucherOrder()" >OK</button>
+        <button type="button" class="btn btn-warning" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button *ngIf="!isAddVoucher" type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="addVoucherOrder()" >OK</button>
+        <button *ngIf="isAddVoucher" type="submit" data-dismiss="modal" class="btn btn-info" rippleEffect (click)="modal.close('Save click')" >Close</button>
       </div>
     </form>
   </div>
